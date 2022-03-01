@@ -1,0 +1,22 @@
+@charset 'UTF-8';
+
+//Colors
+$color-pink: #D92387;
+$color-orange: #FF9100;
+$color-yellow: #F2D230;
+$color-green: #88D94E;
+$color-green-bg: #88d94ec5;
+$color-background: linear-gradient(#bce2f9, #ddf3ff ); 
+$color-article-bg: #D0EDFD;
+$color-container-bg: #F2FAFF;
+$color-container-bg-transp: #f2faff91;
+$color-darkgrey: #4D4B4B;
+$color-white: #fff;
+
+//fonts
+$font-family: 'Paytone One', sans-serif;
+
+@mixin font-header {
+	font-size: 2rem;
+	letter-spacing: 1px;
+}

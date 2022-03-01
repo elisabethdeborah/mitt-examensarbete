@@ -1,0 +1,80 @@
+@import './variables.scss';
+
+.navContainer {
+    z-index: 2;
+    position: fixed;
+	top: 0;
+	right: 0;
+    bottom: 0;
+    left: 0;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100vw;
+    height: 100vh;
+	padding-top: 100px;
+    flex-wrap: wrap;
+    
+    background-color: $color-orange;
+	transform: translateX(100%);
+	transition: all 0.3s ease-in;
+
+	&.navIsOpen {
+		transform: translateX(0%);
+	}
+
+	.list {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		width: calc(100% - 40px);
+		height: 70%;
+		padding-inline-start: 40px;
+	}
+
+	.navLink {
+		list-style: none;
+		padding: 0.5rem 1rem;
+		text-decoration: none;
+		color: $color-white;
+		transition: all 0.3s ease;
+		font-size: 1.5rem;
+
+		&.activated {
+			border-bottom: 1px solid $color-pink;
+		}
+
+		&:hover {
+			color: $color-pink;
+			transition: all 0.3s ease;
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+		position: relative;
+		top: -50px;
+
+		width: 100vw;
+		height: unset;
+		display: flex;
+		flex-wrap: wrap;
+
+		padding-top: 0;
+		background-color: initial;
+		transform: translateX(0%);
+
+		.list {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			width: 100%;
+			height: unset;
+			flex-wrap: wrap;
+		}
+		.navLink {
+			font-size: 1rem;
+			color: $color-darkgrey;
+		}
+	}
+}
+

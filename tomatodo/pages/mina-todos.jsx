@@ -47,9 +47,10 @@ export default function MinaTodos(props) {
 			[styles.changeFlex]: flexDirection,
 			})}>
 			<Meta title='Mina todos' />
+			{console.log(posts)}
 			<aside className={styles.optionContainer}>
 				{!addListFormIsVisible && (
-				<button className={styles.addTodoList} onClick={() => setFlexDirection(false)} >
+				<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
 					<h2>Skapa ny lista</h2>
 					<AddTodo className={styles.addTdodoSvg} />
 				</button>
@@ -69,20 +70,25 @@ export default function MinaTodos(props) {
 			</section>
 			}
 			<div className={styles.todoListWrapper}>
-				{console.log('posts', posts)}
-				{addListFormIsVisible ? <AddListForm addListFormIsVisible={addListFormIsVisible} setAddListFormIsVisible={setAddListFormIsVisible} /> 
+				{
+				addListFormIsVisible ? 
+					<AddListForm addListFormIsVisible={addListFormIsVisible} setAddListFormIsVisible={setAddListFormIsVisible} /> 
 				: 
-				posts.currentLists ? (posts.currentLists.map((list, index) => {
-					return (
-						open === index && (
-						<TodoList key={list._id} list={list} />
-						)
-					)})) : 
+					posts.currentLists? (
+						posts.currentLists &&(posts.currentLists.map((lista, index) => (
+								open === index && (
+								<TodoList key={lista._id} list={lista} />
+								)
+							)))
+					)
+					
+						 : 
 						<section className={styles.emptyList}>
 							<div className={styles.todoListTop} />
 							<article className={styles.addListIconBtn} onClick={() => setAddListFormIsVisible(true)} />
 							<h3>Du har inga pågående listor</h3>
 						</section>
+						
 				}
 			</div>
 		</div>
@@ -91,12 +97,16 @@ export default function MinaTodos(props) {
 
 
 const query = groq`
-{"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "numberOfTodos": count(list)},
-"currentLists": * [_type == "todoList" && !saved] {title, list, id, ...,
-	"numberOfChecked": count(list[checked == true]),
-	"numberOfNotChecked": count(list[checked == false]),
-	"TotalNumberOfTodos": count(list)},
-"todos": *[_type == "todo"]
+{
+	"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},
+	
+	"currentLists": *[_type == "todoList" && !saved]{
+    title, _id, ...,
+  'combinedLists': list + *[_type == 'todo' && references(^._id)],
+  'nrOfTodos': count(list[] + *[_type == 'todo' && references(^._id)]),
+  'numberOfNotChecked': count(*[_type == 'todo' && references(^._id) && !checked]) + count(list[!checked]),
+  'numberOfChecked': count(*[_type == 'todo' && references(^._id) && checked]) + count(list[checked])
+}
 }
 `;
 
@@ -112,3 +122,4 @@ export async function getStaticProps({ params, preview = false }) {
     //revalidate: 10,
   };
 }
+

@@ -58,6 +58,12 @@ export default {
 			  }
 		  ]
 
+	  },
+	  {
+		  title: "Antal klickningar",
+		  name: "numberOfClicks",
+		  type: "number",
+		  description: "Antal klick (lägg till i lista/play) för att se hur populär tomaten är",
 	  }
 	],
 	initialValue: () => ({

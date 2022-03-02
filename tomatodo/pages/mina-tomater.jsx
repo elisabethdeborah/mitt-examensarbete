@@ -7,13 +7,14 @@ import Meta from "../components/Meta";
 import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
 import { useRouter } from "next/router";
+import NumberFormat from "../components/NumberFormat";
+
 import client, {
   getClient,
   usePreviewSubscription,
 } from "../lib/sanity";
 
 import { groq } from "next-sanity";
-
 
 export default function MinaTomater(props) {
 	<Meta title='Mina tomater' />
@@ -81,11 +82,9 @@ export default function MinaTomater(props) {
 	const handlePlayTomato = (x) => {
 		setSideListsVisible(false)
 		setShowAddTodo(false)
-
 		setAddListFormIsVisible(false)
 		setShowSettingsForm(false)
 		console.log('play', x.time)
-
 	}
 
 	return (
@@ -111,7 +110,7 @@ export default function MinaTomater(props) {
 							[styles.showTomato]: index === tomatoIndex,
 						})} key={index}>
 							<h3>{list.title}</h3>
-							<p>tid: {list.time}</p>
+							{<NumberFormat className={styles.formattedTime} timeSeconds={Number(list.time)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />}
 						</article>
 						{showTomatoo && posts.tomatoLibrary && index === tomatoIndex && (
 						<div className={clsx(styles.optionsDiv, {
@@ -134,7 +133,10 @@ export default function MinaTomater(props) {
 									<button className={styles.changeTomatoBtn}><p>Ändra</p></button>
 								</div>
 								<div className={styles.showActiveLists}>
-									<ActiveLists lista={posts.currentLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={4} page={'tomato'} />
+									{console.log('tomato', list)}
+									{
+									console.log(list.name, list.time, list.description)}
+									<ActiveLists lista={posts.currentLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} tomato={list} open={4} page={'tomato'} />
 									<aside className={styles.optionContainer}>
 										{!addListFormIsVisible && (
 										<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
@@ -160,14 +162,18 @@ export default function MinaTomater(props) {
 	)
 };
 
-const query = groq`
-{
-"currentLists": * [_type == "todoList" && !saved] {title, list, ...,
-	"numberOfChecked": count(list[checked == true]),
-	"numberOfNotChecked": count(list[checked == false]),
-	"TotalNumberOfTodos": count(list)},
-	"tomatoLibrary": * [_type == "tomato"] {title, time, ...}
-}`;
+const query = groq`{
+		"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},
+		
+		"currentLists": *[_type == "todoList" && !saved]{
+		title, _id, ...,
+		'combinedLists': list + *[_type == 'todo' && references(^._id)],
+		'nrOfTodos': count(list[] + *[_type == 'todo' && references(^._id)]),
+		'numberOfNotChecked': count(*[_type == 'todo' && references(^._id) && !checked]) + count(list[!checked]),
+		'numberOfChecked': count(*[_type == 'todo' && references(^._id) && checked]) + count(list[checked])
+		},
+			"tomatoLibrary": * [_type == "tomato"] {title, time, ...}
+		}`;
 
 export async function getStaticProps({ params, preview = false }) {
   const post = await getClient(preview).fetch(query);

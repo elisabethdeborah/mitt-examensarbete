@@ -1,0 +1,272 @@
+@import './variables.scss';
+
+.todoListSection {
+	width: 100%;
+	padding: 0 0 3rem;
+}
+
+.todolistContainer {
+	position: relative;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	//width: 90%;
+	background-color: rgba(255, 255, 255, 0.322);
+	margin: 0 auto;
+	padding: 70px 0 1rem 0;
+	border-radius: 30px;
+
+	.todoListTop {
+		position: absolute;
+		top: 0;
+		left: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 50px;
+		color: $color-white;
+		background-color: $color-orange;
+		.saveIcon {
+			margin-left: 1rem;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		.deleteBtn {
+			position: absolute;
+			right: 1.5rem;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		@media screen and (min-width: 600px) {
+			border-radius: 30px 30px 0 0;
+		}
+	}
+
+	.todoArticle {
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-evenly;
+		align-items: center;
+		margin: 1rem auto;
+		border-radius: 30px;
+		width: 80%;
+		max-width: 700px;
+		height: 155px;
+		background-color: #D0EDFD;
+
+		.todoBorder {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 23px;
+			background-color: transparent;
+			border-radius: 30px 0 0 30px;
+		}
+		.checkBox {
+			background-image: url('../svgAssets/checkbox-empty.svg');
+			background-repeat: no-repeat;
+			//border: 3px solid $color-darkgrey;
+			width: 50px;
+			height: 50px;
+			background-position: center;
+			background-size: cover;
+			overflow: visible;
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.playBtn {
+			background-image: url('../svgAssets/play-btn-sm-grey.svg');
+			background-repeat: no-repeat;
+			width: 50px;
+			height: 50px;
+
+			background-position: center;
+			background-size: cover;
+			overflow: visible;
+
+			&:hover {
+				cursor: pointer;
+			}
+
+			&.disabled {
+				filter: opacity(0.5);
+				&:hover {
+					cursor: auto;
+				}
+			}
+		}
+
+		.playBtnPlaceholder {
+			width: 50px;
+			height: 50px;
+		}
+
+		.todoTextSection {
+			display: flex;
+			flex-direction: column;
+			width: 125px;
+			word-break: break-all;
+
+			@media screen and (min-width: 600px) {
+				align-items: center;
+				width: 50%;
+				max-width: 300px;
+			}
+		}
+
+		&.checkedItem {
+			background-color: $color-green-bg;
+
+			.checkBox {
+				background-image: url('../svgAssets/check-mark-sm.svg');
+				background-position: center;
+				background-size: cover;
+				overflow: visible;
+				height: 50px;
+				width: 50px;
+				&:hover {
+					cursor: pointer;
+				}
+			}
+			.playBtn {
+				background-image: url('../svgAssets/play-btn-sm-green.svg');
+				background-position: center;
+				background-size: cover;
+				overflow: visible;
+				height: 50px;
+				width: 50px;
+				&:hover {
+					cursor: pointer;
+				}
+				&.disabled {
+					filter: opacity(0.5);
+					&:hover {
+						cursor: auto;
+					}
+				}
+			}
+
+			@media screen and (min-width: 600px) {
+				background-color: $color-article-bg;
+				.todoBorder {
+					background-color: $color-green;
+				}
+			}
+		}
+
+		.btnSection {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			width: 30%;
+			min-width: 100px;
+		}
+
+		
+		.todoTimeSection {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+
+			.todoTime {
+				position: absolute;
+				bottom: 1rem;
+				font-size: 0.75rem;
+				font-weight: bold;
+			}
+		}
+
+
+		.deleteBtn {
+			position: absolute;
+			top: 1rem;
+			right: 1.5rem;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		&.checked {
+			border-left: 10px solid $color-green;
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+	//	margin: 1rem auto;	
+	}
+}
+
+.addTodoList {
+	display: flex;
+	align-items: center;
+	align-self: flex-end;
+	margin: 0 3rem;
+	border: none;
+	background-color: transparent;
+
+	h2, h3 {
+		color: $color-darkgrey;
+		border-bottom: 1px solid transparent;
+	}
+	p {
+		margin-left: 1rem;
+		font-size: 1.5rem;
+	}
+	.addTdodoSvg {
+		margin-left: 1rem;
+	}
+
+	&:hover {
+		cursor: pointer;
+
+		h2, h3 {
+			border-bottom: 1px solid $color-orange;
+		}
+	}
+}
+
+.deleteWarning {
+	z-index: 9999;
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	top: 3rem;
+	left: 1rem;
+	right: 1rem;
+	height: 70vh;
+	max-height: 700px;
+	background-color: $color-white;
+	border-radius: 20px;
+	border: 2px solid $color-pink;
+	color: $color-darkgrey;
+	>input {
+		border: none;
+		color: $color-white;
+		background-color: $color-orange;
+		font-size: 1rem;
+		font-weight: bold;
+		border-radius: 100px;
+		padding: 0.5rem 1.5rem;
+		margin: 0.5rem;
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

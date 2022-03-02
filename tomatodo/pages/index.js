@@ -31,14 +31,20 @@ export default function Post(props) {
 }
 
 const query = groq`
-{"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "numberOfTodos": count(list)},
-"currentLists": * [_type == "todoList" && !saved] {title, list, ...,
-	"numberOfChecked": count(list[checked == true]),
-	"numberOfNotChecked": count(list[checked == false]),
-	"TotalNumberOfTodos": count(list)},
+{
+	"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},
+	
+	"currentLists": *[_type == "todoList" && !saved]{
+    title, _id, ...,
+  'combinedLists': list + *[_type == 'todo' && references(^._id)],
+  'nrOfTodos': count(list[] + *[_type == 'todo' && references(^._id)]),
+  'numberOfNotChecked': count(*[_type == 'todo' && references(^._id) && !checked]) + count(list[!checked]),
+  'numberOfChecked': count(*[_type == 'todo' && references(^._id) && checked]) + count(list[checked])
+},
 "tomatoLibrary": * [_type == "tomato"] {title, time}
-}
-`;
+}`;
+
+
 
 export async function getStaticProps({ params, preview = false }) {
   const post = await getClient(preview).fetch(query);

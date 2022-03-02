@@ -4,7 +4,6 @@ import styles from '../styles/Header.module.scss';
 import Navigation from './Navigation';
 import Hamburger from '../svgAssets/hamburger.svg';
 import CloseNav from '../svgAssets/closeNav.svg';
-import Logo from '../assets/svg/logo-header.svg';
 const Header = () => {
 	const [navIsOpen, setNavIsOpen] = useState(false);
 	return (

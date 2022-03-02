@@ -4,12 +4,28 @@ import Link from 'next/link';
 import styles from '../styles/activeLists.module.scss';
 import clsx from 'clsx';
 
-const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page}) => {
+const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home' || page === 'tomato');
 
-	const handleClickOpen = (list, index) => {
+
+	const postTomatoTodo = async(tomatoTodo, toList) => {
+		await fetch("/api/todos/todo", {
+			method: "POST",
+			body: JSON.stringify({
+				name: tomatoTodo.name,
+				description: tomatoTodo.description,
+				time: tomatoTodo.time,
+				parentRef: toList._id,
+			}),
+		  });
+	}
+
+	const handleClickOpen = (list, index, tomato) => {
 		if (page === "tomato") {
-		 console.log('POST TOMATO TO CHOSEN TODO LIST: ', list, 'UPDATE LIST') 
+		 console.log('POST TOMATO', tomato, 'TO CHOSEN TODO LIST: ', list, 'UPDATE LIST') 
+		
+		postTomatoTodo(tomato, list);
+
 		 } else if (page === 'todo') {
 			setOpen(index)
 		 }
@@ -36,7 +52,7 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page}) => {
 			//{console.log('i listan:', list.list)}
 					return (
 						open !== index && (
-							<article key={index} onClick={() => handleClickOpen(list, index)} className={styles.hiddenLists}>
+							<article key={index} onClick={() => handleClickOpen(list, index, tomato)} className={styles.hiddenLists}>
 								<section className={styles.textGroup}>
 								<h3>{list.title}</h3>
 								<p>tillagd: {list._createdAt? list._createdAt.slice(0, 10) : index}</p>

@@ -6,7 +6,7 @@ const AddTodoForm = ({ setAddTodoFormIsVisible, currentListDocId}) => {
 	const [userInputTime, setUserInputTime] = useState(0);
 	const [errMessage, setErrMessage] = useState('');
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = async () => {
 		if (userInputName.length == 0 ) {
 			setErrMessage("Namnet måste vara minst 1 tecken lång.");
 		} else {
@@ -19,18 +19,18 @@ const AddTodoForm = ({ setAddTodoFormIsVisible, currentListDocId}) => {
 				parentRef: currentListDocId,
 			}),
 		  });
-		  setUserInputName("");
-		setUserInputTime(0);
-		setUserInputText("");
-		setErrMessage("");
+			setUserInputName('');
+			setUserInputTime(0);
+			setUserInputText('');
+			setErrMessage('');
 		}
 	  };
 
 	return (
 		<article>
 			<h1>Mina listor</h1>
-			<input type="text" placeholder="Namn på todo" onChange={(e) => setUserInputName(e.target.value)} />
-			<input type="text" placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} />
+			<input type="text" placeholder="Namn på todo" onChange={(e) => setUserInputName(e.target.value)} value={userInputName} />
+			<input type="text" placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} value={userInputText} />
 			<input type="number" placeholder="Tid" onChange={(e) => setUserInputTime(e.target.value)}/>
 			<input type="button" value="lägg till" onClick={() => handleSubmit()} />
 			{errMessage}

@@ -1,0 +1,78 @@
+@import './variables.scss';
+
+.formContainer {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color: $color-container-bg;
+	width: 90vw;
+	max-width: 414px;
+	border-radius: 20px;
+	min-height: fit-content;
+	margin-top: 3rem;
+	padding: 52px;
+
+	.smallTomato {
+		position: absolute;
+		top: -58px;
+		height: 110px;
+		width: 110px;
+		background-image: url('../svgAssets/vitkant-small.svg');
+		background-repeat: no-repeat;
+		overflow: visible;
+		background-size: contain;
+		background-position: center;
+	}
+
+	.input {
+		border: 1px solid $color-pink;
+		border-radius: 100px;
+		color: $color-darkgrey;
+
+		margin-top: 35px;
+
+		&.textInput {
+			font-size: 1rem;
+			line-height: 2.7rem;
+			padding: 0 22px;
+			font-weight: bold;
+			//width: 232px;
+			width: 100%;
+		}
+	}
+
+	.btnContainer {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		> input {
+			border: 1px solid $color-pink;
+			border-radius: 100px;
+			font-size: 1.125rem;
+			line-height: 2.4rem;
+			margin-top: 35px;
+
+			font-weight: bold;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		.closeForm {
+			color: $color-pink;
+			background-color: $color-white;
+			flex: 1;
+			margin-right: 3px;
+		}
+
+		.addBtn {
+			color: $color-white;
+			background-color: $color-pink;
+			flex: 1;
+			margin-left: 3px;
+		}
+	}
+}
+

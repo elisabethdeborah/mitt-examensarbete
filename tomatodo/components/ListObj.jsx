@@ -2,19 +2,11 @@ import DeleteButton from './DeleteButton';
 import Link from 'next/link';
 import clsx from 'clsx';
 import CheckBox from './CheckBox';
-
 import styles from '../styles/todoList.module.scss';
+import NumberFormat from './NumberFormat';
 
 const ListObj = ({listItem, width}) => {
-	let time = Number(listItem.time)				
-	let hours = Math.floor(time/60/60);
-	hours < 10 ? hours = `0${hours}` : hours;
-	let minutes = (Math.floor(time/60) % 60);
-	minutes < 10 ? minutes = `0${minutes}` : minutes;
-	let seconds = time%60;
-	seconds < 10 ? seconds = `0${seconds}` : seconds;
-	let timeForm = `${hours}:${minutes}:${seconds}`;
-
+	
 	return (
 		listItem ? (
 			width < 500 ? 
@@ -31,7 +23,7 @@ const ListObj = ({listItem, width}) => {
 									<Link href="/timer" passHref>
 										<article className={styles.playBtn} />
 									</Link>
-									<p className={styles.todoTime}>{timeForm}</p>
+									<NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />
 								</>
 							):
 							<article className={styles.playBtnPlaceholder} /> 
@@ -57,7 +49,9 @@ const ListObj = ({listItem, width}) => {
 								<Link href="/timer" passHref>
 									<article className={styles.playBtn} />
 								</Link>
-								<p className={styles.todoTime}>{timeForm}</p>
+								<p className={styles.todoTime}>
+									<NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />
+								</p>
 							</>
 							) 
 						: <article className={clsx(styles.playBtn, styles.disabled)} />

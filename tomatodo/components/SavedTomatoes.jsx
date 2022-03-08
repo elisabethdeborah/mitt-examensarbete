@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/savedTomatoes.module.scss';
 import clsx from 'clsx';
+import NumberFormat from './NumberFormat';
+import PlayTimerBtn from './PlayTimerBtn';
 
 const ActiveLists = ({tomatoes, setSideListsVisible, setOpen, open, page}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
@@ -30,8 +32,9 @@ const ActiveLists = ({tomatoes, setSideListsVisible, setOpen, open, page}) => {
 								<article className={styles.smallTomato} />
 								<section className={styles.textGroup}>
 									<h3>{tomatoes[index].title}</h3>
-									<p>tid: {tomato.time}</p>
+									<div className={styles.tomatoTime}><NumberFormat timeSeconds={tomato.time} text={'tid: '} textSize={'0.75rem'} /></div>
 								</section>
+								<PlayTimerBtn listItem={tomato} color={"orange"} />
 								<Link href={"/timer"} passHref>
 									<article onClick={() => console.log('go to timer, time', tomato.time)} className={styles.playBtnTomato} />		
 								</Link>

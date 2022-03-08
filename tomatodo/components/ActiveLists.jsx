@@ -4,7 +4,7 @@ import Link from 'next/link';
 import styles from '../styles/activeLists.module.scss';
 import clsx from 'clsx';
 
-const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) => {
+const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato, setAddListFormIsVisible}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home' || page === 'tomato');
 
 
@@ -18,6 +18,7 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 				parentRef: toList._id,
 			}),
 		  });
+		  //set
 	}
 
 	const handleClickOpen = (list, index, tomato) => {
@@ -28,6 +29,8 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 
 		 } else if (page === 'todo') {
 			setOpen(index)
+		 } else if (page === 'home') {
+			console.log('go to todolists med denna som open: ', list) 
 		 }
 		 
 	}
@@ -48,8 +51,6 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 			</Link>
 				{
 				lista ? lista.map((list, index) => {
-
-			//{console.log('i listan:', list.list)}
 					return (
 						open !== index && (
 							<article key={index} onClick={() => handleClickOpen(list, index, tomato)} className={styles.hiddenLists}>
@@ -60,13 +61,13 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 								{/* {console.log(list)} */}
 								<section className={styles.iconGroup}>
 									<article className={styles.nrOfTodosIcon}>
-									<p className={styles.nrTodos}>{list.nrOfTodos}</p>
+									<p className={styles.nrTodos}>{list.nrOfTodos? list.nrOfTodos: 0}</p>
 									</article>
 									<article className={styles.nrOfNotCheckedIcon}>
-									<p className={styles.nrNotChecked}>{list.numberOfNotChecked}</p>
+									<p className={styles.nrNotChecked}>{list.numberOfNotChecked? list.numberOfNotChecked: 0}</p>
 									</article>
 									<article className={styles.nrOfCheckedIcon}>
-									<p className={styles.nrChecked}>{list.numberOfChecked}</p>
+									<p className={styles.nrChecked}>{list.numberOfChecked? list.numberOfChecked: 0}</p>
 									</article>
 								</section>
 							</article>

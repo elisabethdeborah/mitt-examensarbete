@@ -21,9 +21,3 @@ a {
 * {
   box-sizing: border-box;
 }
-
-h1 {
-	@include font-header;
-	color: $color-pink;
-	font-family: $font-family;
-}

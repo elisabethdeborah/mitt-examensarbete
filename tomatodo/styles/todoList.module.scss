@@ -24,30 +24,42 @@
 		top: 0;
 		left: 0;
 		display: flex;
-		justify-content: center;
 		align-items: center;
+
+		justify-content: center;
 		width: 100%;
 		height: 50px;
 		color: $color-white;
 		background-color: $color-orange;
-		.saveIcon {
+		/* .saveIcon {
 			margin-left: 1rem;
 
 			&:hover {
 				cursor: pointer;
 			}
-		}
+		} */
 		.deleteBtn {
+			@include hover-btn;
 			position: absolute;
 			right: 1.5rem;
+		}
 
-			&:hover {
-				cursor: pointer;
-			}
+		h2 {
+			font-size: 1.1rem;
 		}
 
 		@media screen and (min-width: 600px) {
 			border-radius: 30px 30px 0 0;
+			h2 {
+				font-size: 1.2rem;
+				margin-right: 1rem;
+			}
+
+			.deleteBtn {
+				position: relative;
+				margin-right: -1rem;
+				right: 0;
+			}
 		}
 	}
 
@@ -74,20 +86,23 @@
 			border-radius: 30px 0 0 30px;
 		}
 		.checkBox {
+			@include hover-btn;
 			background-image: url('../svgAssets/checkbox-empty.svg');
 			background-repeat: no-repeat;
 			//border: 3px solid $color-darkgrey;
 			width: 50px;
 			height: 50px;
+			//margin: 0 1rem;
 			background-position: center;
 			background-size: cover;
 			overflow: visible;
-			&:hover {
+			/* &:hover {
 				cursor: pointer;
-			}
+			} */
 		}
 
 		.playBtn {
+			@include hover-btn;
 			background-image: url('../svgAssets/play-btn-sm-grey.svg');
 			background-repeat: no-repeat;
 			width: 50px;
@@ -96,10 +111,6 @@
 			background-position: center;
 			background-size: cover;
 			overflow: visible;
-
-			&:hover {
-				cursor: pointer;
-			}
 
 			&.disabled {
 				filter: opacity(0.5);
@@ -117,8 +128,18 @@
 		.todoTextSection {
 			display: flex;
 			flex-direction: column;
+			justify-content: center;
 			width: 125px;
 			word-break: break-all;
+
+			> h3 {
+				margin: 0;
+				margin-bottom: 0.5rem;
+			} 
+			
+			> p {
+				margin: 0;
+			}
 
 			@media screen and (min-width: 600px) {
 				align-items: center;
@@ -131,15 +152,13 @@
 			background-color: $color-green-bg;
 
 			.checkBox {
+				@include hover-btn;
 				background-image: url('../svgAssets/check-mark-sm.svg');
 				background-position: center;
 				background-size: cover;
 				overflow: visible;
 				height: 50px;
 				width: 50px;
-				&:hover {
-					cursor: pointer;
-				}
 			}
 			.playBtn {
 				background-image: url('../svgAssets/play-btn-sm-green.svg');
@@ -168,11 +187,20 @@
 		}
 
 		.btnSection {
+			position: relative;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-around;
 			width: 30%;
 			min-width: 100px;
+
+			>h2 {
+				position: absolute;
+				bottom: -2rem;
+				right: 50%;
+				text-align: center;
+				width: 50%;
+			}
 		}
 
 		
@@ -191,6 +219,7 @@
 
 
 		.deleteBtn {
+			@include hover-btn;
 			position: absolute;
 			top: 1rem;
 			right: 1.5rem;
@@ -209,16 +238,21 @@
 	//	margin: 1rem auto;	
 	}
 }
+.addBtnGroup {
+	display: flex;
+	justify-content: space-evenly;
+	width: 100%;
+}
 
 .addTodoList {
 	display: flex;
 	align-items: center;
 	align-self: flex-end;
-	margin: 0 3rem;
+	margin: 0;
 	border: none;
 	background-color: transparent;
 
-	h2, h3 {
+	h3 {
 		color: $color-darkgrey;
 		border-bottom: 1px solid transparent;
 	}
@@ -227,20 +261,28 @@
 		font-size: 1.5rem;
 	}
 	.addTdodoSvg {
+		@include hover-btn;
 		margin-left: 1rem;
 	}
 
 	&:hover {
 		cursor: pointer;
 
-		h2, h3 {
+		h3 {
 			border-bottom: 1px solid $color-orange;
 		}
+	}
+
+	@media screen and (min-width: 600px) {
+		align-items: center;
+		align-self: flex-end;
+		margin: 0 3rem;
 	}
 }
 
 .deleteWarning {
-	z-index: 9999;
+	//z-index: 9999;
+	z-index: 9;
 	position: fixed;
 	display: flex;
 	flex-direction: column;
@@ -251,11 +293,15 @@
 	right: 1rem;
 	height: 70vh;
 	max-height: 700px;
+	max-width: 400px;
 	background-color: $color-white;
 	border-radius: 20px;
 	border: 2px solid $color-pink;
 	color: $color-darkgrey;
+	padding: 1rem;
+	text-align: center;
 	>input {
+		@include hover-btn;
 		border: none;
 		color: $color-white;
 		background-color: $color-orange;
@@ -264,9 +310,33 @@
 		border-radius: 100px;
 		padding: 0.5rem 1.5rem;
 		margin: 0.5rem;
-
-		&:hover {
-			cursor: pointer;
-		}
 	}
+
+	@media screen and (min-width: 600px) {
+		top: 3rem;
+		left: calc(50vw - 200px);
+		right: 0;
+	}
+}
+
+.emptyList {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	border-radius: 30px;
+	width: 100%;
+	padding-top: 100px;
+}
+
+.addListIconBtn {
+	@include hover-btn;
+	//background-image: url('../svgAssets/add-tomato-btn-m.svg');
+	background-image: url('../svgAssets/addBtn.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	width: 95px;
+	height: 95px;
 }

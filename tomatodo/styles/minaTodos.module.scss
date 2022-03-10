@@ -7,7 +7,7 @@
 	width: 90vw;
 	transition: all 2s ease;
 
-	.optionContainer {
+	/* .optionContainer {
 		position: relative;
 		margin: 2rem auto;
 
@@ -30,8 +30,8 @@
 			.addTdodoSvg {
 				margin-left: 1rem;
 			}
-		}
-	}
+		} 
+	}*/
 
 	.todoListWrapper {
 		position: relative;
@@ -113,15 +113,6 @@
 			transform: translateX(100vw);
 		}
 
-		/* &.sideListVisible {
-			display: flex;
-			flex-direction: row-reverse;
-			justify-content: center;
-			align-items: flex-start;
-			width: 90vw;
-	
-			
-		} */
 ////
 		&.sideListVisible {
 			flex-direction: column;
@@ -142,66 +133,35 @@
 		}
 
 		.optionContainer {
+			display: flex;
+			flex-direction: row;
 			z-index: 1;
 			position: absolute;
-			top: 250px;
+			top: 0;
 			right: 2rem;
 			display: flex;
-			flex-direction: column;
 			align-items: center;
 			background-color: transparent;
-			border-radius: 15px;
-			margin: 0 auto;
-			transition: all 0.3s ease-in-out;
-
+			transition: all 0.2s ease-in-out;
 			.arrowLeft {
 				color: $color-orange;
 			}
-
-			.addTodoList, .showSideLists {
-				display: flex;
-				align-items: center;
-				align-self: flex-end;
-				margin: 0 3rem;
-				border: none;
-				background-color: transparent;
-
-				transition: all 0.3s ease-in-out;
-
-				h2, h3 {
-					color: transparent;
-					border-bottom: 1px solid transparent;
-				}
-				p {
-					color: transparent;
-					margin-left: 1rem;
-					font-size: 2.5rem;
-				}
-				.addTdodoSvg {
-					margin-left: 1rem;
-				}
-
-				&:hover {
-					cursor: pointer;
-					transition: all 0.3s ease-in-out;
-
-					h2, h3 {
-						border-bottom: 1px solid $color-orange;
-						transition: all 0.3s ease-in-out;
-					}
-				}
+			p {
+				color: transparent;
+				transition: all 0.2s ease-in-out;
+				border-radius: 5px;
+				margin-right: 0.5rem;
+				padding: 0.5rem;
 			}
 
 			&:hover {
-				transition: all 0.3s ease-in-out;
-
-				background-color: #f0f9fe67;
-					h2, h3 {
-						color: $color-darkgrey;
-					}
-					p {
-						color: $color-orange;
-					}
+				cursor: pointer;
+				transition: all 0.1s ease-in-out;
+				p {
+					color: $color-orange;
+					transition: all 0.1s ease-in-out;
+					background-color: #f0f9fe67;
+				}
 			}
 		}
 	}
@@ -211,10 +171,9 @@
 		flex-direction: row-reverse;
 		justify-content: center;
 		align-items: flex-start;
-		width: 90vw;
+		width: 80vw;
 		position: relative;
-		right: -8vw;
-		//transition: all 0.5s ease;
+		//right: -8vw;
 
 		&.changeFlex {
 			right: 0;
@@ -249,7 +208,7 @@
 			flex-shrink: 1;
 			position: absolute;
 			transform: translateX(100vw);
-			transition: all 2s ease-in;
+			//transition: all 2s ease-in;
 		}
 
 		&.sideListVisible {
@@ -257,21 +216,23 @@
 			flex-direction: row-reverse;
 			justify-content: center;
 			align-items: flex-start;
-			width: 90vw;
-			transition: all 2s ease;
+			width: 80vw;
+			max-width: 1400px;
+			//transition: all 2s ease;
 	
 			.sideListContainer {
 				position: relative;
-				transition: all 2s ease;
+				//transition: all 2s ease;
 
 				&.sideLists {
 					display: flex;
 					flex-direction: column;
+					align-items: flex-end;
 					width: 90vw;
 					max-width: 1000px;
 					flex-shrink: 1;
 					transform: translateX(0%);
-					transition: transform 1s ease-out;	
+					transition: transform 0.5s ease-out;	
 				}
 			}
 		}

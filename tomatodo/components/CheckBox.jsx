@@ -6,14 +6,15 @@ const CheckBox = ({listItem}) => {
 		await fetch("/api/todos/todo", {
 			method: "PUT",
 			headers: {
-			  Accept: "application/json",
-			  "Content-Type": "application/json",
+				Accept: "application/json",
+				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
 			  id: listItem._id,
 			  checked: !listItem.checked,
 			}),
 		});
+		
 	}
 	
 	return (

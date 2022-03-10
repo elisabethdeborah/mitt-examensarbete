@@ -1,6 +1,6 @@
 import client from "../../../lib/sanity";
 
-const todo = async function handler(req, res) {
+const tomato = async function handler(req, res) {
 	switch (req.method) {
 		case "POST":
 			const newTomato = await JSON.parse(req.body);
@@ -31,7 +31,7 @@ const todo = async function handler(req, res) {
 				const result = await client
 				.patch(req.body.id)
 				.set({
-					checked: req.body.checked,
+					body: req.body,
 				})
 				.commit();
 				res.status(200).json({
@@ -56,8 +56,8 @@ const todo = async function handler(req, res) {
 		default:
 			break;
 	}
-	console.log('client in tomatos/tomato api page', req.body)
+	console.log('client in tomatoes/tomato api page', req.body)
       
 }
 
-export default todo;
+export default tomato;

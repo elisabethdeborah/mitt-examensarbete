@@ -6,7 +6,6 @@ const Resize = ({width, setWidth, sectionRef}) => {
     const onResize = () => {
 		const newWidth = sectionRef.current.clientWidth;
 		setWidth(newWidth)
-      console.log("resize!!! ref: ", sectionRef.current.clientWidth);
     }
 
     window.addEventListener("resize", onResize);

@@ -1,5 +1,17 @@
 @import './variables.scss';
 
+@keyframes blast {
+	0% {
+	  transform: scale(1);
+	}
+	50% {
+		transform: scale(0.2);
+	  }
+  
+	100% {
+	  transform: scale(1);
+	}
+  }
 
 .pieChartWrapper {
 	width: 180px;
@@ -12,6 +24,10 @@
 		left: -40px;
 		width: 185px;
 		height: auto;
+
+		&.animate {
+			animation: blast 1s ease-in-out;
+		}
 	}
 
 	.pieChartObj {
@@ -28,7 +44,7 @@
 	transition: opacity 1s ease-in-out;
 	&.isVisible {
 		opacity: 1;
-		transition: opacity 1s ease-in-out;
+		transition: opacity 1s ease-in-out 0.5s;
 	}
 }
 

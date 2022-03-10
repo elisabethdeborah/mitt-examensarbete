@@ -1,6 +1,5 @@
-const NumberFormat = ({timeSeconds, textSize, text, showSecs}) => {
-	let time = timeSeconds;
-	console.log(time, typeof time);
+const NumberFormat = ({milliSeconds, textSize, text, showSecs}) => {
+	let time = Math.round(Number(milliSeconds)/1000);
 	let hours = Math.floor(time/60/60);
 	hours < 10 ? hours = `0${hours}` : hours;
 	let minutes = (Math.floor(time/60) % 60);

@@ -31,13 +31,6 @@
 		height: 50px;
 		color: $color-white;
 		background-color: $color-orange;
-		/* .saveIcon {
-			margin-left: 1rem;
-
-			&:hover {
-				cursor: pointer;
-			}
-		} */
 		.deleteBtn {
 			@include hover-btn;
 			position: absolute;
@@ -89,16 +82,11 @@
 			@include hover-btn;
 			background-image: url('../svgAssets/checkbox-empty.svg');
 			background-repeat: no-repeat;
-			//border: 3px solid $color-darkgrey;
 			width: 50px;
 			height: 50px;
-			//margin: 0 1rem;
 			background-position: center;
 			background-size: cover;
 			overflow: visible;
-			/* &:hover {
-				cursor: pointer;
-			} */
 		}
 
 		.playBtn {
@@ -332,7 +320,6 @@
 
 .addListIconBtn {
 	@include hover-btn;
-	//background-image: url('../svgAssets/add-tomato-btn-m.svg');
 	background-image: url('../svgAssets/addBtn.svg');
 	background-repeat: no-repeat;
 	background-position: center;

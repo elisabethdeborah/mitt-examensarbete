@@ -46,8 +46,6 @@ const Stopwatch = () => {
 		<Meta title='Tidtagning' />
 		<section className={styles.contentContainer}>
 			{
-			console.log('currentTime', currentTime)}
-			{
 			inputformVisible &&(
 			<Form setFormIsVisible={setInputformVisible} objectType={'tomato'} method={'POST'} currentListDocId={''} setOverlay={setOverlay} typeName={'tomat'} defaultTime={currentTime} />
 			)}

@@ -14,7 +14,7 @@ const todo = async function handler(req, res) {
 					checked: false,
 					publishedAt: new Date().toISOString(),
 					todoList: {
-						_type: 'reference',
+						_type: "reference",
 						_ref: `${newTodo.parentRef}`
 					}
 				})
@@ -32,14 +32,14 @@ const todo = async function handler(req, res) {
 
 		case "PUT":
 			try {
-				const result = await client
+				await client
 				.patch(req.body.id)
 				.set({
 					checked: req.body.checked,
 				})
-				.commit();
+				.commit()
 				res.status(200).json({
-					status: result.checked,
+					status: res.body,
 				});
 			} catch (error) {
 				console.error(error);

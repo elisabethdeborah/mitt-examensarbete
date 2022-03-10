@@ -2,6 +2,7 @@ import styles from '../styles/playBtn.module.scss';
 import NumberFormat from './NumberFormat';
 import Link from 'next/link';
 import clsx from 'clsx';
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 const PlayBtn = ({listItem}) => {
 	//RÄKNA ANATAL CLICK, UPDATERA DB?
@@ -21,22 +22,19 @@ const PlayBtn = ({listItem}) => {
 		
 	} */
 	
+	const currentState = useUpdateContext();
+
+
+
+
 	return (
-		<aside className={styles.todoTimeSection} onClick={() => handleCheckTodo()} >
+		<aside className={styles.todoTimeSection} onClick={() => currentState.setCurrentItem(listItem)} >
 		{
 			listItem.time ? (
 				<>
 					{/* {console.log('play btn: ', listItem.title, listItem.time, 'slug:', listItem.slug, listItem._id, color)} */}
 					<Link
-						href={{
-							pathname: "/timer/[id]",
-							query: {
-								id: listItem._id,
-								title: listItem.title,
-								time: listItem.time
-							}
-						}}
-						as={`/timer/${listItem.slug}-${listItem.time}`}
+						href={'/timer'}
 						passHref
 					>
 					<article className={clsx(styles.playBtn, {
@@ -45,7 +43,7 @@ const PlayBtn = ({listItem}) => {
 						[styles.grey]: listItem._type !=="tomato" && !listItem.checked,
 						})} />
 					</Link>
-					<NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />
+					{/* {listItem._type !=="tomato" && <NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />} */}
 				</>
 			):
 			<article className={styles.playBtnPlaceholder} /> 
@@ -62,6 +60,19 @@ export default PlayBtn;
 
 
 /* 
+
+<Link
+						href={{
+							pathname: "/timer/[id]",
+							query: {
+								id: listItem._id,
+								title: listItem.title,
+								time: listItem.time
+							}
+						}}
+						as={`/timer/${listItem.slug}-${listItem.time}`}
+						passHref
+					>
 
 {
 						listItem.time ? (

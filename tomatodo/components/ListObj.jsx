@@ -4,9 +4,9 @@ import clsx from 'clsx';
 import CheckBox from './CheckBox';
 import styles from '../styles/todoList.module.scss';
 import NumberFormat from './NumberFormat';
+import PlayTimerBtn from './PlayTimerBtn';
 
 const ListObj = ({listItem, width}) => {
-	
 	return (
 		listItem ? (
 			width < 500 ? 
@@ -16,19 +16,8 @@ const ListObj = ({listItem, width}) => {
 						<p className={styles.todoDescription}>{listItem.description}</p>
 					</div>
 					<div className={styles.btnSection}>
-						<div className={styles.todoTimeSection}>
-						{
-							listItem.time ? (
-								<>
-									<Link href="/timer" passHref>
-										<article className={styles.playBtn} />
-									</Link>
-									<NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />
-								</>
-							):
-							<article className={styles.playBtnPlaceholder} /> 
-						}
-						</div>
+						<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
+						{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time*1000} textSize={'0.75rem'} />}
 						<CheckBox listItem={listItem} />
 					</div>
 					
@@ -43,19 +32,8 @@ const ListObj = ({listItem, width}) => {
 						<p className={styles.todoDescription}>{listItem.description}</p>
 					</div>
 					<div className={styles.todoTimeSection}>
-					{
-						listItem.time ? (
-							<>
-								<Link href="/timer" passHref>
-									<article className={styles.playBtn} />
-								</Link>
-								<p className={styles.todoTime}>
-									<NumberFormat timeSeconds={listItem.time} textSize={'0.75rem'} />
-								</p>
-							</>
-							) 
-						: <article className={clsx(styles.playBtn, styles.disabled)} />
-					}
+					<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
+					{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time *1000} textSize={'0.75rem'} />}
 					</div>
 					<DeleteButton color={'blue'} listItem={listItem} />
 				</article>

@@ -1,0 +1,94 @@
+@import './variables.scss';
+
+
+.deleteBtn {
+	@include hover-btn;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+	overflow-y: visible;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+
+	&.smallOrange {
+		background-image: url('../svgAssets/x-btn-small-orange.svg');
+		height: 30px;
+		width: 30px;
+	}
+
+	&.smallBlue {
+		background-image: url('../svgAssets/x-btn-small.svg');
+		height: 30px;
+		width: 30px;
+	}
+
+	&.large {
+		background-image: url('../svgAssets/deleteTomatoFlippedNew.svg');
+		height: 100px;
+		margin: 3px;
+		width: 80px;
+	}
+}
+
+
+.deleteWarning {
+	//z-index: 9999;
+	z-index: 9;
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	top: 3rem;
+	left: 1rem;
+	right: 1rem;
+	height: 70vh;
+	max-height: 700px;
+	max-width: 400px;
+	background-color: $color-white;
+	border-radius: 20px;
+	border: 2px solid $color-pink;
+	color: $color-darkgrey;
+	padding: 1rem;
+	text-align: center;
+
+	.btnContainer {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		> .warningBtn {
+			@include hover-btn;
+			border: 1px solid $color-pink;
+			border-radius: 100px;
+			font-size: 1.125rem;
+			line-height: 2.4rem;
+			//margin-top: 35px;
+	
+			font-weight: bold;
+	
+		}
+		.close {
+			color: $color-pink;
+			background-color: $color-white;
+			flex: 1;
+			margin-right: 3px;
+		}
+	
+		.delete {
+			color: $color-white;
+			background-color: $color-pink;
+			flex: 1;
+			margin-left: 3px;
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+		top: 3rem;
+		left: calc(50vw - 200px);
+		right: 0;
+		font-size: 1.2rem;
+			margin-right: 1rem;
+	}
+}

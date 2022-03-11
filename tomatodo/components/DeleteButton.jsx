@@ -1,8 +1,7 @@
-import styles from '../styles/todoList.module.scss';
-import DeleteBtnBlue from '../svgAssets/x-btn-small.svg';
-import DeleteBtnOrange from '../svgAssets/x-btn-small-orange.svg';
+import styles from '../styles/deleteBtn.module.scss';
+import clsx from 'clsx';
 import { useState } from 'react';
-const DeleteButton = ({color, listItem}) => {
+const DeleteButton = ({color, listItem, size}) => {
 	const [showWarning, setShowWarning] = useState(false);
 	const handleDelete = async (listItem) => {
 		console.log('deleteklick:',listItem.title, listItem._id, listItem._type, 'item', listItem)
@@ -18,26 +17,25 @@ const DeleteButton = ({color, listItem}) => {
 				body: listItem._id,
 			  });
 		} else if (listItem._type === 'tomato') {
-
+			await fetch("/api/tomatoes/tomato", {
+				method: "DELETE",
+				body: listItem._id,
+			  });
 		}
 		setShowWarning(false);
 	}
 
-	return (
-		<>
-		{
-			color === 'blue'?
-			<DeleteBtnBlue className={styles.deleteBtn} onClick={() => setShowWarning(true)} />
-			:<DeleteBtnOrange className={styles.deleteBtn} onClick={() => setShowWarning(true)} />
-		}
+	return (<>
+		<div onClick={() => setShowWarning(true)} className={clsx(styles.deleteBtn, {[styles.smallOrange]: color === 'orange', [styles.smallBlue]: color === 'blue', [styles.large]: size === 'large' })} />
 		{ showWarning &&(
 			<div className={styles.deleteWarning}>
 			<h2>Vill du ta bort {listItem.title}?</h2>
-			<input type={"button"} onClick={() => handleDelete(listItem)} value={'ta bort'} />
-			<input type={"button"} onClick={() => setShowWarning(false)} value={'ångra'}  />
+			<div className={styles.btnContainer}>
+				<input className={clsx(styles.warningBtn,styles.delete)} type={"button"} onClick={() => handleDelete(listItem)} value={'ta bort'} />
+				<input className={clsx(styles.warningBtn, styles.close)} type={"button"} onClick={() => setShowWarning(false)} value={'ångra'}  />
+			</div>
 		</div>)}
 		</>
-		
 	)
 }
 

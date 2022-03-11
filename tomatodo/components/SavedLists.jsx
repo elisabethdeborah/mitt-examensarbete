@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/savedLists.module.scss';
 import clsx from 'clsx';
+import SmallListObj from './smallListObj';
 
 const SavedLists = ({lista, setSideListsVisible, setOpen, open, page}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
@@ -21,34 +22,27 @@ const SavedLists = ({lista, setSideListsVisible, setOpen, open, page}) => {
 				<h4>Mina sparade listor</h4><p className={styles.arrowRight}  onClick={() => setSideListsVisible(false)}>&rarr;</p>
 			</section>
 			<section className={styles.contentBox}>
-			<Link href="/sparade-listor" passHref>
-			<p className={styles.link}>gå till sparade listor</p>
-			</Link>
-		{
-			lista ? lista.map((list, index) => {
-				return (
-					//open !== index && (
-						<article key={index} onClick={() => setPoputIsOpen(!popupIsOpen)} className={styles.hiddenLists}>
-							{
-								popupIsOpen && (
-									<section className={styles.popup}>
-										<h2>Vill du starta denna lista?</h2>
-										<input type={"button"} value={"starta"} onClick={(list) => handleClick(list)}/>
-									</section>
-								)
-							}
-							<section className={styles.textGroup}>
-								<h3>{list.name}</h3>
-								<p>tillagd: {list._createdAt.slice(0, 10)}</p>
-							</section>
-							<article className={styles.nrOfTodosIcon}>
-							<p className={styles.nrTodos}>{list.nrOfTodos}</p>
-							</article>
-						</article>
-						//)
-				)}) : <h3>Tomt!</h3>
-		}
-		</section>
+				<Link href="/sparade-listor" passHref>
+				<p className={styles.link}>gå till sparade listor</p>
+				</Link>
+			{
+				lista ? lista.map((list, index) => {
+					return (
+						<>
+						{
+							popupIsOpen && (
+								<section className={styles.popup}>
+									<h2>Vill du starta denna lista?</h2>
+									<input type={"button"} value={"starta"} onClick={(list) => handleClick(list)}/>
+								</section>
+							)
+						}
+						<SmallListObj listItem={list} key={index} handleClick={setPoputIsOpen}/>
+						</>
+					)
+				}) : <h3>Tomt!</h3>
+				}
+			</section>
 		</div>
 	)
 

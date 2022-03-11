@@ -40,6 +40,7 @@ export default {
 	preview: {
 	  select: {
 		title: "title",
+		slug: "slug"
 	  },
 	}
   };

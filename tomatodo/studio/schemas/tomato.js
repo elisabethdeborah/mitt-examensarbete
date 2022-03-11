@@ -1,3 +1,4 @@
+
 export default {
 	name: "tomato",
 	title: "Tomato",
@@ -16,7 +17,7 @@ export default {
 		validation: Rule => Rule.required(),
 		options: {
 		  source: "title",
-		  maxLength: 96
+		  maxLength: 96,
 		}
 	  },
 	  {
@@ -75,12 +76,7 @@ export default {
 		title: "title",
 		time: "time",
 		name: "name",
+		slug: "slug"
 	  },
-	  /* prepare(selection) {
-		const { author } = selection;
-		return Object.assign({}, selection, {
-		  subtitle: author && `by ${author}`
-		});
-	  } */
 	}
   };

@@ -1,3 +1,4 @@
+
 export default {
 	name: "todo",
 	title: "Todo",
@@ -9,6 +10,16 @@ export default {
 			type: "string",
 			validation: Rule => [Rule.max(50).warning('Kortare namn är oftast bättre'), Rule.required().min(1).error('Namnet måste vara minst 1 tecken/bokstav långt')],
 		},
+		{
+			name: "slug",
+			title: "Slug",
+			type: "slug",
+			validation: Rule => Rule.required(),
+			options: {
+			  source: "title",
+			  maxLength: 96,
+			}
+		  },
 	{
 		title: "Tid",
 		name: "time",
@@ -42,15 +53,15 @@ export default {
 	],
 	initialValue: () => ({
 		checked: false,
-		publishedAt: new Date().toISOString()
+		publishedAt: new Date().toISOString(),
 	  }),
-  
 	preview: {
 	  select: {
 		title: "title",
 		time: "time",
 		name: "name",
-		checked: "checked"
+		checked: "checked",
+		slug: "slug"
 	  },
 	}
   };

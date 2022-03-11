@@ -50,12 +50,7 @@ export default {
 	preview: {
 	  select: {
 		title: "title",
+		slug: "slug"
 	  },
-	  prepare(selection) {
-		const { author } = selection;
-		return Object.assign({}, selection, {
-		  subtitle: author && `by ${author}`
-		});
-	  }
 	}
   };

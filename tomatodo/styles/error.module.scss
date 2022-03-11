@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+
+.wrapper {
+	text-align: center;
+
+}
+
+.errGoBackBtn {
+	@include pink-btn;
+	@include hover-btn;
+	width: 180px;
+	margin-top: 40px;
+}

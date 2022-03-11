@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import AddListForm from "../components/AddListForm";
-import AddTomatoForm from "../components/AddTomatoForm";
+//import AddListForm from "../components/AddListForm";
+import Form from "../components/Form";
+//import AddTomatoForm from "../components/AddTomatoForm"; */
 import ActiveLists from "../components/ActiveLists";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
@@ -8,6 +9,13 @@ import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
 import { useRouter } from "next/router";
 import NumberFormat from "../components/NumberFormat";
+import LibraryArchiveObj from "../components/libraryArchiveObj";
+
+import ListObj from "../components/ListObj";
+import PlayBtn from "../components/PlayTimerBtn";
+import DeleteButton from "../components/DeleteButton";
+
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 import client, {
   getClient,
@@ -22,139 +30,147 @@ export default function MinaTomater(props) {
 	const [addTomatoFormIsVisible, setAddTomatoFormIsVisible] = useState(false);
 	const [open, setOpen] = useState(0); 
 	const [sideListVisible, setSideListsVisible] = useState(false);
-	const [showTomatoo, setShowTomato] = useState(false);
-	const [tomatoIndex, setTomatoIndex] = useState();
-	const [showSettingsForm, setShowSettingsForm] = useState(false);
+	const [showListObject, setShowListObject] = useState(false);
+	const [listObjectIndex, setListObjectIndex] = useState();
+	
 	const [showAddTodo, setShowAddTodo] = useState(false);
 	const [overlay, setOverlay] = useState(false)
+	const [showChangeForm, setShowChangeForm] = useState(false);
+	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
+	const [currentObj, setCurrentObj] = useState(null);
 
 	const { postdata, preview } = props;
 
 	const router = useRouter();
+
+	const state = useTodoContext()
+	const currentState = useUpdateContext()
   
 	const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
 	  });
 
-	const handleTomatoClick = (x) => {
-		if (showTomatoo) {
+
+
+
+
+	  
+
+
+
+	  const handleClick = (x, item) => {
+		  console.log('currentItem:', currentState.currentItem, 'currentObj', currentObj)
+		if (showListObject) {
 			setOverlay(false)
-			setSideListsVisible(false)
 			setShowAddTodo(false)
-			setShowSettingsForm(false)
 			setAddListFormIsVisible(false)
+			setaddToListIsVisible(false)
+			setShowChangeForm(false)
 			setTimeout(() => {
-			setShowTomato(false)
-			tomatoIndex !== x ? setTomatoIndex(x) : setTomatoIndex(null)
+			setShowListObject(false)
+			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null)
 			}, 600)
-		} else if (!showTomatoo){
-			setShowTomato(true)
-			setSideListsVisible(false)
+		} else if (!showListObject){
+			setShowListObject(true)
 			setShowAddTodo(false)
-
 			setAddListFormIsVisible(false)
-			setShowSettingsForm(false)
 
-		tomatoIndex !== x ? setTomatoIndex(x) : setTomatoIndex(null)
+			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null)
 		setTimeout(() => {
 			setOverlay(true)
 			}, 10);
 		}		
-	}
+	}  
 
 	const handleShowSettings = (x) => {
-		setSideListsVisible(false)
-
-		setAddListFormIsVisible(false)
-		setShowAddTodo(false)
 		setShowSettingsForm(!showSettingsForm)
 	}
 
 	const handleAddToTodo = (list) => {
 		console.log('add', list)
-		setShowSettingsForm(false)
-		setAddListFormIsVisible(false)
 		setShowAddTodo(!showAddTodo)
-		setSideListsVisible(false)
 	}
 
-	const handlePlayTomato = (x) => {
-		setSideListsVisible(false)
-		setShowAddTodo(false)
-		setAddListFormIsVisible(false)
-		setShowSettingsForm(false)
-		console.log('play', x.time)
+	const handleStartTodoList = (list) => {
+		console.log('start', list)
+		setShowAddTodo(!showAddTodo)
 	}
+
+
 
 	return (
 		<div className={clsx(styles.tomatoPageWrapper, {[styles.sideListVisible]: sideListVisible})}>
 			<Meta title='Mina tomater' />
-			{addTomatoFormIsVisible ? <AddTomatoForm addTomatoFormIsVisible={addTomatoFormIsVisible} setAddTomatoFormIsVisible={setAddTomatoFormIsVisible} /> 
+			{
+				showChangeForm && (
+				<>
+						<Form setFormIsVisible={setShowChangeForm} className={styles.archiveForm} list={currentState.currentItem} typeName={'redigera'} objectType={'tomato'} method={'PUT'} page={'archive'} currentListDocId />
+						<div className={styles.showSettings}>
+					
+						{/* <article className={clsx(styles.iconBtn, styles.iconDelete)} /> */}
+						<DeleteButton listItem={currentState.currentItem}/>
+						</div>
+				</>
+				)}
+				{addToListIsVisible && (
+					<div className={styles.showActiveLists}>
+					
+					{addListFormIsVisible ? (
+						<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} />
+						) : (
+						<>
+						<ActiveLists lista={posts.currentLists} setOpen={setOpen} tomato={currentState.currentItem} open={4} page={'tomato'} setAddListFormIsVisible={setAddListFormIsVisible} />
+						<aside className={styles.optionContainer}>
+							<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
+								<h2>Skapa ny lista</h2>
+								<AddTodo className={styles.addTdodoSvg} />
+							</button>
+							
+						</aside>
+					</>)}
+
+					
+				</div>
+				)}
+
+			{addTomatoFormIsVisible ? 
+			<Form setFormIsVisible={setAddTomatoFormIsVisible} objectType={'tomato'} method={'POST'} />
 				:
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.tomatoLibraryHeader}>Mina tomater</h2> 
 					<article className={styles.addTomatoIcon} onClick={() => setAddTomatoFormIsVisible(!addTomatoFormIsVisible)} />
 				</div>
-				{showTomatoo && (
-				<div onClick={() => handleTomatoClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> )}
+				{showListObject && (
+				<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> )}
 				
 				 
-				{posts.tomatoLibrary ? (posts.tomatoLibrary.map((list, index) => {
-					return (
-						<div className={styles.tomatoArtContainer} key={list._rev}>
-						<article onClick={() => handleTomatoClick(index)} className={clsx(styles.tomatoObject, {
-							[styles.orangeTomato]: index % 2 === 0,
-							[styles.pinkTomato]: index % 2 === 1,
-							[styles.showTomato]: index === tomatoIndex,
-						})} key={index}>
-							<h3>{list.title}</h3>
-							{<NumberFormat className={styles.formattedTime} timeSeconds={Number(list.time)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />}
-						</article>
-						{showTomatoo && posts.tomatoLibrary && index === tomatoIndex && (
-						<div className={clsx(styles.optionsDiv, {
-							[styles.visibleFirst]: showTomatoo && overlay, 
-							[styles.visibleSettings]: showSettingsForm,
-							[styles.visibleLists]: showAddTodo,
-							[styles.visibleListForm]: addListFormIsVisible,
-							}
-							)}>
-							{showTomatoo && (
-								<div className={styles.btnContainer}>
-									<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings(list)} />
-									<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleAddToTodo(list)} />
-									<article className={clsx(styles.iconBtn, styles.iconPlay)} onClick={() => handlePlayTomato(list)} />
-								</div>
-							)}
-								<div className={styles.showSettings}>
-									<input type="text" placeholder={list.title} className={styles.inputTomato} />
-									<input type="number" placeholder={list.time} className={styles.inputTomato} />
-									<button className={styles.changeTomatoBtn}><p>Ändra</p></button>
-								</div>
-								<div className={styles.showActiveLists}>
-									{console.log('tomato', list)}
-									{
-									console.log(list.name, list.time, list.description)}
-									<ActiveLists lista={posts.currentLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} tomato={list} open={4} page={'tomato'} />
-									<aside className={styles.optionContainer}>
-										{!addListFormIsVisible && (
-										<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
-											<h2>Skapa ny lista</h2>
-											<AddTodo className={styles.addTdodoSvg} />
-										</button>
-										)}
-									</aside>
-									{addListFormIsVisible && <AddListForm addListFormIsVisible={addListFormIsVisible} setAddListFormIsVisible={setAddListFormIsVisible} />}
-								</div>
-						</div>
-						)}
-						</div>
-					)})) : 
-						<section className={styles.emptyList}>
-							<article className={styles.addListIconBtn} onClick={() => setAddTomatoFormIsVisible(true)} />
-							<h3>Du har inga tomater</h3>
-						</section>
+				{posts.tomatoLibrary ? 
+					(posts.tomatoLibrary.map((list, index) => (
+						<LibraryArchiveObj  
+							key={list._rev} 
+							list={list} 
+							index={index} 
+							listObjectIndex={listObjectIndex} 
+							showListObject={showListObject} 
+							
+							showAddTodo={showAddTodo} 
+							addListFormIsVisible={addListFormIsVisible} 
+							setAddListFormIsVisible={setAddListFormIsVisible} 
+							handleClick={handleClick}
+							
+							handleStartTodoList={handleStartTodoList}
+							overlay={overlay}
+							handleAddToTodo={handleAddToTodo}
+							currentLists={posts.currentLists}
+							setShowChangeForm={setShowChangeForm}
+							setaddToListIsVisible={setaddToListIsVisible}
+							setCurrentObj={setCurrentObj}
+						/>
+					))) 
+					: 
+					<h3>Du har inga sparade listor</h3>
 				}
 			</div>
 		}
@@ -186,3 +202,6 @@ export async function getStaticProps({ params, preview = false }) {
     //revalidate: 10,
   };
 }
+
+
+

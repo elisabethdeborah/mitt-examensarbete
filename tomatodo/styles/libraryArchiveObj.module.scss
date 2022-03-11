@@ -138,32 +138,36 @@
 
 
 .optionsDiv {
-	position: relative;
-	top: 0;
-	z-index: 99;
+	position: absolute;
+	top: 1rem;
+	//z-index: 99;
+	z-index: 9;
 	text-align: center;
 	height: 0px;
-	max-width: 500px;
-	width: 90vw;
 	border-radius: 20px;
 	transition: height 0.5s ease;
-	overflow: hidden;
 
 	.btnContainer {
+		//z-index: 9999;
 		z-index: 9999;
 		position: relative;
 		display: flex;
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		top: -100px;
-
-		transform: translateY(0px);
 		width: 100%;
 		height: 100px;
 		transition: transform 0.5s ease;
+		transition: all 0.5s ease;
+
+		z-index: 9999;
+		top: 1rem;
+		left: 0;
+		right: 0;
+		position: fixed;
 
 		.iconBtn {
+			@include hover-btn;
 			height: 100px;
 			margin: 3px;
 			width: 80px;
@@ -171,6 +175,10 @@
 			background-position: center;
 			background-size: contain;
 			overflow-y: visible;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: center;
 
 			&.iconSettings {
 				background-image: url('../svgAssets/settings.svg');
@@ -184,8 +192,14 @@
 				background-image: url('../svgAssets/playBtnNew.svg');
 			}
 
-			&.iconPlay {
+			&.iconDelete {
 				background-image: url('../svgAssets/deleteTomatoFlippedNew.svg');
+			}
+
+			&.playBtn {
+				height: 55px;
+				width: 55px;
+				margin: 15px 0 0 15px;
 			}
 
 			&:hover {
@@ -205,12 +219,10 @@
 		}
 
 		@media screen and (min-width: 800px) {
-			transform: translateX(10vw);
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
 			top: 0;
-			right: -50vw;
 			height: 100%;
 			width: 100px;
 			overflow: visible;
@@ -233,24 +245,74 @@
 	transition: all 0.5s ease;
 	display: block;
 
-	.inputTomato {
-		border-radius: 100px;
-		border: 1px solid $color-orange;
-		padding: 0 22px;
-		font-size: 1.2rem;
-		font-weight: bold;
-		height: 50px;
-		margin: 1rem auto;
+/* 
+	z-index: 9999;
+		position: fixed;
+		top: 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-evenly;
+		align-items: center;
+		background-color: $color-container-bg;
+		width: 90vw;
+		max-width: 414px;
+		border-radius: 20px;
+		min-height: fit-content;
+		padding: 52px;
+		font-family: $font-family;
+	
 		opacity: 1;
-		transition: all 0.5s ease;
-	}
+		transition: opacity 0.5s ease;
+
+		.formHeader {
+			color: $color-pink;
+			margin-bottom: 0;
+			font-size: 2.5rem;
+			letter-spacing: 2px;
+		}
+
+
+		.inputTomato {
+			border-radius: 100px;
+			border: 1px solid $color-orange;
+			padding: 0 22px;
+			font-size: 1.2rem;
+			font-weight: bold;
+			height: 50px;
+			margin: 1rem auto;
+			opacity: 1;
+			transition: all 0.5s ease;
+
+
+			border: 1px solid $color-pink;
+			border-radius: 100px;
+			color: $color-darkgrey;
+	
+			margin-top: 35px;
+
+
+			font-size: 1rem;
+				line-height: 2.7rem;
+				padding: 0 22px;
+				font-weight: bold;
+				//width: 232px;
+				width: 100%;
+		}
+ */
+		
+		
+		
+
+		///////////////////////
+
+
 
 	@media screen and (min-width: 800px) {
 		opacity: 1;
 		position: absolute;
 		height: 500px;
 		width: 400px;
-		transform: translateX(100%);
+		//transform: translateX(100%);
 
 		transition: all 0.5s ease;
 	}
@@ -317,29 +379,36 @@
 		position: absolute;
 		height: 500px;
 		width: 400px;
-		transform: translateX(100%);
+		//transform: translateX(100%);
 		
 		transition: all 0.5s ease;
 	}
 }
 
 	&.visibleFirst {
+		z-index: 999;
 		height: 100px;
 		transition: height 0.5s ease;
 		overflow: hidden;
 
 		.btnContainer {
+			z-index: 99;
 	//			height: 100px;
-			transform: translateY(100px);
+			//transform: translateY(100px);
 			transition: all 0.5s ease;
+
+			z-index: 9999;
+			top: 1rem;
+			left: 0;
+			right: 0;
 			@media screen and (min-width: 800px) {
-				transform: translateX(-50vw);
+				//transform: translateX(-50vw);
 				transition: all 0.5s ease;
-				height: 100%;
+				//height: 100%;
 			}
 		}
 		@media screen and (min-width: 800px) {
-			transform: translateX(0);
+			//transform: translateX(0);
 			flex-direction: row-reverse;
 			align-items: center;
 			justify-content: flex-start;
@@ -353,11 +422,12 @@
 	
 
 	&.visibleSettings {
+		position: absolute;
 		height: 400px;
 		transition: all 0.5s ease;
 
 		.showSettings {
-			position: relative;
+			position: absolute;
 			border-radius: 30px;
 			background-color: $color-container-bg-transp;
 			//z-index: 1;
@@ -376,24 +446,25 @@
 				transition: all 0.5s ease;
 			}
 
-			@media screen and (min-width: 800px) {
+			/* @media screen and (min-width: 800px) {
 				position: absolute;
 				height: 500px;
 				width: 400px;
 				transform: translateX(-100px);
 				right: 0;
 				transition: all 0.5s ease;
-			}
+			} */
 		}
 
-		@media screen and (min-width: 800px) {
+		/* @media screen and (min-width: 800px) {
 			transition: all 0.5s ease;
 			width: 500px;
 			right: -10vw;
 			height: 500px;
-			z-index: 99999;
-			transform: translateX(0%);
-		}
+			//z-index: 99999;
+			z-index: 9;
+			transform:translateX(-100px);
+		} */
 	}
 
 	&.visibleLists {
@@ -418,16 +489,16 @@
 				//overflow-y: scroll;
 			}
 
-			@media screen and (min-width: 800px) {
+			/* @media screen and (min-width: 800px) {
 				position: absolute;
 				height: 500px;
 				transition: all 0.5s ease;
 				width: 400px;
 				right: 0;
 				transform: translateX(-100px);
-			}
+			} */
 		}
-		@media screen and (min-width: 800px) {
+		/* @media screen and (min-width: 800px) {
 			transition: all 0.5s ease;
 			height: 500px;
 			width: 500px;
@@ -439,11 +510,11 @@
 				transition: all 0.5s ease;
 				@media screen and (min-width: 800px) {
 					transition: all 0.5s ease;
-					width: 400px;
+					width: 500px;
 					transform: translateX(0);
 				}
 			}
-		}
+		} */
 	}
 
 	&.visibleListForm {
@@ -453,7 +524,7 @@
 		@media screen and (min-width: 800px) {
 			transition: all 0.5s ease;
 			width: 400px;
-			transform: translateX(0);
+			//transform: translateX(0);
 		}
 	}
 
@@ -484,7 +555,7 @@
 	}
 	
 	@media screen and (min-width: 800px) {
-		right: -10vw;
+		//right: -10vw;
 		left: unset;
 		top: unset;
 		top: 0;
@@ -497,3 +568,114 @@
 		transition: width 0.5s ease;
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.formContainer {
+	z-index: 9999;
+	position: relative;
+	//position: fixed;
+	top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color: $color-container-bg;
+	width: 90vw;
+	max-width: 414px;
+	border-radius: 20px;
+	min-height: fit-content;
+	padding: 52px;
+	font-family: $font-family;
+
+	transition: opacity 0.5s ease;
+	
+	
+	.formHeader {
+		color: $color-pink;
+		margin-bottom: 0;
+		font-size: 2.5rem;
+		letter-spacing: 2px;
+	}
+
+	&.tomatoFormContainer {
+		margin-top: 5rem;
+	}
+
+	/* .smallTomato {
+		position: absolute;
+		top: -58px;
+		height: 110px;
+		width: 110px;
+		background-image: url('../svgAssets/vitkant-small.svg');
+		background-repeat: no-repeat;
+		overflow: visible;
+		background-size: contain;
+		background-position: center;
+	} */
+
+	.input {
+		border: 1px solid $color-pink;
+		border-radius: 100px;
+		color: $color-darkgrey;
+
+		margin-top: 35px;
+
+		&.textInput {
+			font-size: 1rem;
+			line-height: 2.7rem;
+			padding: 0 22px;
+			font-weight: bold;
+			//width: 232px;
+			width: 100%;
+		}
+	}
+
+	.btnContainer {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		> input {
+			border: 1px solid $color-pink;
+			border-radius: 100px;
+			font-size: 1.125rem;
+			line-height: 2.4rem;
+			//margin-top: 35px;
+
+			font-weight: bold;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+		.closeForm {
+			color: $color-pink;
+			background-color: $color-white;
+			flex: 1;
+			margin-right: 3px;
+		}
+
+		.addBtn {
+			color: $color-white;
+			background-color: $color-pink;
+			flex: 1;
+			margin-left: 3px;
+		}}}

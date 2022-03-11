@@ -13,7 +13,7 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-evenly;
-	width: 80vw;
+	width: 90vw;
 	max-width: 1350px;
 	background-color: $color-container-bg;
 	border-radius: 20px;
@@ -47,7 +47,8 @@
 	}
 
 	.addListIconBtn {
-		background-image: url('../svgAssets/add-tomato-btn-m.svg');
+		//background-image: url('../svgAssets/add-tomato-btn-m.svg');
+		background-image: url('../svgAssets/addTomatoNew.svg');
 		background-repeat: no-repeat;
 		background-position: center;
 		background-size: contain;
@@ -79,11 +80,14 @@
 		.tomatoLibraryHeader {
 			color: $color-pink;
 		}
+		.savedListsHeader{
+			color: $color-yellow;
+		}
 
 		.addTomatoIcon {
 			height: 35px;
 			width: 35px;
-			background-image: url('../svgAssets/add-tomato-btn-new.svg');
+			background-image: url('../svgAssets/addTomatoNew.svg');
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: contain;
@@ -113,7 +117,7 @@
 	}
 }
 
-.tomatoObject {
+/* .listObject {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -136,6 +140,54 @@
 		background-image: url('../svgAssets/pink-tomato-m.svg');
 	}
 
+	&.pinkTodoList,
+	&.blueTodoList {
+		flex-direction: row;
+		align-items: center;
+		width: 325px;
+		height: 230px;
+		border-radius: 20px;
+
+		.textGroup {
+			display: flex;
+			flex-direction: column;
+			> h3 {
+				font-size: 1.5rem;
+			}
+
+		}
+
+		.nrOfTodosIcon {
+			background-image: url('../svgAssets/total-nr-todos.svg');
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+			width: 84px;
+			height: 84px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			.nrTodos {
+				font-size: 2rem;
+				font-weight: bold;
+				margin-right: 20px;
+				color: $color-darkgrey;
+			}
+		}
+
+	}
+
+	&.blueTodoList {
+		background-color: $color-article-bg;
+		color: $color-darkgrey;
+	}
+
+	&.pinkTodoList {
+		background-color: $color-pink;
+		color: $color-white;
+	}
+
 	h3 {
 	//margin: 5rem auto 0;
 	
@@ -156,24 +208,20 @@
 	&:hover {
 		cursor: pointer;
 	}
-}
 
-.showTomato {
+	.timeParagraph {
+		display: flex;
+		flex-direction: row;
+	}
+} */
+
+/* .showListObject {
 	z-index: 9;
 	position: relative;
-	/* transform: translateX(0vw);
-	//top: 20vh;
-
-	transition: transform 1s ease;
-
-	@media screen and (min-width: 800px) {
-		transform: translateX(10vw);
-
-	transition: transform 1s ease;
-	} */
-}
+} */
 
 .showOverlay {
+	z-index: 8;
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -191,17 +239,13 @@
 }
 
 
-
+/* 
 .optionsDiv {
 	position: relative;
 	top: 0;
 	z-index: 99;
-	/* display: flex;
-	flex-direction: column;
-	align-items: center; */
 	text-align: center;
 	height: 0px;
-	//background-color: #fdfdfd91;
 	max-width: 500px;
 	width: 90vw;
 	border-radius: 20px;
@@ -224,13 +268,6 @@
 
 		.iconBtn {
 			height: 100px;
-			/* &::after {
-				content: ' ';
-				border: 20px solid red;
-				height: 100%;
-				position: relative;
-				left: 5px;
-			} */
 			margin: 3px;
 			width: 80px;
 			background-repeat: no-repeat;
@@ -506,8 +543,6 @@
 
 	h3, p {
 		position: relative;
-		/* right: 3rem;
-		top: -10rem; */
 		font-size: 1rem;
 	}
 
@@ -547,4 +582,79 @@
 		transition: width 0.5s ease;
 	}
 }
+ */
 
+ .showActiveLists {
+	height: 0;
+	transition: all 1s ease;
+	opacity: 1;
+	overflow: hidden;
+	overflow-y: scroll;
+	display: block;
+
+
+	position: fixed;
+    z-index: 99;
+    height: 500px;
+    //width: 400px;
+	width: 90%;
+	max-width: 400px;
+    transition: all 0.5s ease;
+    background: white;
+    border-radius: 30px;
+    top: 10%;
+
+	.currentListsItem {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-evenly;
+		transition: all 1s ease;
+		width: 300px;
+		height: 100px;
+		opacity: 1;
+		transition: all 0.5s ease;
+
+		
+	}
+	.optionContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-bottom: 2rem;
+	}
+
+	.addTodoList {
+		display: flex;
+		align-items: center;
+		align-self: flex-end;
+		margin: 0 3rem;
+		border: none;
+		background-color: transparent;
+
+		h2, h3 {
+			color: $color-darkgrey;
+			border-bottom: 1px solid transparent;
+		}
+		p {
+			margin-left: 1rem;
+			font-size: 1.5rem;
+		}
+		.addTdodoSvg {
+			margin-left: 1rem;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	@media screen and (min-width: 800px) {
+		position: fixed;
+		height: 500px;
+		width: 400px;
+		//transform: translateX(100%);
+		
+		transition: all 0.5s ease;
+	}
+}

@@ -7,28 +7,47 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import NumberFormat from "./NumberFormat";
 import ListObj from "./ListObj";
+import PlayBtn from "./PlayTimerBtn";
+import DeleteButton from "./DeleteButton";
 
-const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSettingsForm, showAddTodo, handleClick, handleShowSettings, handleStartTodoList, handleDelete, currentLists, overlay, handleAddToTodo, handlePlayTomato, setShowAddTodo, setOverlay, addListFormIsVisible,setAddListFormIsVisible}) => {
-	//const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
+
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
+
+
+
+const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSettingsForm, showAddTodo, handleClick, handleStartTodoList, handleDelete, currentLists, overlay, handleAddToTodo, handlePlayTomato, setShowAddTodo, setOverlay, addListFormIsVisible,setAddListFormIsVisible, handleCloseEverything, setaddToListIsVisible, setShowDelete, setShowChangeForm}) => {
+	const state = useTodoContext()
+	const currentState = useUpdateContext()
+
 	const [open, setOpen] = useState(0); 
 
-	/* const handleShowAddList = () => {
-		setAddListFormIsVisible(true)
-		setShowAddTodo(false)
-		setOverlay(false)
-		console.log('overlay?', overlay)
+	const handleClickObj = (index, list) => {
+		console.log('list in handleclick', list)
+		currentState.setCurrentItem(list)
+		console.log(currentState.currentItem)
+		handleClick(index, list, currentState)
 	}
-	 */
+	const handleShowSettings = () => {
+		//setOverlay(false)
+		setaddToListIsVisible(false)
+		list._type === 'tomato' ?setShowChangeForm(true):null;
+	}
+	const handleShowAddtolist = () => {
+		//setOverlay(false)
+		list._type === 'tomato' ?setShowChangeForm(false):setShowDelete(false);
+		
+		setaddToListIsVisible(true)
+	}
 
+	const handleShowDelete = () => {
+		setShowDelete(true)
+		setaddToListIsVisible(false)
+	}
 
 	return (
-		<div className={styles.container}>
-			{/* {addListFormIsVisible && 
-				<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} overlayActive />
-			} */}
-
+		<div className={styles.container}  onClick={() => console.log('list container', list)}>
 			
-			<article onClick={() => handleClick(index)} className={clsx(styles.listObject, {
+			<article onClick={() => handleClickObj(index, list)} className={clsx(styles.listObject, {
 				[styles.orangeTomato]: list._type === 'tomato' && index % 2 === 0,
 				[styles.pinkTomato]: list._type === 'tomato' && index % 2 === 1,
 				[styles.pinkTodoList]: list._type === 'todoList' && index % 2 === 0,
@@ -49,55 +68,49 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSe
 				) : (
 					<>
 						<h3>{list.title}</h3>
-						<NumberFormat className={styles.formattedTime} timeSeconds={Number(list.time)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />
+						<NumberFormat className={styles.formattedTime} milliSeconds={Number(list.time*1000)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />
 					</>
 				)}
+
+
 
 				
 			</article>
 			{showListObject && index === listObjectIndex && (
+				
 				<div className={clsx(styles.optionsDiv, {
 					[styles.visibleFirst]: showListObject && overlay, 
-					[styles.visibleSettings]: showSettingsForm,
-					[styles.visibleLists]: showAddTodo,
-					[styles.visibleListForm]: addListFormIsVisible,
 					}
 					)}>
+						{console.log('list in obj', list)}
 					{showListObject && (
 					<div className={styles.btnContainer}>
-						<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings(list)} />
-						<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleAddToTodo(list)} />
-						<article className={clsx(styles.iconBtn, styles.iconPlay)} onClick={() => handlePlayTomato(list)} />
+						
+						{list._type === 'tomato'? (
+							<>
+							<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings()} />
+							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
+							<article className={clsx(styles.iconBtn, styles.playBtn)}><PlayBtn listItem={list} /></article>
+							<DeleteButton listItem={currentState.currentItem} size={'large'} />
+							</>
+						) : (<>
+							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
+							{/* <article className={clsx(styles.iconBtn, styles.iconDelete)} onClick={() => handleShowDelete()} /> */}
+							<DeleteButton listItem={currentState.currentItem} size={'large'} />
+							</>)
+						}
 					</div>
 					)}
-					<div className={styles.showSettings}>
-						<Form typeName={'redigera'} objectType={list._type} method={'PUT'} currentListDocId />
-						{/* <input type="text" placeholder={list.title} className={styles.inputTomato} />
-						<input type="number" placeholder={list.time} className={styles.inputTomato} />
-						<button className={styles.changeTomatoBtn}><p>Ändra</p></button> */}
-					</div>
-					<div className={styles.showActiveLists}>
-						{console.log(list._type)}
-						{
-							list._type === 'todoList' && (list.list.map((todoItem, index) =>
-							 <ListObj key={index} listItem={todoItem} width={400} />))
-						}
-						{list._type === 'tomato' && (
-						addListFormIsVisible ? (
-							<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} overlayActive />
-							) : (<>
-									<ActiveLists lista={currentLists} setOpen={setOpen} tomato={list} open={4} page={'tomato'} setAddListFormIsVisible={setAddListFormIsVisible} />
-									<aside className={styles.optionContainer}>
-										<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
-											<h2>Skapa ny lista</h2>
-											<AddTodo className={styles.addTdodoSvg} />
-										</button>
-										
-									</aside>
-								</>)
-						)}
+
+					
+
+
+					
+
+					
+					
 						
-					</div>
+					
 				</div>
 			)}
 		</div>

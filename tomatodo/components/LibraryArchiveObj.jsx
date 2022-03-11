@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Form from "./Form";
 import ActiveLists from "./ActiveLists";
-import AddTodo from '../svgAssets/addBtn.svg';
 import styles from "../styles/libraryArchiveObj.module.scss";
 import clsx from "clsx";
 import { useRouter } from "next/router";
@@ -15,7 +14,7 @@ import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 
 
-const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSettingsForm, showAddTodo, handleClick, handleStartTodoList, handleDelete, currentLists, overlay, handleAddToTodo, handlePlayTomato, setShowAddTodo, setOverlay, addListFormIsVisible,setAddListFormIsVisible, handleCloseEverything, setaddToListIsVisible, setShowDelete, setShowChangeForm}) => {
+const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, handleClick, overlay, setaddToListIsVisible, setShowDelete, setShowChangeForm}) => {
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
 
@@ -71,10 +70,6 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSe
 						<NumberFormat className={styles.formattedTime} milliSeconds={Number(list.time*1000)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />
 					</>
 				)}
-
-
-
-				
 			</article>
 			{showListObject && index === listObjectIndex && (
 				
@@ -90,12 +85,11 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, showSe
 							<>
 							<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings()} />
 							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
-							<article className={clsx(styles.iconBtn, styles.playBtn)}><PlayBtn listItem={list} /></article>
 							<DeleteButton listItem={currentState.currentItem} size={'large'} />
+							<article className={clsx(styles.iconBtn, styles.playBtn)}><PlayBtn size={'large'} listItem={list} /></article>
 							</>
 						) : (<>
 							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
-							{/* <article className={clsx(styles.iconBtn, styles.iconDelete)} onClick={() => handleShowDelete()} /> */}
 							<DeleteButton listItem={currentState.currentItem} size={'large'} />
 							</>)
 						}

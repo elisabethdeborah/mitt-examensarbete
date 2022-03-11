@@ -4,7 +4,7 @@ import styles from '../styles/savedLists.module.scss';
 import clsx from 'clsx';
 import SmallListObj from './smallListObj';
 
-const SavedLists = ({lista, setSideListsVisible, setOpen, open, page}) => {
+const SavedLists = ({lista, setSideListsVisible, setOpen, page}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 	const [popupIsOpen, setPoputIsOpen] = useState(false);
 

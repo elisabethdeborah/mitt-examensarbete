@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 
-const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato, setAddListFormIsVisible}) => {
+const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) => {
 	
 	const currentState = useUpdateContext()
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home' || page === 'tomato');
@@ -62,7 +62,6 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato, s
 								<h3>{list.title}</h3>
 								<p>tillagd: {list._createdAt? list._createdAt.slice(0, 10) : index}</p>
 								</section>
-								{/* {console.log(list)} */}
 								<section className={styles.iconGroup}>
 									<article className={styles.nrOfTodosIcon}>
 									<p className={styles.nrTodos}>{list.nrOfTodos? list.nrOfTodos: 0}</p>

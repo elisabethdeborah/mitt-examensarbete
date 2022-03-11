@@ -7,7 +7,7 @@ import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
 import SmallListObj from './smallListObj';
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-const ListContainer = ({itemType, tomatoes, setSideListsVisible, setOpen, open, page, list, tomato, setAddListFormIsVisible, listIndex}) => {
+const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list, tomato}) => {
 
 	const currentState = useUpdateContext();
 

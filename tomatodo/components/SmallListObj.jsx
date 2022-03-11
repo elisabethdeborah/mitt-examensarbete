@@ -1,5 +1,4 @@
 
-import Link from 'next/link';
 import styles from '../styles/smallListObj.module.scss';
 import clsx from 'clsx';
 import NumberFormat from './NumberFormat';

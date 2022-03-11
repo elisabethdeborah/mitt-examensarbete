@@ -1,18 +1,12 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import styles from '../styles/todoList.module.scss';
-import SaveList from '../svgAssets/save-list.svg';
-import clsx from 'clsx';
-//import AddTodoForm from './AddTodoForm';
 import AddTodo from '../svgAssets/addBtn.svg';
 import DeleteButton from './DeleteButton';
 import ListObj from './ListObj';
-import SaveListBtn from './SaveListBtn';
 import Form from './Form';
 import Resize from '../components/Resize';
 
-import dynamic from 'next/dynamic';
 
 const TodoList = ({list,setOverlay}) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);

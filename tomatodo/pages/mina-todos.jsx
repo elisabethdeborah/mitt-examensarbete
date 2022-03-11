@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-//import AddListForm from "../components/AddListForm";
 import ActiveLists from "../components/ActiveLists";
 import SavedLists from "../components/SavedLists";
 import AddTodo from '../svgAssets/addBtn.svg';
@@ -32,7 +31,6 @@ export default function MinaTodos(props) {
 
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
-	//const [overlay, setOverlay] = useState(false)
 
 	///
 	const { postdata, preview } = props;
@@ -68,7 +66,6 @@ export default function MinaTodos(props) {
 	const handleClick = () => {
 		
 		if (addListFormIsVisible) {
-			//setOverlay(false)
 			setShowAddTodo(false)
 			console.log('click', addListFormIsVisible)
 			setTimeout(() => {
@@ -77,9 +74,6 @@ export default function MinaTodos(props) {
 		} else if (!addListFormIsVisible){
 			setShowAddTodo(false)
 			setAddListFormIsVisible(true)
-		/* setTimeout(() => {
-			setOverlay(true)
-			}, 10); */
 		}		
 	} 
 
@@ -114,7 +108,7 @@ export default function MinaTodos(props) {
 					activeLists? (
 						activeLists.map((lista, index) => (
 								open === index && (
-								<TodoList key={lista._id} list={lista} /* handleClick={handleClick} */ />
+								<TodoList key={lista._id} list={lista} />
 								)
 							))
 					)
@@ -153,6 +147,6 @@ export async function getStaticProps({ params, preview = false }) {
 		postdata: post,
 		preview,
 	  },
-    //revalidate: 10,
+    revalidate: 10,
   };
 }

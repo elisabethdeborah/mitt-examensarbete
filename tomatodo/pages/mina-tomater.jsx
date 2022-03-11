@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-//import AddListForm from "../components/AddListForm";
 import Form from "../components/Form";
-//import AddTomatoForm from "../components/AddTomatoForm"; */
 import ActiveLists from "../components/ActiveLists";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
@@ -10,9 +8,6 @@ import clsx from "clsx";
 import { useRouter } from "next/router";
 import NumberFormat from "../components/NumberFormat";
 import LibraryArchiveObj from "../components/libraryArchiveObj";
-
-import ListObj from "../components/ListObj";
-import PlayBtn from "../components/PlayTimerBtn";
 import DeleteButton from "../components/DeleteButton";
 
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
@@ -108,7 +103,6 @@ export default function MinaTomater(props) {
 						<Form setFormIsVisible={setShowChangeForm} className={styles.archiveForm} list={currentState.currentItem} typeName={'redigera'} objectType={'tomato'} method={'PUT'} page={'archive'} currentListDocId />
 						<div className={styles.showSettings}>
 					
-						{/* <article className={clsx(styles.iconBtn, styles.iconDelete)} /> */}
 						<DeleteButton listItem={currentState.currentItem}/>
 						</div>
 				</>
@@ -199,7 +193,7 @@ export async function getStaticProps({ params, preview = false }) {
 		postdata: post,
 		preview,
 	  },
-    //revalidate: 10,
+    revalidate: 10,
   };
 }
 

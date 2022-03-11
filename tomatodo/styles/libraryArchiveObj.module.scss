@@ -38,7 +38,6 @@
 			> h3 {
 				font-size: 1.5rem;
 			}
-
 		}
 
 		.nrOfTodosIcon {
@@ -87,8 +86,6 @@
 	}
 
 	h3 {
-	//margin: 5rem auto 0;
-	
 	font-size: 1.3rem;
 	}
 	
@@ -99,7 +96,6 @@
 
 	@media screen and (min-width: 600px) {
 		padding-left: 2.5rem;
-		//padding-top: 5.4rem;
 		width: 450px;
 	}
 
@@ -126,7 +122,6 @@
 	left: 0;
 	background-color: #212121;
 	opacity: 0;
-
 	transition: opacity 0.5s ease;
 
 	&.overlayVisible {
@@ -135,12 +130,9 @@
 	}
 }
 
-
-
 .optionsDiv {
 	position: absolute;
 	top: 1rem;
-	//z-index: 99;
 	z-index: 9;
 	text-align: center;
 	height: 0px;
@@ -148,7 +140,6 @@
 	transition: height 0.5s ease;
 
 	.btnContainer {
-		//z-index: 9999;
 		z-index: 9999;
 		position: relative;
 		display: flex;
@@ -196,10 +187,6 @@
 				background-image: url('../svgAssets/deleteTomatoFlippedNew.svg');
 			}
 
-			/* &.playBtn {
-				margin: 15px 0 0 15px;
-			} */
-
 			&:hover {
 				cursor: pointer;
 			}
@@ -231,7 +218,6 @@
 
 .showSettings {
 	position: relative;
-	//top: -30px;
 	height: 0;
 	transition: all 1s ease;
 	opacity: 1;
@@ -243,66 +229,6 @@
 	transition: all 0.5s ease;
 	display: block;
 
-/* 
-	z-index: 9999;
-		position: fixed;
-		top: 20px;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
-		align-items: center;
-		background-color: $color-container-bg;
-		width: 90vw;
-		max-width: 414px;
-		border-radius: 20px;
-		min-height: fit-content;
-		padding: 52px;
-		font-family: $font-family;
-	
-		opacity: 1;
-		transition: opacity 0.5s ease;
-
-		.formHeader {
-			color: $color-pink;
-			margin-bottom: 0;
-			font-size: 2.5rem;
-			letter-spacing: 2px;
-		}
-
-
-		.inputTomato {
-			border-radius: 100px;
-			border: 1px solid $color-orange;
-			padding: 0 22px;
-			font-size: 1.2rem;
-			font-weight: bold;
-			height: 50px;
-			margin: 1rem auto;
-			opacity: 1;
-			transition: all 0.5s ease;
-
-
-			border: 1px solid $color-pink;
-			border-radius: 100px;
-			color: $color-darkgrey;
-	
-			margin-top: 35px;
-
-
-			font-size: 1rem;
-				line-height: 2.7rem;
-				padding: 0 22px;
-				font-weight: bold;
-				//width: 232px;
-				width: 100%;
-		}
- */
-		
-		
-		
-
-		///////////////////////
-
 
 
 	@media screen and (min-width: 800px) {
@@ -310,8 +236,6 @@
 		position: absolute;
 		height: 500px;
 		width: 400px;
-		//transform: translateX(100%);
-
 		transition: all 0.5s ease;
 	}
 } 
@@ -320,7 +244,6 @@
 .showActiveLists {
 	position: relative;
 	top: 0;
-	//top: -30px;
 	height: 0;
 	transition: all 1s ease;
 	opacity: 1;
@@ -377,8 +300,6 @@
 		position: absolute;
 		height: 500px;
 		width: 400px;
-		//transform: translateX(100%);
-		
 		transition: all 0.5s ease;
 	}
 }
@@ -391,8 +312,6 @@
 
 		.btnContainer {
 			z-index: 99;
-	//			height: 100px;
-			//transform: translateY(100px);
 			transition: all 0.5s ease;
 
 			z-index: 9999;
@@ -400,17 +319,13 @@
 			left: 0;
 			right: 0;
 			@media screen and (min-width: 800px) {
-				//transform: translateX(-50vw);
 				transition: all 0.5s ease;
-				//height: 100%;
 			}
 		}
 		@media screen and (min-width: 800px) {
-			//transform: translateX(0);
 			flex-direction: row-reverse;
 			align-items: center;
 			justify-content: flex-start;
-			//top: 0;
 			transition: width 0.5s ease;
 			height: 500px;
 			width: 100px;
@@ -443,26 +358,7 @@
 				opacity: 1;
 				transition: all 0.5s ease;
 			}
-
-			/* @media screen and (min-width: 800px) {
-				position: absolute;
-				height: 500px;
-				width: 400px;
-				transform: translateX(-100px);
-				right: 0;
-				transition: all 0.5s ease;
-			} */
 		}
-
-		/* @media screen and (min-width: 800px) {
-			transition: all 0.5s ease;
-			width: 500px;
-			right: -10vw;
-			height: 500px;
-			//z-index: 99999;
-			z-index: 9;
-			transform:translateX(-100px);
-		} */
 	}
 
 	&.visibleLists {
@@ -484,35 +380,8 @@
 			.currentListsItem {
 				opacity: 1;
 				transition: all 0.5s ease;
-				//overflow-y: scroll;
 			}
-
-			/* @media screen and (min-width: 800px) {
-				position: absolute;
-				height: 500px;
-				transition: all 0.5s ease;
-				width: 400px;
-				right: 0;
-				transform: translateX(-100px);
-			} */
 		}
-		/* @media screen and (min-width: 800px) {
-			transition: all 0.5s ease;
-			height: 500px;
-			width: 500px;
-			transform: translateX(0);
-
-			&.visibleListForm {
-				position: absolute;
-				height: 500px;
-				transition: all 0.5s ease;
-				@media screen and (min-width: 800px) {
-					transition: all 0.5s ease;
-					width: 500px;
-					transform: translateX(0);
-				}
-			}
-		} */
 	}
 
 	&.visibleListForm {
@@ -522,7 +391,6 @@
 		@media screen and (min-width: 800px) {
 			transition: all 0.5s ease;
 			width: 400px;
-			//transform: translateX(0);
 		}
 	}
 
@@ -553,7 +421,6 @@
 	}
 	
 	@media screen and (min-width: 800px) {
-		//right: -10vw;
 		left: unset;
 		top: unset;
 		top: 0;
@@ -568,29 +435,9 @@
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 .formContainer {
 	z-index: 9999;
 	position: relative;
-	//position: fixed;
 	top: 20px;
 	display: flex;
 	flex-direction: column;
@@ -618,18 +465,6 @@
 		margin-top: 5rem;
 	}
 
-	/* .smallTomato {
-		position: absolute;
-		top: -58px;
-		height: 110px;
-		width: 110px;
-		background-image: url('../svgAssets/vitkant-small.svg');
-		background-repeat: no-repeat;
-		overflow: visible;
-		background-size: contain;
-		background-position: center;
-	} */
-
 	.input {
 		border: 1px solid $color-pink;
 		border-radius: 100px;
@@ -642,7 +477,6 @@
 			line-height: 2.7rem;
 			padding: 0 22px;
 			font-weight: bold;
-			//width: 232px;
 			width: 100%;
 		}
 	}
@@ -656,8 +490,6 @@
 			border-radius: 100px;
 			font-size: 1.125rem;
 			line-height: 2.4rem;
-			//margin-top: 35px;
-
 			font-weight: bold;
 
 			&:hover {

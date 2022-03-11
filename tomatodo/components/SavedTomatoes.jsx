@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
 
-const ActiveLists = ({tomatoes, setSideListsVisible, setOpen, open, page}) => {
+const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 
 	const handleClickTomato = (tomato, index) => {

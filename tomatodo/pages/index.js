@@ -3,19 +3,20 @@ import client, {
   getClient,
   usePreviewSubscription,
 } from "../lib/sanity";
-import React, { useContext, useEffect, useState } from 'react';
+
+import React, { useContext, useEffect, useState, useRef } from 'react';
 import styles from '../styles/Home.module.scss';
 
 import { groq } from "next-sanity";
-import SavedTomatoes from '../components/SavedTomatoes';
 import ActiveLists from "../components/ActiveLists";
 import SavedLists from "../components/SavedLists";
-import {sharedState} from "../context/TodoContext";
+import {useUpdateContext, useTodoContext} from "../context/TodoContext"
 import ListContainer from "../components/ListContainer";
-
-export default function Post(props) {
+import Resize from '../components/Resize';
+export default function Post({postdata, preview}) {
+	const sectionRef = useRef();
+	const [width, setWidth] = useState(); 
 	const [open, setOpen] = useState(0); 
-  const {postdata, preview} = props;
 
   const router = useRouter();
 
@@ -25,31 +26,25 @@ export default function Post(props) {
   });
 
   const activeLists = posts.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-  const savedLists = posts.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+	const savedLists = posts.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+	const tomatoList = posts.tomatoLibrary;
 
-  const fetchNoPreview = async () => {
-	let fetched;
+const currentState = useUpdateContext()
 
-	if (client) {
-		fetched = await client.fetch(
-			 `*[_type == "tomato"]`
-		)
-		console.log('no preview', fetched)
-	}
-  }
-
-  useEffect(() => {
-	  fetchNoPreview()
-  }, [])
 
   return (
-    <div className={styles.wrapper}>
-		<SavedTomatoes tomatoes={posts.tomatoLibrary} page={'home'} />
-     	<ActiveLists lista={activeLists}  page={'home'} />
-		 <SavedLists lista={savedLists} page={'home'} />
-		 <ListContainer itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={activeLists} setAddListFormIsVisible />
-		 <ListContainer itemType={'todos'} setOpen={setOpen} open={open} page={'home'} list={activeLists} setAddListFormIsVisible />
-		 <ListContainer itemType={'todos'} setOpen={setOpen} open={open} page={'home'} list={activeLists} setAddListFormIsVisible />
+    <div className={styles.wrapper} ref={sectionRef}>
+		<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
+		 {width > 600 ?(<>
+			<ListContainer key='tomatoListLg' itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={tomatoList} setAddListFormIsVisible />
+			<ListContainer key='currentListLg' itemType={'pågående listor'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible />
+		 <ListContainer key='savedListsLg' itemType={'sparade listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
+		 </>)
+		 : 
+		(<> <ListContainer key='tomatoList' itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={tomatoList} setAddListFormIsVisible />
+		 <ListContainer key='savedList' itemType={'sparade listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
+		 <ListContainer key='currentList' itemType={'pågående listor'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible /></>)
+		 }
     </div>
   );
 }
@@ -75,6 +70,7 @@ const query = groq`
 	}
   }`;
 
+
 export async function getStaticProps({ params, preview = false }) {
 	const post = await getClient(preview).fetch(query);
   
@@ -86,16 +82,3 @@ export async function getStaticProps({ params, preview = false }) {
 	  revalidate: 10,
 	};
   }
-/* 
-  // pages/blog.js
-  import { loadData } from '../lib/load-posts'
-  
-  // This function runs only on the server side
-  export async function getStaticProps() {
-	// Instead of fetching your `/api` route you can call the same
-	// function directly in `getStaticProps`
-	const data = await loadData()
-  
-	// Props returned will be passed to the page component
-	return { props: { data } }
-  } */

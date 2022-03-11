@@ -3,8 +3,12 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import styles from '../styles/activeLists.module.scss';
 import clsx from 'clsx';
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
+
 
 const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato, setAddListFormIsVisible}) => {
+	
+	const currentState = useUpdateContext()
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home' || page === 'tomato');
 
 

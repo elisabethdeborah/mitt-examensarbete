@@ -270,3 +270,10 @@
 	  transform: scale(0.3);
 	}
   }
+
+
+  .addTime {
+	  @include pink-btn;
+	  @include hover-btn;
+
+  }

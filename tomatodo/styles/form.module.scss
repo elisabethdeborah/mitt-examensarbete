@@ -1,7 +1,11 @@
 @import './variables.scss';
 
+
 .formContainer {
-	position: relative;
+	z-index: 9999;
+//	position: relative;
+	position: fixed;
+	top: 10%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-evenly;
@@ -11,20 +15,23 @@
 	max-width: 414px;
 	border-radius: 20px;
 	min-height: fit-content;
-	margin-top: 3rem;
+	max-height: 80vh;
 	padding: 52px;
+	font-family: $font-family;
 
-	.smallTomato {
-		position: absolute;
-		top: -58px;
-		height: 110px;
-		width: 110px;
-		background-image: url('../svgAssets/vitkant-small.svg');
-		background-repeat: no-repeat;
-		overflow: visible;
-		background-size: contain;
-		background-position: center;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+	
+	.formHeader {
+		color: $color-pink;
+		margin-bottom: 0;
+		font-size: 2.5rem;
+		letter-spacing: 2px;
 	}
+
+	
+
+	
 
 	.input {
 		border: 1px solid $color-pink;
@@ -52,7 +59,7 @@
 			border-radius: 100px;
 			font-size: 1.125rem;
 			line-height: 2.4rem;
-			margin-top: 35px;
+			//margin-top: 35px;
 
 			font-weight: bold;
 
@@ -74,5 +81,115 @@
 			margin-left: 3px;
 		}
 	}
+
+	&.formIsVisible {
+		opacity: 1;
+		bottom: 1rem;
+	transition: opacity 0.5s ease;
+	}
+
+	@media screen and (min-width:600px) {
+		top: 100px;
+		left: calc(50vw - 414px /2);
+		&.archObj {
+			top: 0;
+			left:0;
+			height: 100%;
+		}
+
+		.smallTomato {
+			position: absolute;
+			top: -58px;
+			height: 110px;
+			width: 110px;
+			background-image: url('../svgAssets/vitkant-small.svg');
+			background-repeat: no-repeat;
+			overflow: visible;
+			background-size: contain;
+			background-position: center;
+		}
+
+		&.tomatoFormContainer {
+			margin-top: 5rem;
+		}
+	}
+
+	&.archObj {
+		top: 0;
+		left:0;
+	}
 }
 
+/* .showOverlay {
+	z-index: 8;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #212121;
+	opacity: 0;
+
+	transition: opacity 0.5s ease;
+
+	&.overlayVisible {
+		opacity: 0.8;
+		transition: opacity 0.5s ease;
+	}
+} */
+
+.showOverlay {
+	z-index: 8;
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #212121;
+	opacity: 0;
+
+	transition: opacity 0.5s ease;
+
+	&.overlayVisible {
+		opacity: 0.8;
+		transition: opacity 0.5s ease;
+	}
+}
+
+.timeInputContainer {
+	width: 80%;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+	border: 1px solid $color-pink;
+	border-radius: 20px;
+	font-size: 1rem;
+	margin: 2rem auto;
+	color: $color-darkgrey;
+
+	> select {
+		border: none;
+		padding: 1rem;
+		font-size: 1rem;
+		background-color: transparent;
+		text-align: center;
+		width: 45%;
+	}
+}
+
+.timeInputPlaceholder {
+	height: 50px;
+}
+
+/* //////@at-root
+height: 100%
+top: 0
+left: 0
+
+SETFORMISVISIBLE IS NOT A FUNKTION
+tomato/todo side options:
+/////// */
+
+.archiveForm {
+	border: 2px solid red;
+}

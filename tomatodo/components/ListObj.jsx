@@ -10,7 +10,7 @@ const ListObj = ({listItem, width}) => {
 	return (
 		listItem ? (
 			width < 500 ? 
-				<article key={listItem._key} className={clsx(styles.todoArticle, {[styles.checkedItem]: listItem.checked === true})}>
+				<article key={listItem._id} className={clsx(styles.todoArticle, {[styles.checkedItem]: listItem.checked === true})}>
 					<div className={styles.todoTextSection}>
 						<h3 className={styles.todoName}>{listItem.title}</h3>
 						<p className={styles.todoDescription}>{listItem.description}</p>
@@ -24,7 +24,7 @@ const ListObj = ({listItem, width}) => {
 					<DeleteButton color={'blue'} listItem={listItem}/>
 				</article> 
 			:
-				<article key={listItem._key} className={clsx(styles.todoArticle, {[styles.checkedItem]: listItem.checked === true})}>
+				<article key={listItem._id} className={clsx(styles.todoArticle, {[styles.checkedItem]: listItem.checked === true})}>
 					<article className={styles.todoBorder} />
 					<CheckBox listItem={listItem} />
 					<div className={styles.todoTextSection}>

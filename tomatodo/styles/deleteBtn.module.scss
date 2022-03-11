@@ -59,13 +59,14 @@
 	border-radius: 20px;
 	border: 2px solid $color-pink;
 	color: $color-darkgrey;
-	padding: 1rem;
+	padding: 2rem;
 	text-align: center;
+	line-height: 2rem;
 
 	.btnContainer {
 		display: flex;
-		flex-direction: row;
-		width: 100%;
+		flex-direction: column;
+		width: 50%;
 		> .warningBtn {
 			@include hover-btn;
 			border: 1px solid $color-pink;
@@ -75,6 +76,7 @@
 			//margin-top: 35px;
 	
 			font-weight: bold;
+			margin-top: 1rem;
 	
 		}
 		.close {
@@ -97,6 +99,6 @@
 		left: calc(50vw - 200px);
 		right: 0;
 		font-size: 1.2rem;
-			margin-right: 1rem;
+		margin-right: 1rem;
 	}
 }

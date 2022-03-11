@@ -16,7 +16,7 @@ import client, {
 
 export function TodoWrapper({children}) {
 	
-	const [otherState, setOtherState] = useState(null);
+	const [initialFetch, setInitialFetch] = useState(null);
 	const [currentItem, setCurrentItem] = useState(null);
 
 
@@ -27,7 +27,8 @@ export function TodoWrapper({children}) {
   }, []);
 
   const state = {
-	 user,
+	 initialFetch,
+	 setInitialFetch
   };
 
   const currentState = {

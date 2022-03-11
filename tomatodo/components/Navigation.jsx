@@ -14,9 +14,6 @@ const Navigation = ({navIsOpen, setNavIsOpen}) => {
 				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/'})}>
 					<Link href='/'>Start</Link>
 				</li>
-				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/sparade-listor'})}>
-					<Link href='/sparade-listor'>Mina sparade listor</Link>
-				</li>
 				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/timer'})}>
 					<Link href='/timer'>Timer</Link>
 				</li>
@@ -29,8 +26,8 @@ const Navigation = ({navIsOpen, setNavIsOpen}) => {
 				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/mina-todos'})}>
 					<Link href='/mina-todos'>Mina todos</Link>
 				</li>
-				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/settings'})}>
-					<Link href='/settings'>Inställningar</Link>
+				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/sparade-listor'})}>
+					<Link href='/sparade-listor'>Mina sparade listor</Link>
 				</li>
 			</ul>
 		</nav>

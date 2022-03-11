@@ -27,3 +27,24 @@ $font-family: 'Paytone One', sans-serif;
 	}
 }
 
+@mixin white-btn {
+	color: $color-pink;
+	background-color: $color-white;
+	border: 1px solid $color-pink;
+	border-radius: 100px;
+	font-size: 1.125rem;
+	line-height: 2.4rem;
+	width: 130px;
+	font-weight: bold;
+}
+
+@mixin pink-btn {
+	color: $color-white;
+	background-color: $color-pink;
+	border: 1px solid $color-pink;
+	border-radius: 100px;
+	font-size: 1.125rem;
+	line-height: 2.4rem;
+	width: 130px;
+	font-weight: bold;
+}

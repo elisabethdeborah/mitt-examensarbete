@@ -32,7 +32,7 @@ const ActiveLists = ({tomatoes, setSideListsVisible, setOpen, open, page}) => {
 								<article className={styles.smallTomato} />
 								<section className={styles.textGroup}>
 									<h3>{tomatoes[index].title}</h3>
-									<div className={styles.tomatoTime}><NumberFormat timeSeconds={tomato.time} text={'tid: '} textSize={'0.75rem'} /></div>
+									<div className={styles.tomatoTime}><NumberFormat milliSeconds={tomato.time*1000} text={'tid: '} textSize={'0.75rem'} /></div>
 								</section>
 								<PlayTimerBtn listItem={tomato} color={"orange"} />
 								<Link href={"/timer"} passHref>

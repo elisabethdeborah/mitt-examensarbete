@@ -1,7 +1,6 @@
 import styles from '../styles/todoList.module.scss';
 
 const CheckBox = ({listItem}) => {
-	console.log(listItem, listItem.checked, listItem._id)
 	const handleCheckTodo = async() => {
 		await fetch("/api/todos/todo", {
 			method: "PUT",

@@ -88,44 +88,48 @@ const ListContainer = ({itemType, tomatoes, setSideListsVisible, setOpen, open, 
 					list.map((item, index) => {
 						return (
 							open !== index && (
-								<Link href={item._type === 'todoList'? '/mina-todos': ''} passHref>
+								item._type === "todoList"? 
+									<Link key={item._rev} href={'/mina-todos'} passHref>
+										<article  onClick={() => currentState.setCurrentItem(item)} className={clsx(
+											styles.hiddenLists, 
+											{[styles.isVisible] : contentIsVisible === true,
+											[styles.todoListObj] : item._type === 'todoList',
+											})}>
+											<section className={styles.textGroup}>
+												<h3>{item.title}</h3>
+												{item && item._createdAt && (<p>tillagd: {item._createdAt.slice(0, 10)}</p>)}
+											</section>
+											<section className={styles.iconGroup}>
+													<article className={styles.nrOfTodosIcon}>
+													<p className={styles.nrTodos}>{item.nrOfTodos? item.nrOfTodos: 0}</p>
+													</article>
+													<article className={styles.nrOfNotCheckedIcon}>
+													<p className={styles.nrNotChecked}>{item.numberOfNotChecked? item.numberOfNotChecked: 0}</p>
+													</article>
+													<article className={styles.nrOfCheckedIcon}>
+													<p className={styles.nrChecked}>{item.numberOfChecked? item.numberOfChecked: 0}</p>
+													</article>
+												</section>
+										</article>
+									</Link>
+
+									:
 									<article key={item._rev} onClick={() => currentState.setCurrentItem(item)} className={clsx(
 										styles.hiddenLists, 
 										{[styles.isVisible] : contentIsVisible === true,
 										[styles.tomatoObj] : item._type === 'tomato',
-										[styles.todoListObj] : item._type === 'todoList',
 										})}>
 										<>
-										{item._type === "tomato" && <article className={styles.smallTomato} />}
+										<article className={styles.smallTomato} />
 										<section className={styles.textGroup}>
 											<h3>{item.title}</h3>
-											{item._type === "tomato"? (
 											<div className={styles.tomatoTime}>
 												<NumberFormat milliSeconds={item.time*1000} text={'tid: '} textSize={'0.75rem'} />
-											</div>)
-											: item && item._createdAt && (<p>tillagd: {item._createdAt.slice(0, 10)}</p>)}
+											</div>
 										</section>
 										</>
-										{
-											item._type === "todoList" ? (
-											<section className={styles.iconGroup}>
-												<article className={styles.nrOfTodosIcon}>
-												<p className={styles.nrTodos}>{item.nrOfTodos? item.nrOfTodos: 0}</p>
-												</article>
-												<article className={styles.nrOfNotCheckedIcon}>
-												<p className={styles.nrNotChecked}>{item.numberOfNotChecked? item.numberOfNotChecked: 0}</p>
-												</article>
-												<article className={styles.nrOfCheckedIcon}>
-												<p className={styles.nrChecked}>{item.numberOfChecked? item.numberOfChecked: 0}</p>
-												</article>
-											</section>
-												):
 											<PlayTimerBtn listItem={item} />
-
-										}
-										
 									</article>
-									</Link>
 								)
 							)
 					})

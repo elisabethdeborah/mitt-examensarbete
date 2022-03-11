@@ -1,8 +1,13 @@
 import styles from '../styles/deleteBtn.module.scss';
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import clsx from 'clsx';
 import { useState } from 'react';
+
 const DeleteButton = ({color, listItem, size}) => {
 	const [showWarning, setShowWarning] = useState(false);
+	const state = useTodoContext()
+	const fetchAllLists = state.fetchTodos;
+
 	const handleDelete = async (listItem) => {
 		console.log('deleteklick:',listItem.title, listItem._id, listItem._type, 'item', listItem)
 
@@ -10,17 +15,34 @@ const DeleteButton = ({color, listItem, size}) => {
 			await fetch("/api/todos/todo", {
 				method: "DELETE",
 				body: listItem._id,
-			  });
+			  })
+			  
+		.then(console.log('posted'))
+		.catch(error => {
+			console.log('error:', error);
+		})
+		fetchAllLists();
+		
+			 
+			  ;
 		} else if (listItem._type === 'todoList') {
 			await fetch("/api/todos/todolist", {
 				method: "DELETE",
 				body: listItem._id,
-			  });
+			  })
+		.then(console.log('posted'))
+		.catch(error => {
+			console.log('error:', error);
+		})
+		fetchAllLists();
+		
+			  ;
 		} else if (listItem._type === 'tomato') {
 			await fetch("/api/tomatoes/tomato", {
 				method: "DELETE",
 				body: listItem._id,
-			  });
+			  })
+		fetchAllLists();
 		}
 		setShowWarning(false);
 	}

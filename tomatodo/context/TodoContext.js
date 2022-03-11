@@ -1,9 +1,6 @@
  import { useRouter } from "next/router";
 import { groq } from "next-sanity";
 import { createContext, useContext, useEffect, useState } from 'react';
-import {server} from '../config/index';
-
-import styles from '../styles/Home.module.scss';
 import client, {
 	getClient,
 	usePreviewSubscription,
@@ -19,22 +16,44 @@ export function TodoWrapper({children}) {
 	const [initialFetch, setInitialFetch] = useState(null);
 	const [currentItem, setCurrentItem] = useState(null);
 
-
-  //const { user, loading } = useAuth();
-  const { user, loading } = useState('elisabeth');
-
-  useEffect(() => {
-  }, []);
+  const fetchTodos = async () => {
+    let fetchedTodos;
+      fetchedTodos = await client.fetch(
+			`{
+				"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
+				  title,
+				  saved,
+				  "todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
+				  "nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
+				  'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
+				  'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
+				  ...,
+				  },
+			  
+				  "tomatoLibrary": * [_type == "tomato"] | order(_createdAt desc) {
+				  title, 
+				  time, 
+				  slug,
+				  ...,
+				  "slug": slug.current,
+				}
+			  }`);
+	  state.setInitialFetch(fetchedTodos);
+	  console.log('fetched, updated lists?')
+  };
 
   const state = {
 	 initialFetch,
-	 setInitialFetch
+	 setInitialFetch,
+	 fetchTodos
   };
 
   const currentState = {
 	  currentItem,
 	  setCurrentItem
   }
+
+
 
 	return (
 		<TodoContext.Provider value={state}>

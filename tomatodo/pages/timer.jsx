@@ -5,26 +5,56 @@ import styles from '../styles/timer.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import useCountDown from 'react-countdown-hook';
 import ProgressBar from "../components/ProgressBar";
-import gsap from 'gsap';
+import NumberFormat from "../components/NumberFormat";
+import TimerComponent from "../components/TimerComponent";
+
+import FormTemplate from "../components/FormTemplate";
+
+import { useRouter } from "next/router";
+import client, {
+  getClient,
+  usePreviewSubscription,
+} from "../lib/sanity";
+
+import { groq } from "next-sanity";
 
 
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
-
-
-
-const Timer = ({tomato}) => {
-	const [isPlaying, setIsPlaying] = useState(false);
+const Timer = ({timerItemData, preview}) => {
 	const [isRunning, setIsRunning] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
 	const [timesUp, setTimesUp] = useState(false);
 	const [ soundOn, setSoundOn ] = useState(false);
-	const [formattedTime, setFormattedTime] = useState();
+	const [inputTime, setInputTime] = useState(0);
+	const [inputformVisible, setInputformVisible] = useState(false);
+	const [overlay, setOverlay] = useState(false);
+	const router = useRouter();
+	
+	const [userInputName, setUserInputName] = useState('');
+	const [userInputText, setUserInputText] = useState('');
+	const [errMessage, setErrMessage] = useState('');
+	
+	const timerItem =useUpdateContext().currentState;
+	const setTimerState = useUpdateContext().setCurrentItem;
 
-	const initialTime = tomato ? tomato.time : 30000;
-	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime, 1000);
+	const state = useTodoContext()
+	const currentState = useUpdateContext()
+	let currentStateTime = currentState.currentItem? Number(currentState.currentItem.time)*1000:null;
+
+	const [initialTime, setInitialTime] = useState(currentStateTime);
+	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime);
+	const [formPlay, setFormPlay] = useState(false);
 
 	const [percentage, setPercentage ] = useState(0);
-	const [color, setColor] = useState();
+
+	useEffect(() => {
+		setTimesUp(false)
+		initialTime? handlePlay():null
+		return () => {
+			handleStop()
+		}
+	}, [])
 
 
 	/////
@@ -35,54 +65,54 @@ const Timer = ({tomato}) => {
 		setWidth(newWidth);
 	}
 
-	const timeFormat = (timeSeconds) => {
-		let time = Number(timeSeconds/1000)				
-		let hours = Math.floor(time/60/60);
-		hours < 10 ? hours = `0${hours}` : hours;
-		let minutes = (Math.floor(time/60) % 60);
-		//minutes > 60? minutes - 60 : minutes;
-		minutes < 10 ? minutes = `0${minutes}` : minutes;
-		let seconds = time%60;
-		seconds < 10 ? seconds = `0${seconds}` : seconds;
-		let timeForm = `${hours}:${minutes}:${seconds}`;
-		return timeForm;
-	  }
-	
 	useEffect(() => {
 		getListSize();
 		window.addEventListener("resize", getListSize);
+		
 		return () => {
 			window.removeEventListener("resize", getListSize);
 		}
 	  }, []);
 	  
 	  useEffect(() => {
-		  setPercentage(isInitialized && (Math.round((initialTime-timeLeft)/initialTime * 100)));
-		  isInitialized && timeLeft <= 0 && (setTimesUp(true));
-		  setFormattedTime(timeFormat(timeLeft))
-		  isInitialized && (calculateBgColor());
-		  return () => setPercentage(0);
+		console.log('timeLeft', timeLeft)
+
+		if (isInitialized && isRunning && timeLeft <= 0) {
+			setTimesUp(true);
+		} else {
+			setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
+			isInitialized && (calculateBgColor());
+		}
+		
+		  
+
+		  /* console.log(timeLeft, Math.round((initialTime-timeLeft)/initialTime*100))
+		  setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
+			isInitialized && isRunning && timeLeft <= 0 && (setTimesUp(true));
+		  isInitialized && (calculateBgColor()); */
+		  return () => {
+			  setTimesUp(false);
+		}
 	  }, [timeLeft])
 	  
 	  const restart = () => {
+		setTimesUp(false)
 		if (isInitialized) { 
 			setIsRunning(true);
 			start(initialTime);
-			//setColor(color)
 		}
 	  };
 
 	  const handlePlay = () => {
+		  setTimesUp(false)
 		  if (!isRunning) {
 		  if (! isInitialized) {
+			start()
 			  setIsInitialized(true);
 			  setIsRunning(true)
-			  start()
-			  //setColor(color)
+			  
 		  } else {
 			setIsRunning(true)
-			//gsap.to()
-			//start(timeLeft)
 			resume()
 		  }
 		}
@@ -99,9 +129,13 @@ const Timer = ({tomato}) => {
 	  setIsInitialized(false)
 	}
 
-	  const handleResume = () => {
-		  resume()
+	  const handleResume = (time) => {
+			
+		  setInitialTime(time)
+		  console.log('resume', time, initialTime)
+		  setIsInitialized(true)
 		  setIsRunning(true)
+		  start(time)
 	  }
 
 	  const handleReset = () => {
@@ -116,57 +150,54 @@ const Timer = ({tomato}) => {
 		  sectionRef.current.style.backgroundColor = '';
 		};
 
-/////////////////////
-
 	const calculateBgColor = () => {
 		console.log('percentage', percentage)
-		console.log('sectionRef',sectionRef.current.style.backgroundColor)
+		//console.log('sectionRef',sectionRef.current.style.backgroundColor)
 		const endColor = [217, 35, 90];
 		const middleColor = [252, 255, 8];
 		const startColor = [136, 218, 78];
-	const gamma = 3;
-	let step = percentage< 50? percentage/100: percentage/90;
+		const gamma = 3;
+		let step = percentage< 50? percentage/100: percentage/90;
 
-	step = Math.min(1, step);
+		step = Math.min(1, step);
 
-	const average = (a, b, percent) => {
-		let a_2 = Math.pow(a, gamma);
-		let b_2 = Math.pow(b, gamma);
-		let c_2 = a_2 + (b_2 - a_2) * percent
-		return Math.pow(c_2, 1/gamma);
+		const average = (a, b, percent) => {
+			let a_2 = Math.pow(a, gamma);
+			let b_2 = Math.pow(b, gamma);
+			let c_2 = a_2 + (b_2 - a_2) * percent
+			return Math.pow(c_2, 1/gamma);
+		}
+
+
+		const colorString = (r, g, b) => {
+			r = Math.min(255, Math.round(r));
+			g = Math.min(255, Math.round(g));
+			b = Math.min(255, Math.round(b));
+		return "#" 
+		+ ("0" + r.toString(16)).slice(-2) 
+		+ ("0" + g.toString(16)).slice(-2) 
+		+ ("0" + b.toString(16)).slice(-2)
+		}
+
+		const c = colorString(
+			average(startColor[0], middleColor[0], step),
+			average(startColor[1], middleColor[1], step),
+			average(startColor[2], middleColor[2], step)
+		);
+
+		const d = colorString(
+			average(middleColor[0], endColor[0], step),
+			average(middleColor[1], endColor[1], step),
+			average(middleColor[2], endColor[2], step)
+		);
+
+		if ( percentage <50) {
+			sectionRef.current.style.backgroundColor = c;
+		} else if (percentage >= 50) {
+			sectionRef.current.style.backgroundColor = d;
+		}
 	}
 
-
-	const colorString = (r, g, b) => {
-		r = Math.min(255, Math.round(r));
-		g = Math.min(255, Math.round(g));
-		b = Math.min(255, Math.round(b));
-	return "#" 
-	+ ("0" + r.toString(16)).slice(-2) 
-	+ ("0" + g.toString(16)).slice(-2) 
-	+ ("0" + b.toString(16)).slice(-2)
-	}
-
-	const c = colorString(
-		average(startColor[0], middleColor[0], step),
-		average(startColor[1], middleColor[1], step),
-		average(startColor[2], middleColor[2], step)
-	);
-
-	const d = colorString(
-		average(middleColor[0], endColor[0], step),
-		average(middleColor[1], endColor[1], step),
-		average(middleColor[2], endColor[2], step)
-	);
-
-	if ( percentage <50) {
-		sectionRef.current.style.backgroundColor = c;
-	} else if (percentage >= 50) {
-		sectionRef.current.style.backgroundColor = d;
-	}
-	}
-
-//
 
 	return (
 	<div className={clsx(styles.timerPageWrapper, {
@@ -175,34 +206,48 @@ const Timer = ({tomato}) => {
 		 ref={sectionRef}>
 		<Meta title='Timer' />
 		<section className={styles.contentContainer} >
+			{
+				inputformVisible &&(
+				<FormTemplate formIsVisible={inputformVisible} setFormIsVisible={setInputformVisible} setUserInputName={setUserInputName} setUserInputText={setUserInputText} setUserInputTime={setInputTime} userInputTime={inputTime} setFormPlay={setFormPlay} handleResume={handleResume} setIsRunning={setIsRunning}/>
+				)}
 			<div className={styles.tomatoChartContainer} >
 			{
-				isInitialized && !timesUp ? (
+				isInitialized && !timesUp ? 
 					<PieChart className={clsx(
 						styles.viewPieChart, {[styles.isVisible]: isRunning})} startTime={initialTime} color={sectionRef.current && (sectionRef.current.style.backgroundColor)} timeLeft={timeLeft} /> 
-				) : (
-					<article className={clsx(styles.tomatoWhiteBorder, {[styles.isVisible]: !isRunning})} />
+				 : (
+					<article className={clsx(styles.tomatoWhiteBorder, {[styles.isVisible]: !isRunning, [styles.animate]: timesUp})} />
 				)
 			}
 			</div>
-			{!timesUp && (<article className={styles.tomatoCountDown} />)}
-			{tomato && (tomato.title)}
-			{timesUp ? (
+			{isInitialized && !timesUp && (<article className={styles.tomatoCountDown} />)}
+			<h2>{currentState.currentItem && (currentState.currentItem.title)}</h2>
+			{!currentState.currentItem && (<button className={styles.addTime} onClick={() => setInputformVisible(true)}>lägg till tid</button>)}
+			{isInitialized && timesUp ? (
+				<>
 			<section className={clsx(styles.timesUpHeaderContainer, {[styles.showText]: timesUp, [styles.hideText]: !timesUp})}>
 				<h1 className={styles.timesUpHeader}>Tiden är ute!</h1>
 			</section>
+			</>
 			) : ( 
 			<section className={clsx(styles.showCountdownNumbers, {[styles.hideNumber]: timesUp, [styles.showNumbers]: !timesUp})}>
-				<h2>{formattedTime}</h2>
+				{isInitialized && typeof timeLeft ==="number" ? <NumberFormat className={styles.formattedTime} milliSeconds={Number(timeLeft)} text={''} textSize={'1.5rem'} showSecs /> 
+				: 
+				<NumberFormat className={styles.formattedTime} milliSeconds={Number(initialTime)} text={''} textSize={'1.5rem'} showSecs />}
 			</section>
 			) }
 			{ !timesUp ? (
 				
 				width > 600 ? (
 					<section className={styles.buttonContainer}>
-						<article className={clsx(styles.timerBtn, styles.playBtn)} onClick={() => handlePlay()} />
-						{isRunning ? (<article className={clsx(styles.timerBtn, styles.pauseBtn)} onClick={() => handlePause()} />) : (<article className={clsx(styles.timerBtn, styles.stopBtn)} onClick={() => handleStop()} />)}
-						<article className={clsx(styles.timerBtn, styles.restartBtn)} onClick={() => restart()} />
+						<article className={clsx(styles.timerBtn, styles.playBtn, {[styles.disabled]: isRunning})} onClick={() => handlePlay()} />
+
+						{isRunning ? (
+						<article className={clsx(styles.timerBtn, styles.pauseBtn, {[styles.disabled]: !isRunning})} onClick={() => handlePause()} />
+						) 
+						: (<article className={clsx(styles.timerBtn, styles.stopBtn, {[styles.disabled]: !isInitialized})} onClick={() => handleStop()} />)
+						}
+						<article className={clsx(styles.timerBtn, styles.restartBtn, {[styles.disabled]: !isInitialized})} onClick={() => restart()} />
 						 <article className={clsx(styles.timerBtn, {[styles.soundOffBtn]: soundOn, [styles.soundOnBtn]: !soundOn})} onClick={() => setSoundOn(!soundOn)} />
 					</section>
 					) : (
@@ -216,6 +261,7 @@ const Timer = ({tomato}) => {
 					<article className={clsx(styles.timerBtn, styles.stopBtn)}  onClick={() => handleStopAlarm()} /> 
 				</section>
 			)}
+			
 			<ProgressBar 
 			initialTime={initialTime} 
 			timeLeft={timeLeft} 
@@ -226,5 +272,7 @@ const Timer = ({tomato}) => {
 		</section>
 	</div>
 )};
+  
+
 
 export default Timer;

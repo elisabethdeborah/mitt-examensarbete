@@ -25,11 +25,22 @@ export default function Post({postdata, preview}) {
     enabled: preview || router.query.preview !== undefined,
   });
 
+
+  const currentState = useUpdateContext()
+  const state = useTodoContext()
+ 
+
+  useEffect(() => {
+	state.setInitialFetch(posts);
+  }, [])
+
+
+
   const activeLists = posts.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
 	const savedLists = posts.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
 	const tomatoList = posts.tomatoLibrary;
 
-const currentState = useUpdateContext()
+
 
 
   return (

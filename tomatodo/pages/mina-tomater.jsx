@@ -19,7 +19,7 @@ import client, {
 
 import { groq } from "next-sanity";
 
-export default function MinaTomater(props) {
+export default function MinaTomater() {
 	<Meta title='Mina tomater' />
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [addTomatoFormIsVisible, setAddTomatoFormIsVisible] = useState(false);
@@ -34,20 +34,22 @@ export default function MinaTomater(props) {
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
 	const [currentObj, setCurrentObj] = useState(null);
 
-	const { postdata, preview } = props;
+	//const { postdata, preview } = props;
 
 	const router = useRouter();
 
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
   
-	const { data: posts } = usePreviewSubscription(query, {
+	/* const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
 	  });
+ */
 
 
-
+	  const activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
+	const savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
 
 
 	  
@@ -114,7 +116,7 @@ export default function MinaTomater(props) {
 						<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} />
 						) : (
 						<>
-						<ActiveLists lista={posts.currentLists} setOpen={setOpen} tomato={currentState.currentItem} open={4} page={'tomato'} setAddListFormIsVisible={setAddListFormIsVisible} />
+						<ActiveLists lista={activeLists} setOpen={setOpen} tomato={currentState.currentItem} open={4} page={'tomato'} setAddListFormIsVisible={setAddListFormIsVisible} />
 						<aside className={styles.optionContainer}>
 							<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
 								<h2>Skapa ny lista</h2>
@@ -140,8 +142,8 @@ export default function MinaTomater(props) {
 				<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> )}
 				
 				 
-				{posts.tomatoLibrary ? 
-					(posts.tomatoLibrary.map((list, index) => (
+				{state.initialFetch.tomatoLibrary ? 
+					(state.initialFetch.tomatoLibrary.map((list, index) => (
 						<LibraryArchiveObj  
 							key={list._rev} 
 							list={list} 
@@ -157,7 +159,7 @@ export default function MinaTomater(props) {
 							handleStartTodoList={handleStartTodoList}
 							overlay={overlay}
 							handleAddToTodo={handleAddToTodo}
-							currentLists={posts.currentLists}
+							currentLists={activeLists}
 							setShowChangeForm={setShowChangeForm}
 							setaddToListIsVisible={setaddToListIsVisible}
 							setCurrentObj={setCurrentObj}
@@ -171,7 +173,7 @@ export default function MinaTomater(props) {
 		</div>
 	)
 };
-
+/* 
 const query = groq`{
 		"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},
 		
@@ -197,5 +199,5 @@ export async function getStaticProps({ params, preview = false }) {
   };
 }
 
-
+ */
 

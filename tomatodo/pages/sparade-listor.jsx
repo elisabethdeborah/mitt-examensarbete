@@ -15,7 +15,7 @@ import { groq } from "next-sanity";
 
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
-export default function SparadeListor(props) {
+export default function SparadeListor() {
 	<Meta title='Mina sparade listor' />
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [showListObject, setShowListObject] = useState(false);
@@ -28,20 +28,26 @@ export default function SparadeListor(props) {
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
 	
 	const [showDelete, setShowDelete] = useState(false);
-	const { postdata, preview } = props;
+	//const { postdata, preview } = props;
 
 	
 
 	const router = useRouter();
   
-	const { data: posts } = usePreviewSubscription(query, {
+	/* const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
-	  });
+	  }); */
 	  const state = useTodoContext()
 	  const currentState = useUpdateContext()
-	  const currentLists = posts.currentLists;
-	  const savedLists = posts.savedLists;
+	  //const currentLists = posts.currentLists;
+	 // const savedLists = posts.savedLists;
+
+	const currentLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
+	const savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+
+
+	  
 	
 
 	const handleClick = (x, item) => {
@@ -120,7 +126,7 @@ export default function SparadeListor(props) {
 							setAddListFormIsVisible={setAddListFormIsVisible} 
 							handleClick={handleClick}
 							handleStartTodoList={handleStartTodoList}
-							currentLists={posts.currentLists}
+							currentLists={currentLists}
 							overlay={overlay}
 							handleAddToTodo={handleAddToTodo}
 
@@ -139,7 +145,7 @@ export default function SparadeListor(props) {
 		</div>
 	)
 };
-
+/* 
 const query = groq`{
 		"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},
 		
@@ -164,3 +170,4 @@ export async function getStaticProps({ params, preview = false }) {
     revalidate: 10,
   };
 }
+ */

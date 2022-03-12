@@ -21,7 +21,8 @@ import { groq } from "next-sanity";
 import Form from "../components/Form"; 
 
 
-export default function MinaTodos(props) {
+export default function MinaTodos() {
+	<Meta title='Mina todos' />
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	
 	const [sideListVisible, setSideListsVisible] = useState(true);
@@ -31,20 +32,27 @@ export default function MinaTodos(props) {
 
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
-
+	const fetchAllLists = state.fetchTodos;
 	///
-	const { postdata, preview } = props;
+	//const { postdata, preview } = props;
 
 	const router = useRouter();
   
-	const { data: posts } = usePreviewSubscription(query, {
+	/* const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
-	  });
+	  }); */
 
-	const activeLists = posts.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-	const savedLists = posts.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+	  let activeLists;
+	  let savedLists;
+	  let titles;
 
+	  if (state.initialFetch) {
+		activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
+		savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+		titles = activeLists.map(x => x.title);
+	  }
+	
 	const [open, setOpen] = useState(0); 
 
 	const handleSideListArrow = () => {
@@ -55,7 +63,10 @@ export default function MinaTodos(props) {
 		
 	}
 
-	let titles = activeLists.map(x => x.title);
+	useEffect(() => {
+		fetchAllLists()
+
+	}, [])
 
 
 	useEffect(() => {
@@ -124,7 +135,7 @@ export default function MinaTodos(props) {
 		</div>
 	)
 };
-
+/* 
 const query = groq`
 {
 	"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
@@ -150,3 +161,4 @@ export async function getStaticProps({ params, preview = false }) {
     revalidate: 10,
   };
 }
+ */

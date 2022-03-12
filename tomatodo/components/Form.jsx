@@ -7,7 +7,7 @@ import client, {
 	usePreviewSubscription,
   } from "../lib/sanity";
 
-const Form = ({className, setFormIsVisible, objectType, method, currentListDocId, defaultTime, page, setInputTime, thisList }) => {
+const Form = ({className, setFormIsVisible, objectType, typeName, method, currentListDocId, defaultTime, page, setInputTime, thisList }) => {
 	console.log('form item:', currentListDocId)
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
@@ -183,9 +183,9 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 
 	let header;
 
-	if (method === "POST") {
+	if (method === "POST" && currentState.currentItem ) {
 		header = `Ny ${currentState.currentItem.title}`
-	} else if (method === "PUT") {
+	} else if (method === "PUT" && currentState.currentItem) {
 		header = `Redigera ${currentState.currentItem.title}`
 	}
 
@@ -206,7 +206,7 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 				<>
 			{objectType === 'tomato' && page !== 'tomater' && (<aside className={styles.smallTomato} />)}
 			
-			<h1 className={styles.formHeader}>{header}</h1>
+			<h1 className={styles.formHeader}>{header? header: `Ny ${typeName}`}</h1>
 			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder={currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`} onChange={(e) => setUserInputName(e.target.value)} />
 			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} />
 			

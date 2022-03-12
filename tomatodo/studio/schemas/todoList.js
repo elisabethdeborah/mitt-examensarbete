@@ -50,7 +50,14 @@ export default {
 	preview: {
 	  select: {
 		title: "title",
-		slug: "slug"
+		added: "publishedAt"
 	  },
+	  prepare(selection) {
+		const {title, added} = selection
+		return {
+		  title: title,
+		  subtitle: added.slice(0, 10) // YYYY-MM-DD
+		}
+	  }
 	}
   };

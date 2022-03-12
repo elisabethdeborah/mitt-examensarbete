@@ -1,3 +1,4 @@
+import React from 'react'; 
 
 export default {
 	name: "todo",
@@ -24,7 +25,7 @@ export default {
 		title: "Tid",
 		name: "time",
 		type: "number",
-		description: "Tid att räkna ner när den här todon görs.",
+		description: "Tid att räkna ner när den här todon görs (i sekunder).",
 		validation: Rule => Rule.min(0).warning('Glöm inte att fylla i en tid om du vill kunna räkna ner'),
 	},
 	{
@@ -55,13 +56,19 @@ export default {
 		checked: false,
 		publishedAt: new Date().toISOString(),
 	  }),
-	preview: {
-	  select: {
-		title: "title",
-		time: "time",
-		name: "name",
-		checked: "checked",
-		slug: "slug"
-	  },
-	}
+
+	  preview: {
+		select: {
+		  title: "title",
+		  checked: "checked",
+		date: "publishedAt"
+		},
+		prepare({title, checked, date}) {
+			  return {
+				title: title,
+				subtitle: date.slice(0, 10), // YYYY-MM-DD
+				media: <span style={{fontSize: '1.5rem'}}>{checked ? '✅': '⬜'}</span>
+			  }
+		}
+	  }
   };

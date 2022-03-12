@@ -30,7 +30,7 @@ export default {
 		title: "Tid",
 		name: "time",
 		type: "string",
-		description: "Tid att räkna ner när den här todon görs.",
+		description: "Tid att räkna ner när den här todon görs (tiden anges i sekunder).",
 		validation: Rule => Rule.min(0).warning('Glöm inte att fylla i en tid om du vill kunna räkna ner'),
 	},
 	{
@@ -71,12 +71,17 @@ export default {
 		publishedAt: new Date().toISOString()
 	  }),
   
-	preview: {
-	  select: {
-		title: "title",
-		time: "time",
-		name: "name",
-		slug: "slug"
-	  },
-	}
+	  preview: {
+		select: {
+		  title: "title",
+		  added: "publishedAt",
+		},
+		prepare(selection) {
+		  const {title, added, time} = selection
+		  return {
+			title: title,
+			subtitle: added.slice(0, 10), 
+		  }
+		}
+	  }
   };

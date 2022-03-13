@@ -1,4 +1,5 @@
 import S from "@sanity/desk-tool/structure-builder";
+//import ConfigPreview from './ConfigPreview';
 
 export default () =>
   S.list()
@@ -8,24 +9,43 @@ export default () =>
 		.title("Todo-listor")
 		.schemaType("todoList")
         .child(
-			S.documentList()
-			.title("lista")
-			.schemaType("todoList")
-			.filter('_type == "todoList"')
+			S.list()
+				.title('Alla todo-listor')
+				.items([
+					S.listItem()
+					.title("Sparade todo-listor")
+					.schemaType("todoList")
+					.child(
+						S.documentList()
+						.title("lista")
+						.schemaType("todoList")
+						.filter('_type == "todoList" && saved')
+					),
+					S.listItem()
+					.title("Ej sparade todo-listor")
+					.schemaType("todoList")
+					.child(
+						S.documentList()
+						.title("lista")
+						.schemaType("todoList")
+						.filter('_type == "todoList" && !saved')
+					)
+				])
 		),
+		S.divider(),
 		S.listItem()
-  			.title('Todo')
+  			.title('Alla todos')
 			.schemaType('todo')
-			.id('dddd')
+			.id('alltodos')
 			.child(
 				S.documentList()
 				.title("todo")
 				.filter('_type == "todo"')
 			),
 		S.listItem()
-			.title('Tomato')
+			.title('Alla tomater')
 			.schemaType('tomato')
-			.id('tttt')
+			.id('alltomatoes')
 			.child(
 				S.documentList()
 				.title("tomato")

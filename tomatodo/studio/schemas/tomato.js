@@ -76,7 +76,7 @@ export default {
 		  added: "publishedAt",
 		},
 		prepare(selection) {
-		  const {title, added, time} = selection
+		  const {title, added} = selection
 		  return {
 			title: title,
 			subtitle: added.slice(0, 10), 

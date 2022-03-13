@@ -53,7 +53,6 @@ export default {
 				  type: "reference",
 				  to: [
 					  {type: "todoList"},
-					  {type: "todo"},
 				  ]
 			  }
 		  ]

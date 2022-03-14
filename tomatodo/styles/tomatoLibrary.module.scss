@@ -12,13 +12,14 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-evenly;
+	justify-content: space-between;
 	width: 90vw;
 	max-width: 1350px;
 	background-color: $color-container-bg;
 	border-radius: 20px;
 	margin: 2rem auto;
-	padding: 50px 0;
+	padding: 40px 0 30px;
+	flex-wrap: wrap;
 
 	.emptyList {
 		position: relative;
@@ -47,7 +48,6 @@
 	}
 
 	.addListIconBtn {
-		//background-image: url('../svgAssets/add-tomato-btn-m.svg');
 		background-image: url('../svgAssets/addTomatoNew.svg');
 		background-repeat: no-repeat;
 		background-position: center;
@@ -60,9 +60,6 @@
 		}
 		
 	}
-	/* h3 {
-		color: $color-white;
-	} */
 
 	.tomatoListTop {
 		position: absolute;
@@ -114,114 +111,14 @@
 	@media screen and (min-width: 600px) {
 		flex-direction: row;
 		flex-wrap: wrap;
+		padding: 50px;
 	}
 }
 
-/* .listObject {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	height: 250px;
-	width: 300px;
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: contain;
-	color: $color-white;
-	padding-top: 4.4rem;
-	padding-left: 1.5rem;
-	margin: 2rem auto;
-	transition: all 1s ease;
-
-	&.orangeTomato {
-		background-image: url('../svgAssets/orange-tomato-m.svg');
-	}
-	&.pinkTomato {
-		background-image: url('../svgAssets/pink-tomato-m.svg');
-	}
-
-	&.pinkTodoList,
-	&.blueTodoList {
-		flex-direction: row;
-		align-items: center;
-		width: 325px;
-		height: 230px;
-		border-radius: 20px;
-
-		.textGroup {
-			display: flex;
-			flex-direction: column;
-			> h3 {
-				font-size: 1.5rem;
-			}
-
-		}
-
-		.nrOfTodosIcon {
-			background-image: url('../svgAssets/total-nr-todos.svg');
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: cover;
-			width: 84px;
-			height: 84px;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-
-			.nrTodos {
-				font-size: 2rem;
-				font-weight: bold;
-				margin-right: 20px;
-				color: $color-darkgrey;
-			}
-		}
-
-	}
-
-	&.blueTodoList {
-		background-color: $color-article-bg;
-		color: $color-darkgrey;
-	}
-
-	&.pinkTodoList {
-		background-color: $color-pink;
-		color: $color-white;
-	}
-
-	h3 {
-	//margin: 5rem auto 0;
-	
-	font-size: 1.3rem;
-	}
-	
-	p {
-		font-size: 1.3rem;
-		margin: 0.5rem auto;
-	}
-
-	@media screen and (min-width: 600px) {
-		padding-left: 2.5rem;
-		//padding-top: 5.4rem;
-		width: 450px;
-	}
-
-	&:hover {
-		cursor: pointer;
-	}
-
-	.timeParagraph {
-		display: flex;
-		flex-direction: row;
-	}
-} */
-
-/* .showListObject {
-	z-index: 9;
-	position: relative;
-} */
 
 .showOverlay {
-	z-index: 8;
+	//z-index: 8;
+	z-index: 9;
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -239,350 +136,8 @@
 }
 
 
-/* 
-.optionsDiv {
-	position: relative;
-	top: 0;
-	z-index: 99;
-	text-align: center;
-	height: 0px;
-	max-width: 500px;
-	width: 90vw;
-	border-radius: 20px;
-	transition: height 0.5s ease;
-	overflow: hidden;
-
-	.btnContainer {
-		z-index: 9999;
-		position: relative;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: center;
-		top: -100px;
-
-		transform: translateY(0px);
-		width: 100%;
-		height: 100px;
-		transition: transform 0.5s ease;
-
-		.iconBtn {
-			height: 100px;
-			margin: 3px;
-			width: 80px;
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: contain;
-			overflow-y: visible;
-
-			&.iconSettings {
-				background-image: url('../svgAssets/settings.svg');
-			}
-
-			&.iconAdd {
-				background-image: url('../svgAssets/add-todo-btn.svg');
-			}
-
-			&.iconPlay {
-				background-image: url('../svgAssets/tomato-play-btn-library.svg');
-			}
-
-			&:hover {
-				cursor: pointer;
-			}
-
-
-			@media screen and (min-width: 800px) {
-				height: 80px;
-				margin: 3px;
-				width: 100px;
-				background-repeat: no-repeat;
-				background-position: center;
-				background-size: contain;
-				overflow-x: visible;
-			}
-		}
-
-		@media screen and (min-width: 800px) {
-			transform: translateX(10vw);
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-			top: 0;
-			right: -50vw;
-			height: 100%;
-			width: 100px;
-			overflow: visible;
-			transition: all 0.5s ease;
-		}
-	}
-
-
-.showSettings {
-	position: relative;
-	//top: -30px;
-	height: 0;
-	transition: all 1s ease;
-	opacity: 1;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	transition: all 0.5s ease;
-	display: block;
-
-	.inputTomato {
-		border-radius: 100px;
-		border: 1px solid $color-orange;
-		padding: 0 22px;
-		font-size: 1.2rem;
-		font-weight: bold;
-		height: 50px;
-		margin: 1rem auto;
-		opacity: 1;
-		transition: all 0.5s ease;
-	}
-
-	@media screen and (min-width: 800px) {
-		opacity: 1;
-		position: absolute;
-		height: 500px;
-		width: 400px;
-		transform: translateX(100%);
-
-		transition: all 0.5s ease;
-	}
-} 
-
-
-.showActiveLists {
-	position: relative;
-	top: 0;
-	//top: -30px;
-	height: 0;
-	transition: all 1s ease;
-	opacity: 1;
-	overflow: hidden;
-	overflow-y: scroll;
-	display: block;
-
-	.currentListsItem {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-evenly;
-		transition: all 1s ease;
-		width: 300px;
-		height: 100px;
-		opacity: 1;
-		transition: all 0.5s ease;
-
-		
-	}
-	.optionContainer {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding-bottom: 2rem;
-	}
-
-	.addTodoList {
-		display: flex;
-		align-items: center;
-		align-self: flex-end;
-		margin: 0 3rem;
-		border: none;
-		background-color: transparent;
-
-		h2, h3 {
-			color: $color-darkgrey;
-			border-bottom: 1px solid transparent;
-		}
-		p {
-			margin-left: 1rem;
-			font-size: 1.5rem;
-		}
-		.addTdodoSvg {
-			margin-left: 1rem;
-		}
-	}
-
-	@media screen and (min-width: 800px) {
-		position: absolute;
-		height: 500px;
-		width: 400px;
-		transform: translateX(100%);
-		
-		transition: all 0.5s ease;
-	}
-}
-
-	&.visibleFirst {
-		height: 100px;
-		transition: height 0.5s ease;
-		overflow: hidden;
-
-		.btnContainer {
-	//			height: 100px;
-			transform: translateY(100px);
-			transition: all 0.5s ease;
-			@media screen and (min-width: 800px) {
-				transform: translateX(-50vw);
-				transition: all 0.5s ease;
-				height: 100%;
-			}
-		}
-		@media screen and (min-width: 800px) {
-			transform: translateX(0);
-			flex-direction: row-reverse;
-			align-items: center;
-			justify-content: flex-start;
-			//top: 0;
-			transition: width 0.5s ease;
-			height: 500px;
-			width: 100px;
-		}
-	}
 
 	
-
-	&.visibleSettings {
-		height: 400px;
-		transition: all 0.5s ease;
-
-		.showSettings {
-			position: relative;
-			border-radius: 30px;
-			background-color: $color-container-bg-transp;
-			//z-index: 1;
-			opacity: 1;
-			height: 300px;
-			transition: all 0.5s ease;
-			.inputTomato {
-				border-radius: 100px;
-				border: 1px solid $color-orange;
-				padding: 0 22px;
-				font-size: 1.2rem;
-				font-weight: bold;
-				height: 50px;
-				margin: 1rem auto;
-				opacity: 1;
-				transition: all 0.5s ease;
-			}
-
-			@media screen and (min-width: 800px) {
-				position: absolute;
-				height: 500px;
-				width: 400px;
-				transform: translateX(-100px);
-				right: 0;
-				transition: all 0.5s ease;
-			}
-		}
-
-		@media screen and (min-width: 800px) {
-			transition: all 0.5s ease;
-			width: 500px;
-			right: -10vw;
-			height: 500px;
-			z-index: 99999;
-			transform: translateX(0%);
-		}
-	}
-
-	&.visibleLists {
-
-		height: 400px;
-		transition: all 0.5s ease;
-
-
-		.showActiveLists {
-			position: relative;
-			border-radius: 30px;
-			background-color: $color-container-bg;
-			z-index: 1;
-			opacity: 1;
-			height: 300px;
-			transition: all 0.5s ease;
-			
-	
-			.currentListsItem {
-				opacity: 1;
-				transition: all 0.5s ease;
-				//overflow-y: scroll;
-			}
-
-			@media screen and (min-width: 800px) {
-				position: absolute;
-				height: 500px;
-				transition: all 0.5s ease;
-				width: 400px;
-				right: 0;
-				transform: translateX(-100px);
-			}
-		}
-		@media screen and (min-width: 800px) {
-			transition: all 0.5s ease;
-			height: 500px;
-			width: 500px;
-			transform: translateX(0);
-		}
-	}
-
-	&.visibleListForm {
-		position: relative;
-		height: 500px;
-		transition: all 0.5s ease;
-		@media screen and (min-width: 800px) {
-			transition: all 0.5s ease;
-			width: 400px;
-			transform: translateX(0);
-		}
-	}
-
-	h3, p {
-		position: relative;
-		font-size: 1rem;
-	}
-
-	
-
-	.changeTomatoBtn {
-		position: relative;
-		bottom: 0;
-		background-color: $color-pink;
-		border-radius: 100px;
-		color: $color-white;
-		display: flex;
-		border: 1px solid $color-white;
-		margin: 0.5rem auto;
-		padding: 0 1.5rem;
-		width: 200px;
-		font-weight: bold;
-		> p {
-			text-align: center;
-			width: 400px;
-			font-size: 1.2rem;
-		}
-	}
-	
-	@media screen and (min-width: 800px) {
-		right: -10vw;
-		left: unset;
-		top: unset;
-		top: 0;
-		width: 100px;
-		//transform: translateX(-100%);
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		height: 500px;
-		position: absolute;
-		transition: width 0.5s ease;
-	}
-}
- */
 
  .showActiveLists {
 	height: 0;
@@ -653,8 +208,6 @@
 		position: fixed;
 		height: 500px;
 		width: 400px;
-		//transform: translateX(100%);
-		
 		transition: all 0.5s ease;
 	}
 }

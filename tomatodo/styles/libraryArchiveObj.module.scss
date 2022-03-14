@@ -131,7 +131,7 @@
 }
 
 .optionsDiv {
-	position: absolute;
+	position: fixed;
 	top: 1rem;
 	z-index: 9;
 	text-align: center;
@@ -305,11 +305,12 @@
 }
 
 	&.visibleFirst {
+		position: fixed;
+		left: 0;
 		z-index: 999;
 		height: 100px;
 		transition: height 0.5s ease;
 		overflow: hidden;
-
 		.btnContainer {
 			z-index: 99;
 			transition: all 0.5s ease;

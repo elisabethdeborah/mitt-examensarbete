@@ -5,7 +5,7 @@ import PlayBtn from "./PlayTimerBtn";
 
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
-const FormTemplate = ({setFormIsVisible, setUserInputName, setUserInputText, setUserInputTime, setFormPlay, handleResume, setIsRunning}) => {
+const FormTemplate = ({setFormIsVisible, setUserInputName, setUserInputText, setUserInputTime, setFormPlay, handleResume, setIsRunning, content, start}) => {
 	const setTimerState = useUpdateContext().setCurrentItem;
 	const [overlay, setOverlay] = useState(false)
 	const [formInputTime, setFormInputTime] = useState({hh:0, min:0})
@@ -55,12 +55,15 @@ const FormTemplate = ({setFormIsVisible, setUserInputName, setUserInputText, set
 		<div onClick={() => handleGoBack()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/>
 		<section className={clsx(styles.formContainer, {
 			[styles.formIsVisible]: overlay
-			})}>
-			<h1 className={styles.formHeader}>Lägg till</h1>
-			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder={`Namn`} onChange={(e) => setUserInputName(e.target.value)} />
-			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} />
+			})}
+			style={{padding: '60px'}}
+			>
+			<h1 className={styles.formHeader}>Lägg till tid</h1>
+			{/* <input type="text" className={clsx(styles.input, styles.textInput)} placeholder={`Namn`} onChange={(e) => setUserInputName(e.target.value)} /> */}
+			{/* <input type="text" className={clsx(styles.input, styles.textInput)} placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} /> */}
 		
-			<div className={styles.timeInputContainer}>
+			<div className={styles.timeInputContainer} style={{width: '100%'}}>
+			
 				<select
 				value={formInputTime.hh}
 				onChange={({ target: { value } }) => setFormInputTime({hh: value, min: formInputTime.min})}
@@ -87,10 +90,10 @@ const FormTemplate = ({setFormIsVisible, setUserInputName, setUserInputText, set
 		
 
 
-			<div className={styles.btnContainer} onClick={() => handleGoBack()}>
+			<div className={styles.btnContainer}>
 				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={ () => handleGoBack()} />
 				<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleClick()} />
-				<PlayBtn listItem={{time: inputTime}} onClick={() => setIsRunning(true)} />
+				{/* <PlayBtn listItem={{time: inputTime}} onClick={() => setIsRunning(true)} content={'Start'} /> */}
 			</div>
 		</section>
 		</>

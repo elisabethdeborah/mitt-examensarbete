@@ -124,7 +124,8 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 										<section className={styles.textGroup}>
 											<h3>{item.title}</h3>
 											<div className={styles.tomatoTime}>
-												<NumberFormat milliSeconds={item.time*1000} text={'tid: '} textSize={'0.75rem'} />
+												<NumberFormat milliSeconds={item.time*1000} styling={{fontSize: '0.7rem', position: 'relative', bottom: '0px'}}
+												text={'tid: '} /* textSize={'0.75rem'} */ />
 											</div>
 										</section>
 										</>

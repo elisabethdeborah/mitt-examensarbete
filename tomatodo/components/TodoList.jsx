@@ -13,6 +13,7 @@ const TodoList = ({list,setOverlay}) => {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const sectionRef = useRef();
 	const [width, setWidth] = useState(); 
+	const [isLoading, setIsLoading] = useState(false);
 
 	//{console.log('listobj id', list._id)}
 
@@ -64,16 +65,19 @@ const TodoList = ({list,setOverlay}) => {
 							<AddTodo className={styles.addTdodoSvg} />
 						</button>
 					</div>
+				{isLoading ? 
+				("hämtar todos...") :(	
+				
+				list.todos.length >0 ? (
 					
-				{list.todos.length >0 ?
 					list.todos.map((listItem, index) => {
 						//console.log('listItem i todolist map till listObj', listItem, 'id', listItem._id)
 						return (
 
 					<ListObj key={listItem._rev} listItem={listItem} width={width &&(width)} />
 						)
-					}
-				): (
+					}))
+				: 
 					<section className={styles.emptyList}>
 						<article className={styles.addListIconBtn} onClick={() => setAddTodoFormIsVisible(true)} />
 							<h3>Den här listan är tom.</h3>

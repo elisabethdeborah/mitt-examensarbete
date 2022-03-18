@@ -37,6 +37,8 @@
 		width: 80%;
 		height: fit-content;
 		opacity: 0;
+		min-height: 100px;
+		justify-content: center;
 	}
 
 	.contentBox {
@@ -274,4 +276,10 @@
 			}
 		}
 	}
+}
+
+.LoadingText {
+	//font-family: $font-family;
+	width: 100vw;
+	text-align: center;
 }

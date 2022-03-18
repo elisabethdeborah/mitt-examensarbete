@@ -1,5 +1,5 @@
 
-import styles from '../styles/smallListObj.module.scss';
+import styles from '../styles/activeLists.module.scss';
 import clsx from 'clsx';
 import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
@@ -18,7 +18,7 @@ const SmallListObj = (listItem, contentIsVisible) => {
 				<h3>{listItem.title}</h3>
 				{listItem._type === "tomato"? (
 				<div className={styles.tomatoTime}>
-					<NumberFormat milliSeconds={tomato.time*1000} text={'tid: '} textSize={'0.75rem'} />
+					<NumberFormat milliSeconds={tomato.time*1000} text={'tid: '} /* textSize={'0.75rem'} */ styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px'}} />
 				</div>)
 				: listItem && listItem._createdAt && (<p>tillagd: {listItem._createdAt.slice(0, 10)}</p>)}
 			</section>

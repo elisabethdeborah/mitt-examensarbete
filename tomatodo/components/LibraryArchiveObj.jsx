@@ -67,12 +67,13 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, handle
 				) : (
 					<>
 						<h3>{list.title}</h3>
-						<NumberFormat className={styles.formattedTime} milliSeconds={Number(list.time*1000)} text={'tid: '} textSize={'1.3rem'} showSecs={false} />
+						<NumberFormat className={styles.formattedTime} milliSeconds={Number(list.time*1000)} text={'tid: '} styling={{fontSize: '1.3rem', position: 'relative', bottom: '0'}} showSecs={false} />
 					</>
 				)}
 			</article>
+			
 			{showListObject && index === listObjectIndex && (
-				
+				<>
 				<div className={clsx(styles.optionsDiv, {
 					[styles.visibleFirst]: showListObject && overlay, 
 					}
@@ -86,7 +87,6 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, handle
 							<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings()} />
 							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
 							<DeleteButton listItem={currentState.currentItem} size={'large'} />
-							<article className={clsx(styles.iconBtn, styles.playBtn)}><PlayBtn size={'large'} listItem={list} /></article>
 							</>
 						) : (<>
 							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
@@ -95,20 +95,18 @@ const LibraryArchiveObj = ({list, index, listObjectIndex, showListObject, handle
 						}
 					</div>
 					)}
-
-					
-
-
-					
-
-					
-					
-						
-					
 				</div>
+				{
+				showListObject && list._type === 'tomato' && 
+				<article className={styles.playBtnContainer}>
+						<PlayBtn size={'large'} listItem={list} />
+					</article>
+				}
+			</>
 			)}
 		</div>
 	)
 }
 
 export default LibraryArchiveObj;
+

@@ -70,7 +70,7 @@ const ListObj = ({listItem, width}) => {
 					</div>
 					<div className={styles.btnSection}>
 						<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
-						{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time*1000} textSize={'0.75rem'} />}
+						{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time*1000} /* textSize={'0.75rem'} */ styling={{fontSize: '0.75rem', position: 'absolute', top: '45px'}} />}
 						<CheckBox listItem={listItem} />
 					</div>
 					
@@ -86,7 +86,7 @@ const ListObj = ({listItem, width}) => {
 					</div>
 					<div className={styles.todoTimeSection}>
 					<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
-					{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time *1000} textSize={'0.75rem'} />}
+					{listItem && listItem.time > 0 &&<NumberFormat milliSeconds={listItem.time *1000} /* textSize={'0.75rem'} */  styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px'}} />}
 					</div>
 					<DeleteButton color={'blue'} listItem={listItem} />
 				</article>

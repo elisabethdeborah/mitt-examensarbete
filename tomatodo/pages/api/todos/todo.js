@@ -35,7 +35,7 @@ const todo = async function handler(req, res) {
 				await client
 				.patch(req.body.id)
 				.set({
-					checked: req.body.checked,
+					"checked": req.body.checked,
 				})
 				.commit()
 				res.status(200).json({

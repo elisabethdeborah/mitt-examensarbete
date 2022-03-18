@@ -9,10 +9,11 @@
 
 .libraryContainer{
 	position: relative;
-	display: flex;
+	/* display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: space-between;
+	justify-content: space-evenly; */
+	display: grid;
 	width: 90vw;
 	max-width: 1350px;
 	background-color: $color-container-bg;
@@ -20,6 +21,20 @@
 	margin: 2rem auto;
 	padding: 40px 0 30px;
 	flex-wrap: wrap;
+
+	width: 90vw;
+            margin-top: 4%;
+            
+            display: grid;
+ 
+            /* Use display property as grid*/
+            gap: 5px;
+            grid-template-columns: repeat(
+                auto-fit, minmax(350px, 1fr));
+
+	.gridItem {
+		max-width: 350px;
+	}
 
 	.emptyList {
 		position: relative;
@@ -111,7 +126,7 @@
 	@media screen and (min-width: 600px) {
 		flex-direction: row;
 		flex-wrap: wrap;
-		padding: 50px;
+		padding: 70px;
 	}
 }
 
@@ -157,7 +172,7 @@
     transition: all 0.5s ease;
     background: white;
     border-radius: 30px;
-    top: 10%;
+    //top: 10%;
 
 	.currentListsItem {
 		display: flex;
@@ -209,5 +224,6 @@
 		height: 500px;
 		width: 400px;
 		transition: all 0.5s ease;
+		top: 10%;
 	}
 }

@@ -1,24 +1,36 @@
 @import './variables.scss';
 
-.wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	justify-content: center;
-	width: 90vw;
-	max-width: 1660px;
-
-	//height: 100%;
-  	//min-height: calc(100vh - 250px);
-	//  min-height: calc(80vh - 330px);
-
-	@media screen and (min-width: 600px) {
-		flex-direction: row;
-		flex-wrap: wrap;
-		> div {
-			max-width: 460px;
-			margin-bottom: 2rem;
+.container{
+//height: 100%;
+		//min-height: calc(100vh - 250px);
+		//  min-height: calc(80vh - 330px);
+		max-height: 75vh;
+		overflow-y: hidden;
+		border-radius: 20px;
+		margin-bottom: 2rem;
+		@media screen and (min-width: 600px) {
+			overflow: visible;
+			border-radius: 30px;
+			//margin-bottom: 2rem;
 		}
+	.wrapper {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		width: 90vw;
+		max-width: 1660px;
+
+		
+
+		@media screen and (min-width: 600px) {
+			flex-direction: row;
+			flex-wrap: wrap;
+			> div {
+				max-width: 460px;
+				//margin-bottom: 2rem;
+			}
+		}
+		
 	}
-	
 }

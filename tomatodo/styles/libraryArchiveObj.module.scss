@@ -8,19 +8,51 @@
 	height: 250px;
 	width: 300px;
 	background-repeat: no-repeat;
-	background-position: center;
+	background-position: 13% center;
 	background-size: contain;
 	color: $color-white;
 	padding-top: 4.4rem;
-	padding-left: 1.5rem;
+	//padding-left: 1.5rem;
 	margin: 2rem auto;
+	position: relative;
 	transition: all 1s ease;
+	//color: $color-darkgrey;
+	
+	&.orangeTomato,
+	&.pinkTomato {
+		> h3 {
+			font-size: 1.5rem;
+			width: 200px;
+			text-align: center;
+			right: 13%;
+			word-break: break-all;
+		}
+
+		> h2 {
+			margin-top: 0;
+		}
+	}
 
 	&.orangeTomato {
 		background-image: url('../svgAssets/orange-tomato-m.svg');
+		/* > h3 {
+			font-size: 1.5rem;
+			width: 200px;
+			text-align: center;
+			right: 13%;
+			word-break: break-all;
+		} */
+		
 	}
 	&.pinkTomato {
 		background-image: url('../svgAssets/pink-tomato-m.svg');
+		/* > h3 {
+			font-size: 1.5rem;
+			width: 200px;
+			text-align: center;
+			right: 13%;
+			word-break: break-all;
+		} */
 	}
 
 	&.pinkTodoList,
@@ -35,8 +67,13 @@
 		.textGroup {
 			display: flex;
 			flex-direction: column;
+			position: relative;
 			> h3 {
 				font-size: 1.5rem;
+				width: 200px;
+				text-align: center;
+				right: 13%;
+				word-break: break-all;
 			}
 		}
 
@@ -87,16 +124,21 @@
 
 	h3 {
 	font-size: 1.3rem;
+	word-break: break-all;
 	}
 	
 	p {
 		font-size: 1.3rem;
 		margin: 0.5rem auto;
+		word-break: break-all;
 	}
 
 	@media screen and (min-width: 600px) {
 		padding-left: 2.5rem;
-		width: 450px;
+		//width: 450px;
+		width: 350px;
+		background-position: center;
+		
 	}
 
 	&:hover {
@@ -144,7 +186,7 @@
 		position: relative;
 		display: flex;
 		flex-direction: row;
-		align-items: center;
+		align-items: flex-end;
 		justify-content: center;
 		width: 100%;
 		height: 100px;
@@ -179,10 +221,6 @@
 				background-image: url('../svgAssets/add-todo-btnBlast.svg');
 			}
 
-			&.iconPlay {
-				background-image: url('../svgAssets/playBtnNew.svg');
-			}
-
 			&.iconDelete {
 				background-image: url('../svgAssets/deleteTomatoFlippedNew.svg');
 			}
@@ -193,25 +231,36 @@
 
 
 			@media screen and (min-width: 800px) {
-				height: 80px;
+				height: 100px;
 				margin: 3px;
-				width: 100px;
+				width: 80px;
 				background-repeat: no-repeat;
 				background-position: center;
 				background-size: contain;
 				overflow-x: visible;
+				align-items: center;
+				/* &.iconPlay {
+					background-image: url('../svgAssets/playBtnNew.svg');
+					justify-content: flex-end;
+					
+				} */
 			}
 		}
 
 		@media screen and (min-width: 800px) {
 			flex-direction: column;
-			align-items: center;
+			align-items: flex-end;
 			justify-content: center;
 			top: 0;
 			height: 100%;
 			width: 100px;
 			overflow: visible;
 			transition: all 0.5s ease;
+			/* &.iconPlay {
+				background-image: url('../svgAssets/playBtnNew.svg');
+				justify-content: flex-end;
+				
+			} */
 		}
 	}
 
@@ -307,20 +356,22 @@
 	&.visibleFirst {
 		position: fixed;
 		left: 0;
-		z-index: 999;
+		//z-index: 999;
 		height: 100px;
 		transition: height 0.5s ease;
 		overflow: hidden;
+
 		.btnContainer {
-			z-index: 99;
+			z-index: 97;
 			transition: all 0.5s ease;
 
-			z-index: 9999;
+			//z-index: 9999;
 			top: 1rem;
 			left: 0;
 			right: 0;
 			@media screen and (min-width: 800px) {
 				transition: all 0.5s ease;
+				top: 0rem;
 			}
 		}
 		@media screen and (min-width: 800px) {
@@ -436,6 +487,7 @@
 }
 
 
+
 .formContainer {
 	z-index: 9999;
 	position: relative;
@@ -509,4 +561,21 @@
 			background-color: $color-pink;
 			flex: 1;
 			margin-left: 3px;
-		}}}
+		}}
+}
+
+
+.playBtnContainer {
+	position: fixed;
+	// width: 90vw;
+    // height: fit-content;
+    // border: 1px solid;
+    // display: flex;
+    // justify-content: center;
+	z-index: 9;
+	border: 1px solid red;
+	// @media screen and (min-width: 800px) {
+	// 	left: 10px;
+	// 	width: fit-content;
+	// }
+}

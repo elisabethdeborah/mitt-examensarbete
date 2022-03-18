@@ -2,6 +2,7 @@
 
 .navContainer {
     z-index: 5;
+	z-index: 9999998;
     position: fixed;
 	top: 0;
 	right: 0;
@@ -52,7 +53,7 @@
 	}
 
 	@media screen and (min-width: 600px) {
-		z-index: 0;
+		z-index: 1;
 		position: relative;
 		top: -50px;
 

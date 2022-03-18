@@ -100,6 +100,7 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 				setTimeout(() => {
 					setFormIsVisible(false)
 				}, 600)
+				currentState.setCurrentItem(null)
 			}
 		} else if (method === 'PUT') {
 			console.log(`PUT ${objectType} formulär ${userInputName}, ${inputTime}, ${currentListDocId}`)
@@ -147,6 +148,7 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 			setTimeout(() => {
 				setFormIsVisible(false)
 			}, 600)
+			currentState.setCurrentItem(null)
 		} else if (objectType === 'inputCountdown') {
 
 			console.log('inputTime', inputTime * 1000)
@@ -161,6 +163,7 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 			setTimeout(() => {
 				setFormIsVisible(false)
 			}, 600)
+			currentState.setCurrentItem(null)
 		}
 	};
 
@@ -171,6 +174,7 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 		  setTimeout(() => {
 			setFormIsVisible(false)
 		}, 600)
+		currentState.setCurrentItem(null)
 		} 
 	  
 
@@ -184,9 +188,9 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 	let header;
 
 	if (method === "POST" && currentState.currentItem ) {
-		header = `Ny ${currentState.currentItem.title}`
+		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	} else if (method === "PUT" && currentState.currentItem) {
-		header = `Redigera ${currentState.currentItem.title}`
+		currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	}
 
 	
@@ -206,43 +210,40 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 				<>
 			{objectType === 'tomato' && page !== 'tomater' && (<aside className={styles.smallTomato} />)}
 			
-			<h1 className={styles.formHeader}>{header? header: `Ny ${typeName}`}</h1>
+			<h1 className={styles.formHeader}>{header? header: `Ny ${objectType}`}</h1>
 			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder={currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`} onChange={(e) => setUserInputName(e.target.value)} />
 			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} />
 			
-			{objectType !== 'todoList' ? (
-			<div className={styles.timeInputContainer}>
-				<select
-				value={userInputTime.hh}
-				onChange={({ target: { value } }) => setUserInputTime({hh: value, min: userInputTime.min})}
-				>
-				{hours.map((value, index) => (
-					<option key={index} value={value}>
-					{value<10? `0${value}`: value}
-					</option>
-				))}
-				</select>
+			{objectType !== 'todoList' && (
+				<div className={styles.timeInputContainer}>
+					<select
+					value={userInputTime.hh}
+					onChange={({ target: { value } }) => setUserInputTime({hh: value, min: userInputTime.min})}
+					>
+					{hours.map((value, index) => (
+						<option key={index} value={value}>
+						{value<10? `0${value}`: value}
+						</option>
+					))}
+					</select>
 
-				<select
-				value={userInputTime.min}
-				onChange={({ target: { value } }) => setUserInputTime({hh: userInputTime.hh, min: value})}
-				>
+					<select
+					value={userInputTime.min}
+					onChange={({ target: { value } }) => setUserInputTime({hh: userInputTime.hh, min: value})}
+					>
 
-				{mins.map((value, index) => (
-					<option key={index} value={value}>
-					{value<10? `0${value}`: value}
-					</option>
-				))}
-				</select>
-			</div>
-			):
-		<div className={styles.timeInputPlaceholder} />
-		}
-</>
+					{mins.map((value, index) => (
+						<option key={index} value={value}>
+						{value<10? `0${value}`: value}
+						</option>
+					))}
+					</select>
+				</div>)
+			}
+			</>
 ):
 <>
-<h1 className={styles.formHeader}>{`Starta om ${currentState.currentItem.title}`}</h1>
-<div className={styles.timeInputPlaceholder} />
+<h1 className={styles.formHeader}>{`Starta om ${currentState.currentItem ? currentState.currentItem.title: 'lista'}`}</h1>
 </>
 
 }

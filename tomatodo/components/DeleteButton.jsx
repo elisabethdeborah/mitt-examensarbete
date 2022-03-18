@@ -48,7 +48,7 @@ const DeleteButton = ({color, listItem, size}) => {
 	}
 
 	return (<>
-		<div onClick={() => setShowWarning(true)} className={clsx(styles.deleteBtn, {[styles.smallOrange]: color === 'orange', [styles.smallBlue]: color === 'blue', [styles.large]: size === 'large' })} />
+		<div onClick={() => setShowWarning(!showWarning)} className={clsx(styles.deleteBtn, {[styles.smallOrange]: color === 'orange', [styles.smallBlue]: color === 'blue', [styles.large]: size === 'large' })} />
 		{ showWarning &&(
 			<div className={styles.deleteWarning}>
 			<h2>Vill du ta bort {listItem.title}?</h2>
@@ -61,4 +61,9 @@ const DeleteButton = ({color, listItem, size}) => {
 	)
 }
 
+
+
+
 export default DeleteButton;
+
+

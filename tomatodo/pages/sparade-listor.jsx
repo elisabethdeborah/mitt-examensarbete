@@ -33,20 +33,35 @@ export default function SparadeListor() {
 	
 
 	const router = useRouter();
+
+	
   
 	/* const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
 	  }); */
-	  const state = useTodoContext()
-	  const currentState = useUpdateContext()
 	  //const currentLists = posts.currentLists;
 	 // const savedLists = posts.savedLists;
+	 const state = useTodoContext();
+	 const currentState = useUpdateContext();
+	 const fetchAllLists = state.fetchTodos;
 
-	const currentLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-	const savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+	 const [isLoading, setIsLoading] = useState(false);
+
+	const currentLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
+	const savedLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0):null;
 
 
+	useEffect(() => {
+		setIsLoading(true)
+		fetchAllLists()
+		return () => setIsLoading(false)
+	}, [])
+
+	useEffect(() => {
+		savedLists ? setIsLoading(false) : setIsLoading(true)
+		return () => setIsLoading(false)
+	}, [savedLists])
 	  
 	
 
@@ -107,11 +122,20 @@ export default function SparadeListor() {
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.savedListsHeader}>Mina sparade listor</h2> 
 				</div>
+
+
+
+
 				{showListObject && (
 				<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> )}
 				
 				 
-				{savedLists ? 
+			
+				{isLoading ? 
+				(<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar sparade listor...</h1>)
+				: (
+				
+					savedLists ? 
 					(savedLists.map((list, index) => {
 					return (
 						<LibraryArchiveObj  
@@ -139,12 +163,14 @@ export default function SparadeListor() {
 					
 					)) 
 					: 
-					<h3>Du har inga sparade listor</h3>
-				}
-			</div>
-		</div>
-	)
+					(<h3>Du har inga sparade listor</h3>)
+				)}
+	</div>
+	</div>)
 };
+
+
+
 /* 
 const query = groq`{
 		"savedLists": *[ _type == "todoList" && saved || _type == "library" ] {title, list, ..., "nrOfTodos": count(list)},

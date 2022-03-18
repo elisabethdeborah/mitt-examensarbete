@@ -33,6 +33,8 @@ export default function MinaTodos() {
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
 	const fetchAllLists = state.fetchTodos;
+
+	const [isLoading, setIsLoading] = useState(false);
 	///
 	//const { postdata, preview } = props;
 
@@ -64,13 +66,20 @@ export default function MinaTodos() {
 	}
 
 	useEffect(() => {
+		setIsLoading(true)
 		fetchAllLists()
-
+		open < 0 || !open ? setOpen(0) : null;
+		return () => setIsLoading(false)
 	}, [])
+
+	useEffect(() => {
+		activeLists ? setIsLoading(false) : setIsLoading(true)
+		return () => setIsLoading(false)
+	}, [activeLists])
 
 
 	useEffect(() => {
-		currentState.currentItem ? setOpen(titles.findIndex(x => x === currentState.currentItem.title)):setOpen(0);
+		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title))
 	}, [currentState.currentItem])
 
 
@@ -89,7 +98,7 @@ export default function MinaTodos() {
 	} 
 
 
-	return (
+	return (isLoading ? (<h1>laddar...</h1>):(
 		<div className={clsx(styles.todoPageWrapper, {
 			[styles.sideListVisible]: sideListVisible,
 			[styles.changeFlex]: flexDirection,
@@ -106,7 +115,7 @@ export default function MinaTodos() {
 			{
 			<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
 				<ActiveLists lista={activeLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={open} page={'todo'} />
-				<SavedLists lista={savedLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={open}  page={'todo'} />
+				<SavedLists lista={savedLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={open}  page={'todo'} activeLists={activeLists} setAddListFormIsVisible={setAddListFormIsVisible}  />
 			</section>
 			}
 			<div className={styles.todoListWrapper}>
@@ -114,9 +123,8 @@ export default function MinaTodos() {
 				addListFormIsVisible && (
 					<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} /* setOverlay={setOverlay} *//>)
 				}
-				
-				{
-					activeLists? (
+
+					{activeLists? (
 						activeLists.map((lista, index) => (
 								open === index && (
 								<TodoList key={lista._id} list={lista} />
@@ -124,17 +132,17 @@ export default function MinaTodos() {
 							))
 					)
 					: 
-					<section className={styles.emptyList}>
+					(<section className={styles.emptyList}>
 						<div className={styles.todoListTop} />
 						<article className={styles.addListIconBtn} onClick={() => handleClick()} />
 						<h3>Du har inga pågående listor</h3>
-					</section>
-						
+					</section>)
 				}
 			</div>
 		</div>
-	)
+	))
 };
+
 /* 
 const query = groq`
 {

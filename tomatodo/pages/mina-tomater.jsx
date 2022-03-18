@@ -38,22 +38,32 @@ export default function MinaTomater() {
 
 	const router = useRouter();
 
-	const state = useTodoContext()
-	const currentState = useUpdateContext()
+	const state = useTodoContext();
+	const currentState = useUpdateContext();
+	const fetchAllLists = state.fetchTodos;
+
+	const [isLoading, setIsLoading] = useState(false);
   
 	/* const { data: posts } = usePreviewSubscription(query, {
 		initialData: postdata,
 		enabled: preview || router.query.preview !== undefined,
-	  });
- */
-
-
-	  const activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-	const savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
-
+	  }); */
 
 	  
 
+	  let tomatoLibrary = state.initialFetch? state.initialFetch.tomatoLibrary:null;
+	  const activeLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
+
+	  useEffect(() => {
+		setIsLoading(true)
+		fetchAllLists()
+		return () => setIsLoading(false)
+	}, [])
+
+	useEffect(() => {
+		tomatoLibrary ? setIsLoading(false) : setIsLoading(true)
+		return () => setIsLoading(false)
+	}, [tomatoLibrary])
 
 
 	  const handleClick = (x, item) => {
@@ -130,9 +140,10 @@ export default function MinaTomater() {
 				</div>
 				)}
 
-			{addTomatoFormIsVisible ? 
-			<Form setFormIsVisible={setAddTomatoFormIsVisible} objectType={'tomato'} method={'POST'} />
-				:
+			{addTomatoFormIsVisible &&(
+			<Form setFormIsVisible={setAddTomatoFormIsVisible} objectType={'tomato'} method={'POST'} />)
+			}
+			{
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.tomatoLibraryHeader}>Mina tomater</h2> 
@@ -142,9 +153,13 @@ export default function MinaTomater() {
 				<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> )}
 				
 				 
-				{state.initialFetch.tomatoLibrary ? 
-					(state.initialFetch.tomatoLibrary.map((list, index) => (
+				{isLoading?
+				("hämtar tomater...")
+				:
+				tomatoLibrary ? (
+					tomatoLibrary.map((list, index) => (
 						<LibraryArchiveObj  
+							className={styles.gridItem}
 							key={list._rev} 
 							list={list} 
 							index={index} 
@@ -159,14 +174,18 @@ export default function MinaTomater() {
 							handleStartTodoList={handleStartTodoList}
 							overlay={overlay}
 							handleAddToTodo={handleAddToTodo}
-							currentLists={activeLists}
+							//currentLists={activeLists}
 							setShowChangeForm={setShowChangeForm}
 							setaddToListIsVisible={setaddToListIsVisible}
 							setCurrentObj={setCurrentObj}
 						/>
 					))) 
 					: 
-					<h3>Du har inga sparade listor</h3>
+					(<section className={styles.emptyList}>
+						<div className={styles.todoListTop} />
+						<article className={styles.addTomatoIcon} onClick={() => setAddTomatoFormIsVisible(!addTomatoFormIsVisible)} />
+						<h3>Du har inga sparade tomater</h3>
+					</section>)
 				}
 			</div>
 		}

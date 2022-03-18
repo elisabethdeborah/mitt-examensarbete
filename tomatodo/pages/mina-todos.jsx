@@ -35,6 +35,7 @@ export default function MinaTodos() {
 	const fetchAllLists = state.fetchTodos;
 
 	const [isLoading, setIsLoading] = useState(false);
+	const [open, setOpen] = useState(0); 
 	///
 	//const { postdata, preview } = props;
 
@@ -55,7 +56,7 @@ export default function MinaTodos() {
 		titles = activeLists.map(x => x.title);
 	  }
 	
-	const [open, setOpen] = useState(0); 
+	
 
 	const handleSideListArrow = () => {
 		setFlexDirection(true)
@@ -68,12 +69,14 @@ export default function MinaTodos() {
 	useEffect(() => {
 		setIsLoading(true)
 		fetchAllLists()
-		open < 0 || !open ? setOpen(0) : null;
+		console.log('open index', open)
+		open < 0 || !open ? setOpen(0) : console.log('open?', open);
 		return () => setIsLoading(false)
 	}, [])
 
 	useEffect(() => {
 		activeLists ? setIsLoading(false) : setIsLoading(true)
+		open < 0 || !open ? setOpen(0) : console.log('open?', open);
 		return () => setIsLoading(false)
 	}, [activeLists])
 
@@ -121,7 +124,7 @@ export default function MinaTodos() {
 			<div className={styles.todoListWrapper}>
 				{
 				addListFormIsVisible && (
-					<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} /* setOverlay={setOverlay} *//>)
+					<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'}/>)
 				}
 
 					{activeLists? (
@@ -142,31 +145,3 @@ export default function MinaTodos() {
 		</div>
 	))
 };
-
-/* 
-const query = groq`
-{
-	"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
-	  title,
-	  saved,
-	  "todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
-	  "nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
-	  'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
-	  'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
-	  ...,
-	  },
-  }`;
-
-
-export async function getStaticProps({ params, preview = false }) {
-  const post = await getClient(preview).fetch(query);
-
-  return {
-    props: {
-		postdata: post,
-		preview,
-	  },
-    revalidate: 10,
-  };
-}
- */

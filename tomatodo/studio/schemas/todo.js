@@ -49,6 +49,7 @@ export default {
 		  name: "todoList",
 		  description: "Lista som denna todo tillhör",
 		  type: "reference",
+		  weak: true,
 		  to: [{type: "todoList"}]
 	  }
 	],

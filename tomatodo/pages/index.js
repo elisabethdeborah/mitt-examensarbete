@@ -44,7 +44,9 @@ export default function Post({postdata, preview}) {
 
 
   return (
+	<div className={styles.container}>
     <div className={styles.wrapper} ref={sectionRef}>
+		
 		<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 		 {width > 600 ?(<>
 			<ListContainer key='tomatoListLg' itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={tomatoList} setAddListFormIsVisible />
@@ -57,6 +59,7 @@ export default function Post({postdata, preview}) {
 		 <ListContainer key='currentList' itemType={'pågående listor'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible /></>)
 		 }
     </div>
+	</div>
   );
 }
 

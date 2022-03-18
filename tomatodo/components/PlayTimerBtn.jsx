@@ -4,26 +4,26 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
-const PlayBtn = ({listItem, size}) => {
+const PlayBtn = ({listItem, size, content}) => {
 	
 	const currentState = useUpdateContext();
 
 	return (
-		<aside className={styles.todoTimeSection} onClick={() => currentState.setCurrentItem(listItem)} >
+		<aside className={styles.todoTimeSection} onClick={() => currentState.setCountdownItem(listItem)} >
 		{
-			listItem.time ? (
+			listItem.time || currentState.countdownItem ? (
 				<>
 					<Link
 						href={'/timer'}
 						passHref
 					>
-					<article className={clsx(styles.playBtn, {
+					<button className={clsx(styles.playBtn, {
 						[styles.orange]: listItem._type ==="tomato",
 						[styles.green]: listItem._type !=="tomato" && listItem.checked,
 						[styles.grey]: listItem._type !=="tomato" && !listItem.checked,
 						[styles.orangeLg]: size === 'large',
-						[styles.regularBtn]: !listItem._type,
-						})} />
+						[styles.regularBtn]: content && content.length>0, 
+						})} value={`${content}`}/>
 					</Link>
 				</>
 			):

@@ -4,12 +4,15 @@
 .playBtn {
 	@include hover-btn;
 	background-repeat: no-repeat;
-	min-width: 50px;
-	min-height: 50px;
-
+	min-width: 40px;
+	min-height: 40px;
+	
 	background-position: center;
 	background-size: cover;
 	overflow: visible;
+
+	border: none;
+	background-color: transparent;
 	
 	.todoTimeSection {
 		display: flex;
@@ -23,11 +26,26 @@
 	}
 	&.orangeLg {
 		background-image: url('../svgAssets/play-btn-sm-orange.svg');
-		height: 60px;
-		width: 60px;
+		height: 65px;
+		width: 65px;
+		z-index: 99999;
+		position: absolute;
+		left: calc(45vw - 32px);
+
+		@media screen and (min-width: 600px) {
+			position: fixed;
+			left: 33px;
+			top: calc(50vh + 165px);
+		}
 	}
 	&.green {
 		background-image: url('../svgAssets/play-btn-sm-green.svg');
+		min-width: 40px;
+			min-height: 40px;
+		@media screen and (min-width: 550px) {
+			min-width: 50px;
+			min-height: 50px;
+		}
 	}
 	&.grey {
 		background-image: url('../svgAssets/play-btn-sm-grey.svg');
@@ -36,11 +54,22 @@
 	&.regularBtn {
 		@include pink-btn;
 	}
+
+	@media screen and (min-width: 550px) {
+		min-width: 50px;
+		min-height: 50px;
+		margin-top: 6px;
+	}
+
 }
 
 .playBtnPlaceholder {
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
+	@media screen and (min-width: 550px) {
+		min-width: 50px;
+		min-height: 50px;
+	}
 }
 
 

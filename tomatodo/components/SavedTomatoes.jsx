@@ -6,7 +6,20 @@ import clsx from 'clsx';
 import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
 
+import CountdownTimer from './CountdownTimer';
+
 const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
+
+
+	const THREE_DAYS_IN_MS = 3 * 24 * 60 * 60 * 1000;
+	const NOW_IN_MS = new Date().getTime();
+  
+	const dateTimeAfterThreeDays = NOW_IN_MS + THREE_DAYS_IN_MS;
+  
+
+
+
+
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 
 	const handleClickTomato = (tomato, index) => {
@@ -20,6 +33,7 @@ const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
 			<section className={styles.activeListsTop} onClick={() => setContentIsVisible(!contentIsVisible)}>
 				<h4>Mina tomater</h4><p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>
 			</section>
+			<CountdownTimer targetDate={dateTimeAfterThreeDays} />
 			<section className={styles.contentBox}>
 			<Link href="/mina-tomater" passHref>
 			<p className={styles.link}>gå till mina tomater</p>
@@ -32,7 +46,7 @@ const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
 								<article className={styles.smallTomato} />
 								<section className={styles.textGroup}>
 									<h3>{tomatoes[index].title}</h3>
-									<div className={styles.tomatoTime}><NumberFormat milliSeconds={tomato.time*1000} text={'tid: '} textSize={'0.75rem'} /></div>
+									<div className={styles.tomatoTime}><NumberFormat milliSeconds={tomato.time*1000} text={'tid: '} /* textSize={'0.75rem'} */ styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px'}} /></div>
 								</section>
 								<PlayTimerBtn listItem={tomato} color={"orange"} />
 								<Link href={"/timer"} passHref>

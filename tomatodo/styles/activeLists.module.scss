@@ -35,7 +35,12 @@
 
 			.contentBox {
 				overflow-y: scroll;
+				height: 400px;
 				height: fit-content;
+				&.previewLists {
+					color: blue;
+					height: 400px;
+				}
 			}
 			.hiddenLists {
 				background-color: $color-article-bg;
@@ -53,13 +58,21 @@
 	}
 
 	.textGroup {
+		font-size: 1rem;
+		width: 100%;
 		h3 {
-			font-size: 1rem;
+			font-size: 1em;
 			margin-bottom: 3px;
+			@media screen and (min-width: 600px) {
+				font-size: 1em;
+			}
 		}
 		p {
-			font-size: 0.75rem;
+			font-size: 0.75em;
 			font-weight: bold;
+			@media screen and (min-width: 600px) {
+				font-size: 0.75em;
+			}
 		}
 	}
 

@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 
-const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) => {
+const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato, previewLists}) => {
 	
 	const currentState = useUpdateContext()
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home' || page === 'tomato');
@@ -36,7 +36,6 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 		 } else if (page === 'home') {
 			console.log('go to todolists med denna som open: ', list) 
 		 }
-		 
 	}
 
 	return (
@@ -46,18 +45,18 @@ const ActiveLists = ({lista, setSideListsVisible, setOpen, open, page, tomato}) 
 			[styles.tomatoPage]: page === 'tomato',
 			[styles.todolistPage]: page === 'todo', 
 			})}>
-			<section className={styles.activeListsTop} onClick={page === 'todo' ? () => setContentIsVisible(!contentIsVisible): null}>
+			{page!== 'homeSaved' && <section className={styles.activeListsTop} onClick={page === 'todo' ? () => setContentIsVisible(!contentIsVisible): null}>
 				<h4>Mina påbörjade listor</h4><p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>
-			</section>
-			<section className={styles.contentBox}>
-			<Link href="/mina-todos" passHref>
+			</section>}
+			<section className={clsx(styles.contentBox, {[styles.previewLists]: previewLists===true})}>
+			{page!== 'homeSaved' && <Link href="/mina-todos" passHref>
 			<p className={styles.link}>gå till mina todos</p>
-			</Link>
+			</Link>}
 				{
 				lista ? lista.map((list, index) => {
 					return (
 						open !== index && (
-							<article key={index} onClick={() => handleClickOpen(list, index, tomato)} className={styles.hiddenLists}>
+							<article key={index} onClick={() => handleClickOpen(list, index, tomato)} className={(styles.hiddenLists)}>
 								<section className={styles.textGroup}>
 								<h3>{list.title}</h3>
 								<p>tillagd: {list._createdAt? list._createdAt.slice(0, 10) : index}</p>

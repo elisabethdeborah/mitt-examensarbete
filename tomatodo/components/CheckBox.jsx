@@ -1,10 +1,8 @@
 import styles from '../styles/todoList.module.scss';
-import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-import Message from './Message';
-import { useState } from 'react';
+import { useTodoContext} from "../context/TodoContext";
 
 const CheckBox = ({listItem}) => {
-	const state = useTodoContext()
+	const state = useTodoContext();
 	const fetchAllLists = state.fetchTodos;
 
 	const handleCheckTodo = async() => {
@@ -15,8 +13,8 @@ const CheckBox = ({listItem}) => {
 				"Content-Type": "application/json"
 			},
 			body: JSON.stringify({
-			  id: listItem._id,
-			  checked: !listItem.checked,
+				id: listItem._id,
+				checked: !listItem.checked,
 			}),
 		})
 		.then(console.log('posted'))
@@ -24,12 +22,11 @@ const CheckBox = ({listItem}) => {
 			console.log('error:', error);
 		})
 		fetchAllLists();
-		
-	}
+	};
 	
 	return (
 		<aside className={styles.checkBox} onClick={() => handleCheckTodo()} />
-	)
-}
+	);
+};
 
 export default CheckBox;

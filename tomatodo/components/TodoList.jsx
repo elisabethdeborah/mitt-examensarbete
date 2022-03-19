@@ -6,6 +6,7 @@ import DeleteButton from './DeleteButton';
 import ListObj from './ListObj';
 import Form from './Form';
 import Resize from '../components/Resize';
+import { useUpdateContext } from "../context/TodoContext";
 
 const TodoList = ({list,setOverlay}) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
@@ -13,15 +14,18 @@ const TodoList = ({list,setOverlay}) => {
 	const sectionRef = useRef();
 	const [width, setWidth] = useState(); 
 	const [isLoading, setIsLoading] = useState(false);
+	const currentState = useUpdateContext();
 
 	const handleClickTodo = () => {
 			setAddListFormIsVisible(false);
 			setAddTodoFormIsVisible(true);
+			currentState.setCurrentItem(null);
 	}; 
 
 	const handleClickList = () => {
 			setAddTodoFormIsVisible(false);
 			setAddListFormIsVisible(true);
+			//currentState.setCurrentItem();
 	}; 
 
 	return (

@@ -8,7 +8,7 @@ const todo = async function handler(req, res) {
 				await client
 				.create({
 					_type: "todo",
-					title: newTodo.name,
+					title: newTodo.title,
 					description: newTodo.description,
 					time: Number(newTodo.time),
 					checked: false,
@@ -19,17 +19,16 @@ const todo = async function handler(req, res) {
 					}
 				})
 				.then((res) => {
-					console.log(`Todo was created, document ID is ${res._id}. Res body is ${res.body}`);
+					console.log(`Todo was created, document ID is ${res._id}. Body is ${newTodo}`);
 				});
 					res
 					.status(200)
-					.json({ msg: `Todo was created, document ID is ${res._id}` });
+					.json({ msg: `CREATED, document ID is ${res._id}, title is: ${newTodo.title}` });
 			} catch (error) {
 					console.error(error);
 					res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "PUT":
 			try {
 				await client
@@ -44,24 +43,25 @@ const todo = async function handler(req, res) {
 			} catch (error) {
 				console.error(error);
 					res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "DELETE":
-			await client
+			try {
+				await client
 				.delete(req.body)
 				.then((res) => {
-				res.body;
+					res.body;
 				})
 				.then((res) => console.log(`Todo was deleted`));
-			res.status(200).json({ msg: "Success" });
-
-	
-		default:
+				res.status(200).json({ msg: "Success" });
+			} catch (error) {
+				console.error(error);
+				res.status(500).json({ msg: "Error, check console" });
+			};
 			break;
-	}
-	console.log('client in todos/todo api page', req.body)
-      
-}
+		default: console.log('not POST/PUT/DELETE');
+	};
+	console.log('client in todos/todo api page', req.body);    
+};
 
 export default todo;

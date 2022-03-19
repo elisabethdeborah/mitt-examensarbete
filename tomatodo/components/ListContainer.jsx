@@ -20,7 +20,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 		await fetch("/api/todos/todo", {
 			method: "POST",
 			body: JSON.stringify({
-				name: tomatoTodo.name,
+				title: tomatoTodo.title,
 				description: tomatoTodo.description,
 				time: tomatoTodo.time,
 				parentRef: toList._id,

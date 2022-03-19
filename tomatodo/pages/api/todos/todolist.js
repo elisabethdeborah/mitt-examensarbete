@@ -8,8 +8,7 @@ const todolist = async function handler(req, res) {
 				await client
 				.create({
 					_type: "todoList",
-					title: newTodoList.name,
-					name: newTodoList.name,
+					title: newTodoList.title,
 					publishedAt: new Date().toISOString(),
 					saved: false,
 				})

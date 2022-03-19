@@ -8,7 +8,7 @@ const tomato = async function handler(req, res) {
 				await client
 				.create({
 					_type: "tomato",
-					title: newTomato.name,
+					title: newTomato.title,
 					description: newTomato.description,
 					time: Number(newTomato.time),
 					publishedAt: new Date().toISOString(),

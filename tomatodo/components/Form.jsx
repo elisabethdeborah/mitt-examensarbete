@@ -175,9 +175,9 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 	}, []);
 
 	if (method === "POST" && currentState.currentItem ) {
-		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
+		//header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	} else if (method === "PUT" && currentState.currentItem) {
-		currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
+		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	};
 	
 	return (
@@ -207,7 +207,7 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 									)
 								}
 									<h1 className={styles.formHeader}>
-										{header? header: `Ny ${objectType}`}
+										{header? `Redigera ${header}`: `Ny ${objectType}`}
 									</h1>
 									<input 
 										type="text" 

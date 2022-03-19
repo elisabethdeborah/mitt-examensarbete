@@ -9,7 +9,7 @@ import {useUpdateContext} from "../context/TodoContext";
 
 const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list, tomato}) => {
 	const currentState = useUpdateContext();
-	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "pågående listor" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade listor');
+	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "todos" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade-listor');
 	const [popupIsOpen, setPoputIsOpen] = useState(false);
 
 	const handleOpenPopupClick = (x) => {
@@ -59,10 +59,10 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 				<section 
 					className={clsx(styles.listTop, {
 						[styles.tomatoes]: itemType === "tomater",
-						[styles.currentTodos]: itemType === "pågående listor",
-						[styles.savedTodos]: itemType === "sparade listor",
+						[styles.currentTodos]: itemType === "todos",
+						[styles.savedTodos]: itemType === "sparade-listor",
 					})} 
-					onClick={itemType !== "pågående listor" ? () => setContentIsVisible(!contentIsVisible):null}
+					onClick={itemType !== "todos" ? () => setContentIsVisible(!contentIsVisible):null}
 				>
 					<h4>{`Mina ${itemType}`}</h4>
 					{
@@ -75,8 +75,8 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 					<Link href={`/mina-${itemType}`} passHref>
 						<p className={clsx(styles.link, {
 							[styles.tomatoes]: itemType === "tomater",
-							[styles.currentTodos]: itemType === "pågående listor",
-							[styles.savedTodos]: itemType === "sparade listor",
+							[styles.currentTodos]: itemType === "todos",
+							[styles.savedTodos]: itemType === "sparade-listor",
 						})}>
 							{`Gå till ${itemType}`}
 						</p>

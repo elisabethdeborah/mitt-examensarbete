@@ -27,7 +27,7 @@ const Navigation = ({navIsOpen, setNavIsOpen}) => {
 					<Link href='/mina-todos'>Mina todos</Link>
 				</li>
 				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/sparade-listor'})}>
-					<Link href='/sparade-listor'>Mina sparade listor</Link>
+					<Link href='/mina-sparade-listor'>Mina sparade listor</Link>
 				</li>
 			</ul>
 		</nav>

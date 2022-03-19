@@ -37,12 +37,12 @@ export default function Post({postdata, preview}) {
 				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 				{width > 600 ?( <>
 					<ListContainer key='tomatoListLg' itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={tomatoList} setAddListFormIsVisible />
-					<ListContainer key='currentListLg' itemType={'pågående listor'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible />
-					<ListContainer key='savedListsLg' itemType={'sparade listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
+					<ListContainer key='currentListLg' itemType={'todos'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible />
+					<ListContainer key='savedListsLg' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
 				</> ) : ( <> 
 					<ListContainer key='tomatoList' itemType={'tomater'} setOpen={setOpen} open={open} page={'home'} list={tomatoList} setAddListFormIsVisible />
-					<ListContainer key='savedList' itemType={'sparade listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
-					<ListContainer key='currentList' itemType={'pågående listor'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible />
+					<ListContainer key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'home'} list={savedLists} setAddListFormIsVisible />
+					<ListContainer key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'home'} index={2} list={activeLists} setAddListFormIsVisible />
 				</> )}
 			</div>
 		</div>

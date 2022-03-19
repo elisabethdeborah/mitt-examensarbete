@@ -74,7 +74,7 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 			await fetch(createEndpoint(), {
 				method: 'POST',
 				body: JSON.stringify({
-					name: userInputName,
+					title: userInputName,
 					description: userInputText,
 					time: inputTime ? inputTime : 0,
 					parentRef: currentListDocId,
@@ -105,7 +105,7 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 					method: "PUT",
 					body: JSON.stringify({
 						id: currentListDocId,
-						name: userInputName,
+						title: userInputName,
 						description: userInputText,
 						time: userInputTime,
 					}),
@@ -124,7 +124,7 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 				method: "PUT",
 				body: JSON.stringify({
 					id: currentListDocId,
-					name: userInputName,
+					title: userInputName,
 					description: userInputText,
 					time: userInputTime,
 				}),

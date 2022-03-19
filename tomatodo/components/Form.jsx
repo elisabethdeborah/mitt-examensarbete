@@ -7,7 +7,7 @@ import client, {
 	usePreviewSubscription,
   } from "../lib/sanity";
 
-const Form = ({className, setFormIsVisible, objectType, method, currentListDocId, defaultTime, page, setInputTime, thisList }) => {
+const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultTime, page, setInputTime }) => {
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
 	const fetchAllLists = state.fetchTodos;
@@ -25,7 +25,6 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 		let time = Number(initialObjTime);
 		let hours = Math.floor(time/60/60);
 		let minutes = (Math.floor(time/60) % 60);
-		console.log(time, hours, minutes)
 		initialTime = {
 			hh: hours, min: minutes
 		}; 
@@ -129,7 +128,6 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 					time: userInputTime,
 				}),
 			})
-			
 		.then(console.log('posted'))
 		.catch(error => {
 			console.log('error:', error);
@@ -163,8 +161,9 @@ const Form = ({className, setFormIsVisible, objectType, method, currentListDocId
 		setOverlay(false);
 		setTimeout(() => {
 			setFormIsVisible(false);
-		}, 600)
-		currentState.setCurrentItem(null);
+		}, 600);
+		page !== 'archive' ?
+		currentState.setCurrentItem(null) : null;
 	}; 
 
 	useEffect(() => {

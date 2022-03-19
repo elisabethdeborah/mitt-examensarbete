@@ -6,37 +6,35 @@ import styles from '../styles/charts.module.scss';
 import clsx from 'clsx';
 Chart.register(ArcElement);
 
-
-
 const TimerChart = ({startTime, timeLeft, color}) => {
 	const transparent = startTime-timeLeft;
 	const orange = timeLeft;
 	const fill = color === "green" ? "yellow": '#FF9100';
 	const state = {
 		datasets: [
-		  {
-			backgroundColor: [
-				'transparent',
-				`${fill}`,
-			],
-			borderWidth: [
-				0,
-				3,
-			],
-			data: [transparent, orange]
-		  }
+			{
+				backgroundColor: [
+					'transparent',
+					`${fill}`,
+				],
+				borderWidth: [
+					0,
+					3,
+				],
+				data: [transparent, orange]
+		  	}
 		],
-	  }
+	};
 	
-	  return (
+	return (
 		<div className={styles.pieChartWrapper}>
 			<Blast className={clsx(styles.chartBlast, {[styles.animate]: startTime})} />
 			<Pie
-			className={styles.pieChartObj}
+				className={styles.pieChartObj}
 				data={state}
 			/>
 		</div>
-	  );
-  };
+	);
+};
 
-  export default TimerChart;
+export default TimerChart;

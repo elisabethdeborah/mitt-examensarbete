@@ -1,4 +1,5 @@
-const NumberFormat = ({milliSeconds, textSize, text, showSecs, styling}) => {
+const NumberFormat = ({milliSeconds, text, showSecs, styling}) => {
+
 	let time = Math.round(Number(milliSeconds)/1000);
 	let hours = Math.floor(time/60/60);
 	hours < 10 ? hours = `0${hours}` : hours;
@@ -8,10 +9,14 @@ const NumberFormat = ({milliSeconds, textSize, text, showSecs, styling}) => {
 	seconds < 10 ? seconds = `0${seconds}` : seconds;
 	let timeForm;
 	showSecs ? 
-	timeForm = `${hours}:${minutes}:${seconds}`: timeForm = `${hours}:${minutes}`
+		timeForm = `${hours}:${minutes}:${seconds}`
+		: timeForm = `${hours}:${minutes}`
+
 	return (
-		<h2 style={styling} /* style={{fontSize: textSize}} */>{text}{timeForm}</h2>
+		<h2 style={styling}>
+			{text}{timeForm}
+		</h2>
 	);
-}
+};
 
 export default NumberFormat;

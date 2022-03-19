@@ -21,6 +21,7 @@ const Header = () => {
 			</Link>
 			<Navigation navIsOpen={navIsOpen} setNavIsOpen={setNavIsOpen} />
 		</header>
-)
+	);
 };
+
 export default Header;

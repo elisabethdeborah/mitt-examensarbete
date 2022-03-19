@@ -3,19 +3,10 @@ import Link from 'next/link';
 import styles from '../styles/savedLists.module.scss';
 import clsx from 'clsx';
 
-const SavedLists = ({lista, setSideListsVisible, setOpen, page, activeLists }) => {
+const SavedLists = ({lista, setSideListsVisible, page }) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
 	const [previewTodosList, setPreviewTodosList] = useState(null);
-
-	const handleClick = (list, index) => {
-		if (page === 'todo') {
-			console.log('lägg till, sätt denna som open ', activeLists.length-1, index);
-			setOpen(activeLists.length-1 + index);
-		} else if (page === 'home') {
-			console.log('go to todolists med denna som open: ', list); 
-		};
-	};
 
 	const handleClickOpen = (list, index) => {
 		if (page === 'todo') {

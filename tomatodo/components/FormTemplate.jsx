@@ -5,44 +5,44 @@ import { useUpdateContext } from "../context/TodoContext";
 
 const FormTemplate = ({ setFormIsVisible, setUserInputTime, setFormPlay, setIsRunning }) => {
 	const setTimerState = useUpdateContext().setCurrentItem;
-	const [overlay, setOverlay] = useState(false)
-	const [formInputTime, setFormInputTime] = useState({hh:0, min:0})
+	const [overlay, setOverlay] = useState(false);
+	const [formInputTime, setFormInputTime] = useState({hh:0, min:0});
 	const inputTime = Number(formInputTime.hh *60 * 60 + formInputTime.min*60);
 	let hours = [];
 	const mins = [];
 
 	for (let index = 0; index < 24; index++) {
-		hours.push(index)
+		hours.push(index);
 	};
 
 	for (let index = 0; index < 60; index++) {
-		mins.push(index)
+		mins.push(index);
 	};
 
 	const handleClick = () => {
-		setTimerState(inputTime)
-		setUserInputTime(inputTime)
-		setFormPlay(true)
-		console.log(inputTime)
-		setIsRunning(true)
-		setOverlay(false)
+		setTimerState(inputTime);
+		setUserInputTime(inputTime);
+		setFormPlay(true);
+		console.log(inputTime);
+		setIsRunning(true);
+		setOverlay(false);
 			setTimeout(() => {
-				setFormIsVisible(false)
+				setFormIsVisible(false);
 			}, 600);
 	};
 
 	const handleGoBack = () => {
-		setOverlay(false)
+		setOverlay(false);
 		setTimeout(() => {
-			setFormIsVisible(false)
+			setFormIsVisible(false);
 		}, 600);
 	};
 
 	useEffect(() => {
 		setTimeout(() => {
-			setOverlay(true)
+			setOverlay(true);
 		}, 10);
-		return () => setOverlay(false)
+		return () => setOverlay(false);
 	}, []);
 
 	return (

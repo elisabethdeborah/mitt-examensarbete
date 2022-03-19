@@ -12,11 +12,9 @@
 	background-size: contain;
 	color: $color-white;
 	padding-top: 4.4rem;
-	//padding-left: 1.5rem;
 	margin: 2rem auto;
 	position: relative;
 	transition: all 1s ease;
-	//color: $color-darkgrey;
 	
 	&.orangeTomato,
 	&.pinkTomato {
@@ -27,7 +25,6 @@
 			right: 13%;
 			word-break: break-all;
 		}
-
 		> h2 {
 			margin-top: 0;
 		}
@@ -35,24 +32,10 @@
 
 	&.orangeTomato {
 		background-image: url('../svgAssets/orange-tomato-m.svg');
-		/* > h3 {
-			font-size: 1.5rem;
-			width: 200px;
-			text-align: center;
-			right: 13%;
-			word-break: break-all;
-		} */
-		
 	}
+
 	&.pinkTomato {
 		background-image: url('../svgAssets/pink-tomato-m.svg');
-		/* > h3 {
-			font-size: 1.5rem;
-			width: 200px;
-			text-align: center;
-			right: 13%;
-			word-break: break-all;
-		} */
 	}
 
 	&.pinkTodoList,
@@ -95,7 +78,6 @@
 				margin-right: 20px;
 			}
 		}
-
 	}
 
 	&.blueTodoList {
@@ -135,10 +117,8 @@
 
 	@media screen and (min-width: 600px) {
 		padding-left: 2.5rem;
-		//width: 450px;
 		width: 350px;
 		background-position: center;
-		
 	}
 
 	&:hover {
@@ -229,7 +209,6 @@
 				cursor: pointer;
 			}
 
-
 			@media screen and (min-width: 800px) {
 				height: 100px;
 				margin: 3px;
@@ -239,11 +218,6 @@
 				background-size: contain;
 				overflow-x: visible;
 				align-items: center;
-				/* &.iconPlay {
-					background-image: url('../svgAssets/playBtnNew.svg');
-					justify-content: flex-end;
-					
-				} */
 			}
 		}
 
@@ -256,14 +230,8 @@
 			width: 100px;
 			overflow: visible;
 			transition: all 0.5s ease;
-			/* &.iconPlay {
-				background-image: url('../svgAssets/playBtnNew.svg');
-				justify-content: flex-end;
-				
-			} */
 		}
 	}
-
 
 .showSettings {
 	position: relative;
@@ -278,8 +246,6 @@
 	transition: all 0.5s ease;
 	display: block;
 
-
-
 	@media screen and (min-width: 800px) {
 		opacity: 1;
 		position: absolute;
@@ -288,7 +254,6 @@
 		transition: all 0.5s ease;
 	}
 } 
-
 
 .showActiveLists {
 	position: relative;
@@ -310,9 +275,8 @@
 		height: 100px;
 		opacity: 1;
 		transition: all 0.5s ease;
-
-		
 	}
+
 	.optionContainer {
 		display: flex;
 		align-items: center;
@@ -384,8 +348,6 @@
 		}
 	}
 
-	
-
 	&.visibleSettings {
 		position: absolute;
 		height: 400px;
@@ -399,6 +361,7 @@
 			opacity: 1;
 			height: 300px;
 			transition: all 0.5s ease;
+
 			.inputTomato {
 				border-radius: 100px;
 				border: 1px solid $color-orange;
@@ -414,10 +377,8 @@
 	}
 
 	&.visibleLists {
-
 		height: 400px;
 		transition: all 0.5s ease;
-
 
 		.showActiveLists {
 			position: relative;
@@ -428,7 +389,6 @@
 			height: 300px;
 			transition: all 0.5s ease;
 			
-	
 			.currentListsItem {
 				opacity: 1;
 				transition: all 0.5s ease;
@@ -440,6 +400,7 @@
 		position: relative;
 		height: 500px;
 		transition: all 0.5s ease;
+
 		@media screen and (min-width: 800px) {
 			transition: all 0.5s ease;
 			width: 400px;
@@ -450,8 +411,6 @@
 		position: relative;
 		font-size: 1rem;
 	}
-
-	
 
 	.changeTomatoBtn {
 		position: relative;
@@ -465,6 +424,7 @@
 		padding: 0 1.5rem;
 		width: 200px;
 		font-weight: bold;
+
 		> p {
 			text-align: center;
 			width: 400px;
@@ -486,8 +446,6 @@
 	}
 }
 
-
-
 .formContainer {
 	z-index: 9999;
 	position: relative;
@@ -503,9 +461,7 @@
 	min-height: fit-content;
 	padding: 52px;
 	font-family: $font-family;
-
 	transition: opacity 0.5s ease;
-	
 	
 	.formHeader {
 		color: $color-pink;
@@ -522,7 +478,6 @@
 		border: 1px solid $color-pink;
 		border-radius: 100px;
 		color: $color-darkgrey;
-
 		margin-top: 35px;
 
 		&.textInput {
@@ -538,6 +493,7 @@
 		display: flex;
 		flex-direction: row;
 		width: 100%;
+
 		> input {
 			border: 1px solid $color-pink;
 			border-radius: 100px;
@@ -549,6 +505,7 @@
 				cursor: pointer;
 			}
 		}
+
 		.closeForm {
 			color: $color-pink;
 			background-color: $color-white;
@@ -561,21 +518,11 @@
 			background-color: $color-pink;
 			flex: 1;
 			margin-left: 3px;
-		}}
+		}
+	}
 }
-
 
 .playBtnContainer {
 	position: fixed;
-	// width: 90vw;
-    // height: fit-content;
-    // border: 1px solid;
-    // display: flex;
-    // justify-content: center;
 	z-index: 9;
-	border: 1px solid red;
-	// @media screen and (min-width: 800px) {
-	// 	left: 10px;
-	// 	width: fit-content;
-	// }
 }

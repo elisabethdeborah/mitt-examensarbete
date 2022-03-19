@@ -7,23 +7,19 @@ import client, {
 	usePreviewSubscription,
   } from "../lib/sanity";
 
-const Form = ({className, setFormIsVisible, objectType, typeName, method, currentListDocId, defaultTime, page, setInputTime, thisList }) => {
-	console.log('form item:', currentListDocId)
+const Form = ({className, setFormIsVisible, objectType, method, currentListDocId, defaultTime, page, setInputTime, thisList }) => {
 	const state = useTodoContext()
 	const currentState = useUpdateContext()
 	const fetchAllLists = state.fetchTodos;
-
-  let initialTime;
-
-  let initialObjTime;
+	let initialTime;
+	let initialObjTime;
+	let header;
   
 	if ( defaultTime ) {
 		initialObjTime = defaultTime;
 	} else if (currentState.currentItem && currentState.currentItem.time) {
 		initialObjTime = currentState.currentItem.time;
-	} 
-	console.log(initialTime, initialObjTime, Number(initialObjTime)*1000)
-
+	}; 
 
 	if (Number(initialObjTime)*1000 > 0) {
 		let time = Number(initialObjTime);
@@ -32,12 +28,12 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 		console.log(time, hours, minutes)
 		initialTime = {
 			hh: hours, min: minutes
-		} 
+		}; 
 	}else {
 		initialTime = {
 			hh: 0, min: 0
-		}
-	}
+		};
+	};
 
 	const [userInputName, setUserInputName] = useState('');
 	const [userInputText, setUserInputText] = useState('');
@@ -47,12 +43,13 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 
 	let hours = [];
 	for (let index = 0; index < 24; index++) {
-		hours.push(index)
-	}
+		hours.push(index);
+	};
+
 	const mins = [];
 	for (let index = 0; index < 60; index++) {
-		mins.push(index)
-	}
+		mins.push(index);
+	};
 
 	const inputTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
 
@@ -63,9 +60,8 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 			return '/api/todos/todolist'; 
 		} else if (objectType === 'tomato') {
 			return '/api/tomatoes/tomato';
-		}
-	} 
-
+		};
+	}; 
 	
 	const handleSubmit = async () => {
 		if (method === 'POST') {
@@ -143,129 +139,136 @@ const Form = ({className, setFormIsVisible, objectType, typeName, method, curren
 			setUserInputTime(0);
 			setUserInputText('');
 			setErrMessage('');
-			//setFormIsVisible(false)
-			setOverlay(false)
+			setOverlay(false);
 			setTimeout(() => {
-				setFormIsVisible(false)
+				setFormIsVisible(false);
 			}, 600)
-			currentState.setCurrentItem(null)
+			currentState.setCurrentItem(null);
 		} else if (objectType === 'inputCountdown') {
-
-			console.log('inputTime', inputTime * 1000)
-			setInputTime(inputTime*1000)
-			setTimerState.setCurrentItem({title: userInputName, time: inputTime*1000})
-
+			setInputTime(inputTime*1000);
+			setTimerState.setCurrentItem({title: userInputName, time: inputTime*1000});
 			setUserInputName('');
 			setUserInputTime(0);
 			setUserInputText('');
 			setErrMessage('');
-			setOverlay(false)
+			setOverlay(false);
 			setTimeout(() => {
-				setFormIsVisible(false)
+				setFormIsVisible(false);
 			}, 600)
-			currentState.setCurrentItem(null)
-		}
+			currentState.setCurrentItem(null);
+		};
 	};
 
-
-
-	  const handleGoBack = () => {
-		   setOverlay(false)
-		  setTimeout(() => {
-			setFormIsVisible(false)
-		}, 600)
-		currentState.setCurrentItem(null)
-		} 
-	  
-
-	  useEffect(() => {
+	const handleGoBack = () => {
+		setOverlay(false);
 		setTimeout(() => {
-			setOverlay(true)
-			}, 10);
-		  return () => setOverlay(false)
-	  }, [])
+			setFormIsVisible(false);
+		}, 600)
+		currentState.setCurrentItem(null);
+	}; 
 
-	let header;
+	useEffect(() => {
+		setTimeout(() => {
+			setOverlay(true);
+		}, 10);
+		return () => setOverlay(false);
+	}, []);
 
 	if (method === "POST" && currentState.currentItem ) {
 		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	} else if (method === "PUT" && currentState.currentItem) {
 		currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
-	}
-
+	};
 	
 	return (
 		<>
-		{console.log('page', page, 'thisList', thisList, 'class', className, 'currentitme', currentState.currentItem)}
-		<div onClick={() => handleGoBack()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay, [styles.archObj]: page === 'archive'})}/>
-		<section className={clsx(styles.formContainer, {
-			[styles.tomatoFormContainer]: objectType === 'tomato',
-			[styles.todoFormContainer]: objectType === 'todo',
-			[styles.todoListFormContainer]: objectType === 'todoList',
-			[styles.formIsVisible]: overlay,
-			})}>
-			
-			{page!== 'sparade'?
-			(
-				<>
-			{objectType === 'tomato' && page !== 'tomater' && (<aside className={styles.smallTomato} />)}
-			
-			<h1 className={styles.formHeader}>{header? header: `Ny ${objectType}`}</h1>
-			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder={currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`} onChange={(e) => setUserInputName(e.target.value)} />
-			<input type="text" className={clsx(styles.input, styles.textInput)} placeholder="Beskrivning" onChange={(e) => setUserInputText(e.target.value)} />
-			
-			{objectType !== 'todoList' && (
-				<div className={styles.timeInputContainer}>
-					<select
-					value={userInputTime.hh}
-					onChange={({ target: { value } }) => setUserInputTime({hh: value, min: userInputTime.min})}
-					>
-					{hours.map((value, index) => (
-						<option key={index} value={value}>
-						{value<10? `0${value}`: value}
-						</option>
-					))}
-					</select>
-
-					<select
-					value={userInputTime.min}
-					onChange={({ target: { value } }) => setUserInputTime({hh: userInputTime.hh, min: value})}
-					>
-
-					{mins.map((value, index) => (
-						<option key={index} value={value}>
-						{value<10? `0${value}`: value}
-						</option>
-					))}
-					</select>
-				</div>)
-			}
-			</>
-):
-<>
-<h1 className={styles.formHeader}>{`Starta om ${currentState.currentItem ? currentState.currentItem.title: 'lista'}`}</h1>
-</>
-
-}
-
-			<div className={styles.btnContainer}>
-				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={() => handleGoBack()} />
-				<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleSubmit(objectType)} />
-			</div>
-			{errMessage}
-		</section>
+			<div 
+				onClick={() => handleGoBack()} 
+				className={clsx(styles.showOverlay, {
+					[styles.overlayVisible]: overlay, 
+					[styles.archObj]: page === 'archive'
+				})}
+			/>
+			<section 
+				className={clsx(styles.formContainer, {
+					[styles.tomatoFormContainer]: objectType === 'tomato',
+					[styles.todoFormContainer]: objectType === 'todo',
+					[styles.todoListFormContainer]: objectType === 'todoList',
+					[styles.formIsVisible]: overlay,
+				})}
+			>
+				{
+					page!== 'sparade'?
+						(
+							<>
+								{
+									objectType === 'tomato' && page !== 'tomater' && (
+									<aside className={styles.smallTomato} />
+									)
+								}
+									<h1 className={styles.formHeader}>
+										{header? header: `Ny ${objectType}`}
+									</h1>
+									<input 
+										type="text" 
+										className={clsx(styles.input, styles.textInput)} 
+										placeholder={currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`} 
+										onChange={(e) => setUserInputName(e.target.value)} 
+									/>
+									<input 
+										type="text" 
+										className={clsx(styles.input, styles.textInput)} 
+										placeholder="Beskrivning" 
+										onChange={(e) => setUserInputText(e.target.value)} 
+									/>
+								{
+									objectType !== 'todoList' && (
+										<div className={styles.timeInputContainer}>
+											<select
+												value={userInputTime.hh}
+												onChange={({ target: { value } }) => setUserInputTime({hh: value, min: userInputTime.min})}
+											>
+												{
+													hours.map((value, index) => (
+														<option key={index} value={value}>
+															{value<10? `0${value}`: value}
+														</option>
+													))
+												}
+											</select>
+											<select
+												value={userInputTime.min}
+												onChange={({ target: { value } }) => setUserInputTime({hh: userInputTime.hh, min: value})}
+											>
+												{
+													mins.map((value, index) => (
+														<option key={index} value={value}>
+															{value<10? `0${value}`: value}
+														</option>
+													))
+												}
+											</select>
+										</div>
+									)
+								}
+							</>
+						) : (
+							<>
+								<h1 className={styles.formHeader}>
+									{`Starta om ${currentState.currentItem ? currentState.currentItem.title: 'lista'}`}
+								</h1>
+							</>
+						)
+				}
+				<div className={styles.btnContainer}>
+					<input type={"button"} className={styles.closeForm} value="Ångra" onClick={() => handleGoBack()} />
+					<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleSubmit(objectType)} />
+				</div>
+				{errMessage}
+			</section>
 		</>
-	)
+	);
 };
 
 export default Form;
-
-/* 
-
-				headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "http://localhost:3000"
-				},
-*/
 

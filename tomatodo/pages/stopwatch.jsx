@@ -4,7 +4,7 @@ import styles from '../styles/timer.module.scss';
 import { useEffect, useState } from "react";
 import NumberFormat from "../components/NumberFormat";
 import Form from "../components/Form";
-
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 
 const Stopwatch = () => {
@@ -14,10 +14,15 @@ const Stopwatch = () => {
 	const [overlay, setOverlay] = useState(false);
 	const [currentTime, setCurrentTime] = useState(null);
 	const [isCounting, setIsCounting] = useState(false);
+	const setItemState = useUpdateContext().setCurrentItem;
 
 	const start = () => {
 		setIsCounting(true);
 	}
+
+	useEffect(()=> {
+		setItemState('')
+	}, [])
 
 	useEffect(() => {
 		let interval = null;
@@ -47,11 +52,11 @@ const Stopwatch = () => {
 		<section className={styles.contentContainer}>
 			{
 			inputformVisible &&(
-			<Form setFormIsVisible={setInputformVisible} objectType={'tomato'} method={'POST'} currentListDocId={''} setOverlay={setOverlay} typeName={'tomat'} defaultTime={currentTime} />
+			<Form setFormIsVisible={setInputformVisible} objectType={'tomato'} method={'POST'} currentListDocId={''} setOverlay={setOverlay} typeName={'tomat'} defaultTime={currentTime/60} />
 			)}
 			<article className={styles.tomatoWhiteBorder} />
 			<section className={styles.showStopwatchNumbers}>
-				<NumberFormat className={styles.formattedTime} milliSeconds={Number(currentTime)} text={''} textSize={'1.5rem'} showSecs />
+				<NumberFormat className={styles.formattedTime} milliSeconds={Number(currentTime)} text={''}/*  styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px'}}*/ styling={{fontSize: '1.75rem', position: 'relative'}} showSecs />
 			</section>
 			<section className={styles.buttonContainer}>
 				<article className={clsx(styles.timerBtn, styles.playBtn, {[styles.disabled]: isCounting})} onClick={() => start()}  />

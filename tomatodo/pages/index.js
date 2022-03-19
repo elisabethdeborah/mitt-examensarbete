@@ -32,6 +32,7 @@ export default function Post({postdata, preview}) {
 
   useEffect(() => {
 	state.setInitialFetch(posts);
+	setWidth(sectionRef.current.clientWidth);
   }, [])
 
 

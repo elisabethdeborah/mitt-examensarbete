@@ -22,9 +22,8 @@ const todolist = async function handler(req, res) {
 			} catch (err) {
 				console.error(err);
 				res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "PUT":
 			try {
 				const result = await client
@@ -41,9 +40,8 @@ const todolist = async function handler(req, res) {
 			} catch (error) {
 				console.error(error);
 				res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "DELETE":
 			try {
 				await client
@@ -53,17 +51,14 @@ const todolist = async function handler(req, res) {
 				})
 				.then((res) => console.log(`Todo was deleted`));
 				res.status(200).json({ msg: "Success" });
-
 			} catch (error) {
 				console.error(error);
 				res.status(500).json({ msg: "Error, check console" });
-			}
-	
+			};
 		default:
-			break;
-	}
-	console.log('client in todos/todoList api page', 'client', req.body)
-      
-}
+		break;
+	};
+	console.log('client in todos/todoList api page', 'client', req.body);    
+};
 
 export default todolist;

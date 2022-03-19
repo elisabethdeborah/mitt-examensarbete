@@ -23,9 +23,8 @@ const tomato = async function handler(req, res) {
 			} catch (error) {
 					console.error(error);
 					res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "PUT":
 			try {
 				const result = await client
@@ -40,24 +39,25 @@ const tomato = async function handler(req, res) {
 			} catch (error) {
 				console.error(error);
 					res.status(500).json({ msg: "Error, check console" });
-			}
+			};
 			break;
-
 		case "DELETE":
-			await client
+			try {
+				await client
 				.delete(req.body)
 				.then((res) => {
 				res.body;
 				})
 				.then((res) => console.log(`Tomato was deleted`));
-			res.status(200).json({ msg: "Success" });
-
-	
+				res.status(200).json({ msg: "Success" });
+			} catch (error) {
+				console.error(error);
+				res.status(500).json({ msg: "Error, check console" });
+			}
 		default:
-			break;
-	}
-	console.log('client in tomatoes/tomato api page', req.body)
-      
-}
+		break;
+	};
+	console.log('client in tomatoes/tomato api page', req.body);    
+};
 
 export default tomato;

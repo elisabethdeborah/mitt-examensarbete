@@ -29,12 +29,25 @@ const TodoList = ({list,setOverlay}) => {
 			<section className={styles.todoListSection} key={list._rev} ref={sectionRef}>
 				{ 
 					addTodoFormIsVisible && !addListFormIsVisible && (
-						<Form setFormIsVisible={setAddTodoFormIsVisible} objectType={'todo'} method={'POST'} currentListDocId={list._id} setOverlay={setOverlay} typeName={'todo'} />
+						<Form 
+							setFormIsVisible={setAddTodoFormIsVisible} 
+							objectType={'todo'} 
+							method={'POST'} 
+							currentListDocId={list._id} 
+							setOverlay={setOverlay} 
+							typeName={'todo'} 
+						/>
 					)
 				}
 				{ 
 					addListFormIsVisible && !addTodoFormIsVisible && (
-						<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} setOverlay={setOverlay} />
+						<Form 
+							setFormIsVisible={setAddListFormIsVisible} 
+							objectType={'todoList'} 
+							method={'POST'} 
+							typeName={'lista'} 
+							setOverlay={setOverlay} 
+						/>
 					)
 				}
 				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />

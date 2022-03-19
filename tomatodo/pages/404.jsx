@@ -7,10 +7,10 @@ const Custom404 = () => {
 			<h1>404</h1>
 			<h2>hoppsan, nånting gick snett.</h2>
 			<Link href="/" passHref>
-			<button className={styles.errGoBackBtn}>gå till startsidan</button>
+				<button className={styles.errGoBackBtn}>gå till startsidan</button>
 			</Link>
 		</div>
-	)
-}
+	);
+};
 
 export default Custom404;

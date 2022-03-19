@@ -4,12 +4,9 @@ import styles from '../styles/timer.module.scss';
 import { useEffect, useState } from "react";
 import NumberFormat from "../components/NumberFormat";
 import Form from "../components/Form";
-import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-
+import { useUpdateContext } from "../context/TodoContext";
 
 const Stopwatch = () => {
-	const [showSaveTomatoBtn, setShowSaveTomatoBtn] = useState(false);
-	const [inputTime, setInputTime] = useState(0);
 	const [inputformVisible, setInputformVisible] = useState(false);
 	const [overlay, setOverlay] = useState(false);
 	const [currentTime, setCurrentTime] = useState(null);
@@ -18,54 +15,79 @@ const Stopwatch = () => {
 
 	const start = () => {
 		setIsCounting(true);
-	}
+	};
 
 	useEffect(()=> {
-		setItemState('')
-	}, [])
+		setItemState('');
+	}, []);
 
 	useEffect(() => {
 		let interval = null;
 		isCounting? 
-		interval = setInterval(() => {
-			setCurrentTime(currentTime => currentTime+=10);
-		}, 10)
-		: clearInterval(interval);
-		
-		return () => clearInterval(interval)
-	}, [isCounting])
-	
+			interval = setInterval(() => {
+				setCurrentTime(currentTime => currentTime+=10);
+			}, 10)
+			: clearInterval(interval);
+		return () => clearInterval(interval);
+	}, [isCounting]);
 
 	const pause = () => {
 		setIsCounting(false);
-	}
+	};
 
 	const reset = () => {
-
 		setCurrentTime(0);
 		setIsCounting(false);
-	}
+	};
 
 	return (
-	<div className={clsx(styles.timerPageWrapper, styles.stopwatchWrapper)}>
-		<Meta title='Tidtagning' />
-		<section className={styles.contentContainer}>
-			{
-			inputformVisible &&(
-			<Form setFormIsVisible={setInputformVisible} objectType={'tomato'} method={'POST'} currentListDocId={''} setOverlay={setOverlay} typeName={'tomat'} defaultTime={currentTime/60} />
-			)}
-			<article className={styles.tomatoWhiteBorder} />
-			<section className={styles.showStopwatchNumbers}>
-				<NumberFormat className={styles.formattedTime} milliSeconds={Number(currentTime)} text={''}/*  styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px'}}*/ styling={{fontSize: '1.75rem', position: 'relative'}} showSecs />
+		<div className={clsx(styles.timerPageWrapper, styles.stopwatchWrapper)}>
+			<Meta title='Tidtagning' />
+			<section className={styles.contentContainer}>
+				{
+					inputformVisible && (
+						<Form 
+							setFormIsVisible={setInputformVisible} 
+							objectType={'tomato'} 
+							method={'POST'} 
+							currentListDocId={''} 
+							setOverlay={setOverlay} 
+							typeName={'tomat'} 
+							defaultTime={currentTime/60} 
+						/>
+					)
+				}
+				<article className={styles.tomatoWhiteBorder} />
+				<section className={styles.showStopwatchNumbers}>
+					<NumberFormat 
+						className={styles.formattedTime} 
+						milliSeconds={Number(currentTime)} 
+						text={''}
+						styling={{fontSize: '1.75rem', position: 'relative'}} 
+						showSecs 
+					/>
+				</section>
+				<section className={styles.buttonContainer}>
+					<article 
+						className={clsx(styles.timerBtn, styles.playBtn, {[styles.disabled]: isCounting})} 
+						onClick={() => start()}
+					/>
+					<article 
+						className={clsx(styles.timerBtn, styles.pauseBtn, {[styles.disabled]: !isCounting || currentTime < 1})} 
+						onClick={() => pause()} 
+					/>
+					<article 	
+						className={clsx(styles.timerBtn, styles.stopBtn, {[styles.disabled]: currentTime < 1})} 
+						onClick={() => reset()} 
+					/>
+					<article 
+						className={clsx(styles.timerBtn, styles.saveBtn, {[styles.disabled]: isCounting || currentTime < 1})} 
+						onClick={() => setInputformVisible(true)} 
+					/> 
+				</section>
 			</section>
-			<section className={styles.buttonContainer}>
-				<article className={clsx(styles.timerBtn, styles.playBtn, {[styles.disabled]: isCounting})} onClick={() => start()}  />
-				<article className={clsx(styles.timerBtn, styles.pauseBtn, {[styles.disabled]: !isCounting || currentTime < 1})} onClick={() => pause()} />
-				<article className={clsx(styles.timerBtn, styles.stopBtn, {[styles.disabled]: currentTime < 1})} onClick={() => reset()} />
-				 <article className={clsx(styles.timerBtn, styles.saveBtn, {[styles.disabled]: isCounting || currentTime < 1})} onClick={() => setInputformVisible(true)} /> 
-			</section>
-		</section>
-	</div>
-);
-}
+		</div>
+	);
+};
+
 export default Stopwatch;

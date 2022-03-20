@@ -1,11 +1,12 @@
 import styles from '../styles/todoList.module.scss';
 import { useTodoContext} from "../context/TodoContext";
 
-const CheckBox = ({listItem}) => {
+const CheckBox = ({listItem, setStyleChecked}) => {
 	const state = useTodoContext();
 	const fetchAllLists = state.fetchTodos;
 
 	const handleCheckTodo = async() => {
+		setStyleChecked(!listItem.checked)
 		await fetch("/api/todos/todo", {
 			method: "PUT",
 			headers: {

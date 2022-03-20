@@ -4,7 +4,7 @@ import CheckBox from './CheckBox';
 import styles from '../styles/todoList.module.scss';
 import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import client, {
 	getClient,
 	usePreviewSubscription,
@@ -13,6 +13,7 @@ import client, {
 const ListObj = ({listItem, width}) => {
 	const [save, setSave] = useState(false);
 	const [listId, setListId] = useState(null);
+	const [styleChecked, setStyleChecked] = useState(listItem.checked === true);
 
 	const checkedAllChecked = async() => {
 		let allChecked;
@@ -57,7 +58,7 @@ const ListObj = ({listItem, width}) => {
 							onClick={() =>checkedAllChecked()} 
 							key={listItem._id} 
 							className={clsx(styles.todoArticle, {
-								[styles.checkedItem]: listItem.checked === true
+								[styles.checkedItem]: styleChecked === true
 							})}
 						>
 							<div className={styles.todoTextSection}>
@@ -65,7 +66,7 @@ const ListObj = ({listItem, width}) => {
 								<p className={styles.todoDescription}>{listItem.description}</p>
 							</div>
 							<div className={styles.btnSection}>
-								<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
+								<PlayTimerBtn listItem={listItem} color={styleChecked? 'green' : 'grey'} styleChecked={styleChecked} />
 								{
 									listItem && listItem.time > 0 && (
 										<NumberFormat 
@@ -74,7 +75,7 @@ const ListObj = ({listItem, width}) => {
 										/>
 									)
 								}
-								<CheckBox listItem={listItem} />
+								<CheckBox listItem={listItem} setStyleChecked={setStyleChecked}/>
 							</div>
 							<DeleteButton color={'blue'} listItem={listItem}/>
 						</article> 
@@ -83,17 +84,17 @@ const ListObj = ({listItem, width}) => {
 							onClick={() =>checkedAllChecked()} 
 							key={listItem._id} 
 							className={clsx(styles.todoArticle, {
-								[styles.checkedItem]: listItem.checked === true
+								[styles.checkedItem]: styleChecked === true
 								})}
 						>
 							<article className={styles.todoBorder} />
-							<CheckBox listItem={listItem} />
+							<CheckBox listItem={listItem} setStyleChecked={setStyleChecked} />
 							<div className={styles.todoTextSection}>
 								<h3 className={styles.todoName}>{listItem.title}</h3>
 								<p className={styles.todoDescription}>{listItem.description}</p>
 							</div>
 							<div className={styles.todoTimeSection}>
-								<PlayTimerBtn listItem={listItem} color={listItem.checked? 'green' : 'grey'} />
+								<PlayTimerBtn listItem={listItem} color={styleChecked? 'green' : 'grey'} styleChecked={styleChecked} />
 								{
 									listItem && listItem.time > 0 && (
 										<NumberFormat 

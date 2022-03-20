@@ -3,7 +3,7 @@ import Link from 'next/link';
 import clsx from 'clsx';
 import { useUpdateContext } from "../context/TodoContext";
 
-const PlayBtn = ({listItem, size, content}) => {
+const PlayBtn = ({listItem, size, content, styleChecked}) => {
 	const currentState = useUpdateContext();
 
 	return (
@@ -18,8 +18,8 @@ const PlayBtn = ({listItem, size, content}) => {
 							<button 
 								className={clsx(styles.playBtn, {
 									[styles.orange]: listItem._type ==="tomato",
-									[styles.green]: listItem._type !=="tomato" && listItem.checked,
-									[styles.grey]: listItem._type !=="tomato" && !listItem.checked,
+									[styles.green]: listItem._type !=="tomato" && styleChecked,
+									[styles.grey]: listItem._type !=="tomato" && !styleChecked,
 									[styles.orangeLg]: size === 'large',
 									[styles.regularBtn]: content && content.length>0, 
 								})} 

@@ -18,7 +18,7 @@ const Stopwatch = () => {
 	};
 
 	useEffect(()=> {
-		setItemState('');
+		setItemState(null);
 	}, []);
 
 	useEffect(() => {
@@ -53,7 +53,7 @@ const Stopwatch = () => {
 							currentListDocId={''} 
 							setOverlay={setOverlay} 
 							typeName={'tomat'} 
-							defaultTime={currentTime/60} 
+							defaultTime={Math.round(currentTime/10000)*10} 
 						/>
 					)
 				}

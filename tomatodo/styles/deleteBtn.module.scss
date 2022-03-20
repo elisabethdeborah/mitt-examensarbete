@@ -41,6 +41,12 @@
 		margin: 3px;
 		width: 80px;
 	}
+
+	&.regular {
+		@include white-btn;
+		content: 'delete';
+		height: 50px;
+	}
 }
 
 

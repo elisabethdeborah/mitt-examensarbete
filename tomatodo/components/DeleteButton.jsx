@@ -3,7 +3,7 @@ import {useTodoContext} from "../context/TodoContext";
 import clsx from 'clsx';
 import { useState } from 'react';
 
-const DeleteButton = ({color, listItem, size}) => {
+const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 	const [showWarning, setShowWarning] = useState(false);
 	const state = useTodoContext()
 	const fetchAllLists = state.fetchTodos;
@@ -22,6 +22,17 @@ const DeleteButton = ({color, listItem, size}) => {
 			fetchAllLists();			 
 		//delete todo-list
 		} else if (listItem._type === 'todoList') {
+			console.log('todos: ',listItem.todos)
+			listItem.todos.map(async(x) => {
+				await fetch("/api/todos/todo", {
+					method: "DELETE",
+					body: x._id,
+				})
+				.then(console.log('posted'))
+				.catch(error => {
+					console.log('error:', error);
+				})
+			})
 			await fetch("/api/todos/todolist", {
 				method: "DELETE",
 				body: listItem._id,
@@ -39,6 +50,7 @@ const DeleteButton = ({color, listItem, size}) => {
 			})
 			fetchAllLists();
 		}
+		setDisplayWarning ? setDisplayWarning(false):null;
 		setShowWarning(false);
 	};
 
@@ -48,9 +60,12 @@ const DeleteButton = ({color, listItem, size}) => {
 				className={clsx(styles.deleteBtn, {
 					[styles.smallOrange]: color === 'orange', 
 					[styles.smallBlue]: color === 'blue', 
-					[styles.large]: size === 'large' 
+					[styles.large]: size === 'large',
+					[styles.regular]: size === 'regular', 
 				})} 
-			/>
+			>
+				{text}
+			</div>
 			{showWarning && (
 				<div className={styles.deleteWarning}>
 					<h2>Vill du ta bort {listItem.title}?</h2>

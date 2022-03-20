@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ActiveLists from "../components/ActiveLists";
 import SavedLists from "../components/SavedLists";
+import LimboLists from "../components/LimboLists";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
 import TodoList from "../components/TodoList";
@@ -26,14 +27,17 @@ export default function MinaTodos() {
 	const fetchAllLists = state.fetchTodos;
 	const [isLoading, setIsLoading] = useState(false);
 	const [open, setOpen] = useState(0); 
+	
 	let activeLists;
 	let savedLists;
 	let titles;
-
+	let limboLists;
+	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
 	if (state.initialFetch) {
 		activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
 		savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
 		titles = activeLists.map(x => x.title);
+		limboLists = state.initialFetch.limboLists;
 	};
 	
 	const handleSideListArrow = () => {
@@ -53,6 +57,7 @@ export default function MinaTodos() {
 
 	useEffect(() => {
 		activeLists ? setIsLoading(false) : setIsLoading(true);
+		limboLists ? setDisplayWarning(true): null;
 		open < 0 || !open ? setOpen(0) : console.log('open?', open);
 		return () => setIsLoading(false);
 	}, [activeLists]);
@@ -85,6 +90,13 @@ export default function MinaTodos() {
 					})}
 				>
 					<Meta title='Mina todos' />
+					{console.log('warning?', displayWarning)}
+					{
+						displayWarning && 
+						<div className={styles.limboListContainer}>
+							{limboLists && limboLists.map((x) => <LimboLists key={x._id} list={x} setDisplayWarning={setDisplayWarning} />)}
+						</div>
+					}
 					{
 						!sideListVisible && (
 							<aside className={styles.optionContainer} onClick={() => handleSideListArrow()} >

@@ -11,6 +11,8 @@ body {
 	background: $color-background;
 
 	overflow-x: hidden;
+
+	scroll-behavior: smooth;
 }
 
 a {

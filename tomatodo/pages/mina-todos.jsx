@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ActiveLists from "../components/ActiveLists";
 import SavedLists from "../components/SavedLists";
-import LimboLists from "../components/LimboLists";
+import LimboLists from "../components/LimboListsComponent";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
 import TodoList from "../components/TodoList";
@@ -16,6 +16,7 @@ import client, {
 
 import { groq } from "next-sanity";
 import Form from "../components/Form"; 
+import ListContainer from "../components/ListContainer";
 
 
 export default function MinaTodos() {
@@ -33,11 +34,12 @@ export default function MinaTodos() {
 	let titles;
 	let limboLists;
 	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
+
 	if (state.initialFetch) {
 		activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-		savedLists = state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+		savedLists = state.initialFetch.allTodoLists.filter(x => x.saved);
 		titles = activeLists.map(x => x.title);
-		limboLists = state.initialFetch.limboLists;
+		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved);
 	};
 	
 	const handleSideListArrow = () => {
@@ -56,11 +58,11 @@ export default function MinaTodos() {
 	}, []);
 
 	useEffect(() => {
-		activeLists ? setIsLoading(false) : setIsLoading(true);
+		activeLists && savedLists ? setIsLoading(false) : setIsLoading(true);
 		limboLists ? setDisplayWarning(true): null;
 		open < 0 || !open ? setOpen(0) : console.log('open?', open);
 		return () => setIsLoading(false);
-	}, [activeLists]);
+	}, [activeLists, savedLists]);
 
 	useEffect(() => {
 		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
@@ -90,7 +92,6 @@ export default function MinaTodos() {
 					})}
 				>
 					<Meta title='Mina todos' />
-					{console.log('warning?', displayWarning)}
 					{
 						displayWarning && 
 						<div className={styles.limboListContainer}>
@@ -107,8 +108,8 @@ export default function MinaTodos() {
 					} 
 					{
 						<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
-							<ActiveLists lista={activeLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={open} page={'todo'} />
-							<SavedLists lista={savedLists} setSideListsVisible={setSideListsVisible} setOpen={setOpen} open={open}  page={'todo'} activeLists={activeLists} setAddListFormIsVisible={setAddListFormIsVisible}  />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={savedLists} activeLists={activeLists} setAddListFormIsVisible />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists}  activeLists={activeLists}  setAddListFormIsVisible />
 						</section>
 					}
 					<div className={styles.todoListWrapper}>

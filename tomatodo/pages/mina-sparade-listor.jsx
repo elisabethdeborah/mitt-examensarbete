@@ -74,6 +74,28 @@ export default function SparadeListor() {
 		setShowStartList(!showStartList);
 		setaddToListIsVisible(!addToListIsVisible);
 	};
+
+	const resetTodoList = async() => {
+		console.log('SAVE!!!', list._id)
+		await fetch("/api/todos/todolist", {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				id: list._id,
+				saved: false,
+			}),
+		})
+		.then(console.log('saved'))
+		.catch(error => {
+			console.log('error:', error);
+		})
+		fetchAllLists();
+	}
+
+
 	
 	return (
 		<div className={styles.tomatoPageWrapper}>
@@ -85,14 +107,14 @@ export default function SparadeListor() {
 			}
 			{
 				addToListIsVisible && (
-					<Form 
-						setFormIsVisible={setAddListFormIsVisible} 
-						objectType={'todoList'}  
-						method={'PUT'} 
-						typeName={'lista'} 
-						page={'sparade'} 
-						thisList={currentObj} 
-					/>
+					<section className={styles.restartForm}>
+					<h1> Alla todos är färdiga, bra jobbat!</h1>
+					<h3>Vill du spara eller ta bort <span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>?</h3>
+					<div className={styles.btnContainer}>
+						<input type={"button"} className={styles.addBtn} value="Spara" onClick={() => handleClick()} />
+					</div>
+					
+				</section>
 				)
 			}
 			<div className={styles.libraryContainer}>

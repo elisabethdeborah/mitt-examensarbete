@@ -28,7 +28,7 @@ export default function Post({postdata, preview}) {
   	}, [])
 
 	const activeLists = posts.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-	const savedLists = posts.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0);
+	const savedLists = posts.allTodoLists.filter(x => x.saved);
 	const tomatoList = posts.tomatoLibrary;
 
   	return (
@@ -50,23 +50,35 @@ export default function Post({postdata, preview}) {
 };
 
 const query = groq`{
-	"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
-		title,
-		saved,
-		"todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
-		"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
-		'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
-		'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
-		...,
-	},
-	"tomatoLibrary": * [_type == "tomato"] | order(_createdAt desc) {
-		title, 
-		time, 
-		slug,
-		...,
-		"slug": slug.current,
+	"allTodoLists": * [_type == "todoList" && !saved] | order(_createdAt desc) { 
+	"limbo": count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked])== 0 && count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}) > 0
+	},	  
 	}
-}`;
+	{
+	"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
+	  title,
+	  saved,
+	  "todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
+	  "nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
+	  'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
+	  'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
+	  ...,
+	  },
+  
+	  "tomatoLibrary": * [_type == "tomato"] | order(_createdAt desc) {
+	  title, 
+	  time, 
+	  slug,
+	  ...,
+	  "slug": slug.current,
+	},
+
+	"limboLists": * [_type == "todoList" && !saved && count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked])== 0 && count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}) > 0] | order(_createdAt desc) {
+	title,
+	"todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
+	...,
+	}
+  }`;
 
 export async function getStaticProps({ params, preview = false }) {
 	const post = await getClient(preview).fetch(query);

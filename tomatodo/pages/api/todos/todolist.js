@@ -28,9 +28,9 @@ const todolist = async function handler(req, res) {
 				await client
 				.patch(req.body.id)
 				.set({
-				isCompleted: !req.body.isCompleted,
-				completedAt: !!req.body.isCompleted ? "" : new Date().toISOString(),
-				saved: true,
+				// isCompleted: !req.body.isCompleted,
+				// completedAt: !!req.body.isCompleted ? "" : new Date().toISOString(),
+				saved: req.body.saved,
 				})
 				.commit();
 				res.status(200).json({

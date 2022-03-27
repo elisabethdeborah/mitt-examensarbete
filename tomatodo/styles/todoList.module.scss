@@ -88,11 +88,13 @@
 			background-position: center;
 			background-size: cover;
 			overflow: visible;
+			transition: all 1s ease-in-out;
 			
 			@media screen and (min-width: 600px) {
 				width: 50px;
 				height: 50px;
 				margin-top: 5px;
+				transition: all 1s ease-in-out;
 			}
 		}
 
@@ -106,7 +108,7 @@
 			background-position: center;
 			background-size: cover;
 			overflow: visible;
-
+			transition: all 1s ease-in-out;
 			&.disabled {
 				filter: opacity(0.5);
 				&:hover {
@@ -117,6 +119,7 @@
 			@media screen and (min-width: 600px) {
 				width: 50px;
 				height: 50px;
+				transition: all 1s ease-in-out;
 			}
 		}
 
@@ -156,6 +159,7 @@
 
 		&.checkedItem {
 			background-color: $color-green-bg;
+			transition: all 1s ease-in-out;
 
 			.checkBox {
 				@include hover-btn;

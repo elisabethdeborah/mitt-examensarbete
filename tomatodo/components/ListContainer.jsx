@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/listContainer.module.scss';
 import clsx from 'clsx';
@@ -7,27 +7,19 @@ import NumberFormat from './NumberFormat';
 import PlayTimerBtn from './PlayTimerBtn';
 import {useUpdateContext} from "../context/TodoContext";
 import SmallListObj from './SmallListObj';
+import PopupLists from './PopupLists';
 
 const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list, tomato}) => {
 	const currentState = useUpdateContext();
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "todos" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade-listor');
-	const [popupIsOpen, setPoputIsOpen] = useState(false);
+	const [popupIsOpen, setPopupIsOpen] = useState(currentState.currentItem && currentState.currentItem.saved);
 
-	const handleOpenPopupClick = (x) => {
-		setOpen(x)
-	};
+	useEffect(() => {
+		setPopupIsOpen(currentState.currentItem && currentState.currentItem.saved);
 
-/* 	const postTomatoTodo = async(tomatoTodo, toList) => {
-		await fetch("/api/todos/todo", {
-			method: "POST",
-			body: JSON.stringify({
-				title: tomatoTodo.title,
-				description: tomatoTodo.description,
-				time: tomatoTodo.time,
-				parentRef: toList._id,
-			}),
-		});
-	}; */
+		return () => setPopupIsOpen(false);
+	}, [currentState.currentItem])
+
 
 	const handleClickOpen = (item, index) => {
 		console.log('klick från listkomponent: ', item, 'index', index);
@@ -44,10 +36,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 		<>
 			{
 				popupIsOpen && (
-					<section className={styles.popup}>
-						<h2>Vill du starta denna lista?</h2>
-						<input type={"button"} value={"starta"} onClick={(list) => handleOpenPopupClick(list)}/>
-					</section>
+					<PopupLists setPopupIsOpen={setPopupIsOpen} />
 				)
 			}
 			<div className={clsx(styles.listContainer, {
@@ -83,16 +72,20 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 						</p>
 					</Link>
 					{
-						list && list.length > 0 ? 
-							list.map((item, index) => {
-								return (
+					list && list.length > 0 ? 
+						list.map((item, index) => {
+							return (
+								page === 'todo' && !item.saved ? (
 									open !== index && (
 										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} />
 									)
+								) : (
+									<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} />
 								)
-							}) : (
-								<h3 className={styles.emptyListText}>Tomt!</h3>
 							)
+						}) : (
+							<h3 className={styles.emptyListText}>Tomt!</h3>
+						)
 					}
 				</section>
 			</div>
@@ -101,66 +94,3 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 };
 
 export default ListContainer;
-
-/* 
-<article  
-	onClick={() => currentState.setCurrentItem(item)} 
-	className={clsx(
-	styles.hiddenLists, {
-		[styles.isVisible] : contentIsVisible === true,
-		[styles.todoListObj] : item._type === 'todoList',
-	})}
->
-	<section className={styles.textGroup}>
-		<h3>{item.title}</h3>
-		{
-			item && item._createdAt && (
-				<p>
-					tillagd: {item._createdAt.slice(0, 10)}
-				</p>
-			)
-		}
-	</section>
-	<section className={styles.iconGroup}>
-		<article className={styles.nrOfTodosIcon}>
-			<p className={styles.nrTodos}>
-				{item.nrOfTodos? item.nrOfTodos: 0}
-			</p>
-		</article>
-		<article className={styles.nrOfNotCheckedIcon}>
-			<p className={styles.nrNotChecked}>
-				{item.numberOfNotChecked? item.numberOfNotChecked: 0}
-			</p>
-		</article>
-		<article className={styles.nrOfCheckedIcon}>
-			<p className={styles.nrChecked}>{item.numberOfChecked? item.numberOfChecked: 0}</p>
-		</article>
-	</section>
-</article>
-*/
-
-/* 
-<article 
-	key={item._rev} 
-	onClick={() => currentState.setCurrentItem(item)} 
-	className={clsx(styles.hiddenLists, {
-		[styles.isVisible] : contentIsVisible === true,
-		[styles.tomatoObj] : item._type === 'tomato',
-	})}
->
-	<>
-		<article className={styles.smallTomato} />
-		<section className={styles.textGroup}>
-			<h3>{item.title}</h3>
-			<div className={styles.tomatoTime}>
-				<NumberFormat 
-					milliSeconds={item.time*1000} 
-					styling={{fontSize: '0.7rem', position: 'relative', bottom: '0px'}}
-					text={'tid: '} 
-				/>
-			</div>
-		</section>
-	</>
-		<PlayTimerBtn listItem={item} />
-</article> 
-*/

@@ -2,11 +2,15 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/savedLists.module.scss';
 import clsx from 'clsx';
+import LimboLists from './LimboListsComponent';
+import DeleteButton from './DeleteButton';
+import { useUpdateContext} from "../context/TodoContext";
 
 const SavedLists = ({lista, setSideListsVisible, page }) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
 	const [previewTodosList, setPreviewTodosList] = useState(null);
+	const currentState = useUpdateContext();
 
 	const handleClickOpen = (list, index) => {
 		if (page === 'todo') {
@@ -16,6 +20,52 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 			console.log("show todolist's todos: ", list.todos); 
 		};	 
 	};
+
+	const handleClick = async(list) => {
+		console.log('SAVE!!!', list._id)
+		await fetch("/api/todos/todolist", {
+			method: "PUT",
+			headers: {
+				Accept: "application/json",
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify({
+				id: lista._id,
+				saved: true,
+			}),
+		})
+		.then(console.log('saved'))
+		.catch(error => {
+			console.log('error:', error);
+		})
+		list.todos.map(async(x) => {
+			await fetch("/api/todos/todo", {
+				method: "PUT",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json"
+				},
+				body: JSON.stringify({
+					id: lista._id,
+					checked: false,
+				}),
+			})
+			.then(console.log('posted'))
+			.catch(error => {
+				console.log('error:', error);
+			})
+		})
+		setDisplayWarning(false);
+		fetchAllLists();
+	};
+
+	const clickItem = (clickItem) => {
+		setPopupIsOpen(!popupIsOpen);
+		currentState.setCurrentItem(clickItem);
+		console.log(currentState.currentItem, clickItem);
+	};
+
+
 
 	return (
 		<div className={clsx(styles.savedLists, {
@@ -36,14 +86,35 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 					lista ? 
 						lista.map((list, index) => {
 							let listItem = previewTodosList? list.todos:null;
-							console.group('listItem', listItem, 'index', index);
+							//console.group('listItem', listItem, 'index', index);
 							return (
-								<div key={index}>
+								<div className={styles.savedListsContainer} key={index}>
+									{
+										popupIsOpen && currentState.currentItem._id === list._id && (
+											<div onClick={() => clickItem(list)} className={styles.listContainer}>
+												<article
+													//className={(styles.hiddenLists)}
+												>
+												<section className={styles.textGroup}>
+													<h2 className={styles.headerPartOne}>{`Vill du starta om`}</h2>
+													<span className={styles.headerPartTwo}>{`${list.title}`}</span>
+													<h2 className={styles.headerPartOne}>{`?`}</h2>
+													<div className={styles.btnContainer}>
+														<DeleteButton setDisplayWarning={setPopupIsOpen} listItem={list} size={'regular'} text={'Delete'} />
+														<input type={"button"} className={styles.addBtn} value="Starta" onClick={() => handleClick(list)} />
+													</div>
+												</section>
+											</article>
+										</div>
+										)
+									}
 									{
 										previewTodosList && (
 											listItem? (
-												listItem.map((todoItem) => (
-													<article key={todoItem._rev} onClick={() => setPopupIsOpen(true)} className={styles.hiddenLists}>
+												<div className={styles.previewContainer} >
+													{console.log('finns id in currentItem?', currentState.currentItem, listItem.filter(x => console.log(x.todoList._ref)))}
+												{listItem.filter(x => currentState.currentItem._id.includes(x.todoList._ref).listItem.map((todoItem) => (
+													<article key={todoItem._rev} onClick={() => clickItem(todoItem)} className={styles.hiddenLists}>
 														<section className={styles.textGroup}>
 															<h3>{todoItem.title}</h3>
 															{
@@ -53,19 +124,11 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 															}
 														</section>
 													</article>
-												))
+												)))}
+												</div>
 											) : (
 											<h2>Den här listan är tom</h2>
 										))
-									}
-									{
-										popupIsOpen && (
-											<section className={styles.popup}>
-												<h2>Vill du starta denna lista?</h2>
-												<input type={"button"} value={"starta"} onClick={(list) => handleClickOpen(list)}/>
-												<input type={"button"} value={"stäng"} onClick={(list) => setPopupIsOpen(false)}/>
-											</section>
-										)
 									}
 									<article key={index} onClick={() => handleClickOpen(list, index)} className={styles.hiddenLists}>
 										<section className={styles.textGroup}>
@@ -82,7 +145,7 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 							);
 						}) 
 					: ( 
-						<h3>Tomt!</h3>
+						<h3>Den här listan är tom</h3>
 					)
 				}
 			</section>

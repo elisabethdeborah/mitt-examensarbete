@@ -195,6 +195,7 @@
 }
 
 .timerBtn {
+	@include active-btn;
 	position: relative;
 	height: 60px;
 	width: 60px;
@@ -214,10 +215,15 @@
 			opacity: 0.5;
 			filter: none;
 		}
+		&:active {
+			filter: none;
+			transform: none;
+		}
 	}
 
 	@media screen and (min-width: 600px) {
 		@include hover-btn;
+		@include active-btn;
 		height: 80px;
 		width: 80px;
 		margin: 0 5px;
@@ -330,9 +336,10 @@
   }
 
 
-  .addTime {
-	  @include pink-btn;
-	  @include hover-btn;
+.addTime {
+	@include pink-btn;
+	@include hover-btn;
+	@include active-btn;
 	margin: 1rem auto 2rem;
 	//position: absolute;
-  }
+}

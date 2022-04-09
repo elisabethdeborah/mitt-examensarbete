@@ -16,24 +16,23 @@
 	display: grid;
 	width: 90vw;
 	max-width: 1350px;
-	background-color: $color-container-bg;
+	background-color: $color-container-bg-transp;
 	border-radius: 20px;
 	margin: 2rem auto;
 	padding: 40px 0 30px;
 	flex-wrap: wrap;
 
 	width: 90vw;
-            margin-top: 4%;
-            
-            display: grid;
- 
-            /* Use display property as grid*/
-            gap: 5px;
-            grid-template-columns: repeat(
-                auto-fit, minmax(350px, 1fr));
+	margin-top: 4%;
+	
+	display: grid;
+
+	/* Use display property as grid*/
+	gap: 5px;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); //350px
 
 	.gridItem {
-		max-width: 350px;
+		max-width: 300px; //350px
 	}
 
 	.emptyList {
@@ -126,7 +125,7 @@
 	@media screen and (min-width: 600px) {
 		flex-direction: row;
 		flex-wrap: wrap;
-		padding: 70px;
+		//padding: 70px;
 	}
 }
 
@@ -226,4 +225,116 @@
 		transition: all 0.5s ease;
 		top: 10%;
 	}
+}
+
+.restartForm {
+	z-index: 9999999;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	box-shadow: 0px 0px 20px $color-darkgrey;
+	max-height: 500px;
+	border-radius: 30px;
+	max-width: 350px;
+	background-color: $color-container-bg;
+	transition: all 0.2s ease-in-out;
+	display: flex;
+	min-height: 200px;
+	transition: all 0.2s ease-in-out;
+	padding: 50px;
+	margin: 50px auto;
+
+	text-align: center;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-evenly;
+
+	> h2 {
+		color: $color-pink;
+	}
+
+	@media screen and (min-width: 600px) {
+		left: calc(50vw - 200px);
+		width: 400px;
+		//padding: 50px 0;
+		margin: 50px auto;
+	}
+
+	.hiddenLists {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-radius: 15px;
+		margin: 1rem auto 2rem;
+		//padding: 0 2rem;
+		opacity: 1;
+	}
+
+	.textGroup {
+		font-size: 1rem;
+		text-align: center;
+		padding: 50px;
+		h3 {
+			font-size: 1em;
+			margin-bottom: 3px;
+			word-break: break-word;
+			@media screen and (min-width: 600px) {
+				font-size: 1em;
+			}
+		}
+		p {
+			font-size: 0.75em;
+			font-weight: bold;
+			@media screen and (min-width: 600px) {
+				font-size: 0.75em;
+			}
+		}
+
+		.btnContainer {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			width: 90%;
+			margin: 50px auto;
+			> input {
+				border: 1px solid $color-pink;
+				border-radius: 100px;
+				font-size: 1.125rem;
+				line-height: 2.4rem;
+				font-weight: bold;
+	
+				&:hover {
+					cursor: pointer;
+				}
+			}
+			.closeForm {
+				color: $color-pink;
+				background-color: $color-white;
+				flex: 1;
+				margin-right: 3px;
+			}
+	
+			/* .addBtn {
+				@include pink-btn;
+				@include hover-btn;
+				color: $color-white;
+				background-color: $color-pink;
+				margin-left: 3px;
+				width: 130px;
+			} */
+		}
+	}
+}
+
+.addBtn {
+	@include pink-btn;
+	@include hover-btn;
+	color: $color-white;
+	background-color: $color-pink;
+	margin-left: 3px;
+	width: 130px;
+}
+
+.todoTitle {
+	color: $color-pink;
 }

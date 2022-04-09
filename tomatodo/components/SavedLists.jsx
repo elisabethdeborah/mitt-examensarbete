@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/savedLists.module.scss';
 import clsx from 'clsx';
-import LimboLists from './LimboListsComponent';
 import DeleteButton from './DeleteButton';
 import { useUpdateContext} from "../context/TodoContext";
 

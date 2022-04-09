@@ -9,7 +9,8 @@ $color-green-bg: #88d94ec5;
 $color-background: linear-gradient(#bce2f9, #ddf3ff ); 
 $color-article-bg: #D0EDFD;
 $color-container-bg: #F2FAFF;
-$color-container-bg-transp: #f2faff91;
+$color-container-bg-transp: #f2faff96; //#f2faff96 //#f2faff91
+$color-box-shadow: #e0e0e0;
 $color-darkgrey: #4D4B4B;
 $color-white: #fff;
 
@@ -20,7 +21,7 @@ $font-family: 'Paytone One', sans-serif;
 @mixin hover-btn {
 	transition: all 0.15s ease-in-out;
 	&:hover {
-		transform: scale(1.1);
+		transform: scale(1.05);
 		transition: all 0.15s ease-in-out;
 		filter: brightness(1.1);
 		cursor: pointer;
@@ -47,4 +48,16 @@ $font-family: 'Paytone One', sans-serif;
 	line-height: 2.4rem;
 	width: 130px;
 	font-weight: bold;
+}
+
+@mixin active-btn {
+	transition: all 0.1s ease-in-out;
+	&:active {
+		filter: grayscale(0.5);
+		transform: scale(0.9);
+		transition: all 0.1s ease-in-out;
+		@media screen and (min-width: 600px) {
+			transform: scale(1);
+		}
+	}
 }

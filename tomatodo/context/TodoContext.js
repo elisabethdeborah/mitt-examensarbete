@@ -17,7 +17,12 @@ export function TodoWrapper({children}) {
   const fetchTodos = async () => {
     let fetchedTodos;
       fetchedTodos = await client.fetch(
-			`{
+			groq`{
+				"allTodoLists": * [_type == "todoList" && !saved] | order(_createdAt desc) { 
+				"limbo": count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked])== 0 && count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}) > 0
+				},	  
+				}
+				{
 				"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
 				  title,
 				  saved,
@@ -34,10 +39,15 @@ export function TodoWrapper({children}) {
 				  slug,
 				  ...,
 				  "slug": slug.current,
+				},
+
+				"limboLists": * [_type == "todoList" && !saved && count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked])== 0 && count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}) > 0] | order(_createdAt desc) {
+				title,
+				"todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
+				...,
 				}
 			  }`);
 	  state.setInitialFetch(fetchedTodos);
-	  console.log('fetched, updated lists?');
 	  return; 
   };
 
@@ -77,4 +87,26 @@ export function useUpdateContext() {
 
 
 
+/* 
 
+{
+				"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
+				  title,
+				  saved,
+				  "todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
+				  "nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
+				  'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
+				  'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
+				  ...,
+				  },
+			  
+				  "tomatoLibrary": * [_type == "tomato"] | order(_createdAt desc) {
+				  title, 
+				  time, 
+				  slug,
+				  ...,
+				  "slug": slug.current,
+				}
+			  }
+
+*/

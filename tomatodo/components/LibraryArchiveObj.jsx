@@ -7,6 +7,7 @@ import DeleteButton from "./DeleteButton";
 import { useUpdateContext } from "../context/TodoContext";
 
 const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handleClick, overlay, setaddToListIsVisible, setShowDelete, setShowChangeForm }) => {
+	console.log(list.title)
 	const currentState = useUpdateContext();
 	const handleClickObj = (index, list) => {
 		currentState.setCurrentItem(list);
@@ -40,7 +41,7 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 					list._type !== 'tomato' ? (
 						<>
 							<section className={styles.textGroup}>
-								<h3>{list.name}</h3>
+								<h3>{list.title}</h3>
 								<p>tillagd: {list._createdAt.slice(0, 10)}</p>
 							</section>
 							<article className={styles.nrOfTodosIcon}>

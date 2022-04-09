@@ -60,26 +60,36 @@
 		flex-direction: row;
 		width: 100%;
 		> input {
-			border: 1px solid $color-pink;
+			@include pink-btn;
+			@include hover-btn;
+			@include active-btn;
+			/* border: 1px solid $color-pink;
 			border-radius: 100px;
 			font-size: 1.125rem;
 			line-height: 2.4rem;
-			font-weight: bold;
+			font-weight: bold; */
 
-			&:hover {
-				cursor: pointer;
-			}
+			/* &:hover {
+				@include hover-btn;
+				//cursor: pointer;
+			} */
 		}
 		.closeForm {
-			color: $color-pink;
-			background-color: $color-white;
+			@include white-btn;
+			@include hover-btn;
+			@include active-btn;
+			// color: $color-pink;
+			// background-color: $color-white;
 			flex: 1;
 			margin-right: 3px;
 		}
 
 		.addBtn {
-			color: $color-white;
-			background-color: $color-pink;
+			@include pink-btn;
+			@include hover-btn;
+			@include active-btn;
+			// color: $color-white;
+			// background-color: $color-pink;
 			flex: 1;
 			margin-left: 3px;
 		}

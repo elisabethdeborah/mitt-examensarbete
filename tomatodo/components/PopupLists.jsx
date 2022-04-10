@@ -50,7 +50,7 @@ const PopupLists = ({previewTodosList, setPopupIsOpen}) => {
 
 	const handleClose = () => {
 		setPopupIsOpen(false);
-		currentState.setCurrentItem(null);
+		//currentState.setCurrentItem(null);
 	};
 
 	return (

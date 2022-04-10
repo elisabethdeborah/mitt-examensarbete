@@ -66,7 +66,7 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 					showListObject && index === listObjectIndex && (
 						<>
 							<div className={clsx(styles.optionsDiv, {
-									[styles.visibleFirst]: showListObject && overlay, 
+									[styles.visibleFirst]: showListObject, //&& overlay, 
 								})}
 							>
 								{

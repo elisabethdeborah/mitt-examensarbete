@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Form from "../components/Form";
+//import Form from "../components/Form";
 import Meta from "../components/Meta";
 import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
@@ -10,6 +10,7 @@ import client, {
   usePreviewSubscription,
 } from "../lib/sanity";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
+import PopupLists from "../components/PopupLists";
 
 export default function SparadeListor() {
 	<Meta title='Mina sparade listor' />
@@ -40,6 +41,10 @@ export default function SparadeListor() {
 		savedLists ? setIsLoading(false) : setIsLoading(true);
 		return () => setIsLoading(false);
 	}, [savedLists]);
+
+	useEffect(() => {
+		overlay ? null : currentState.setCurrentItem(null);
+	}, [overlay]);
 	  
 	const handleClick = (x, item) => {
 		if (showListObject) {
@@ -95,6 +100,12 @@ export default function SparadeListor() {
 		fetchAllLists();
 	}
 
+	const closeAll = (x) => {
+		setaddToListIsVisible(x);
+		setShowStartList(x);
+		//setOverlay(x);
+	}
+
 
 	
 	return (
@@ -107,6 +118,14 @@ export default function SparadeListor() {
 			}
 			{
 				addToListIsVisible && (
+					//<PopupLists setaddToListIsVisible={setaddToListIsVisible} />
+				<section className={styles.restartForm}>
+					<PopupLists setPopupIsOpen={closeAll} />
+				</section>
+				)
+			}
+			{/* {
+				addToListIsVisible && (
 					<section className={styles.restartForm}>
 					<h1> Alla todos är färdiga, bra jobbat!</h1>
 					<h3>Vill du spara eller ta bort <span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>?</h3>
@@ -116,7 +135,7 @@ export default function SparadeListor() {
 					
 				</section>
 				)
-			}
+			} */}
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.savedListsHeader}>Mina sparade listor</h2> 

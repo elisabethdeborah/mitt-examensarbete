@@ -44,6 +44,10 @@ export default function MinaTomater() {
 		return () => setIsLoading(false)
 	}, [tomatoLibrary]);
 
+	useEffect(() => {
+		overlay ? null : currentState.setCurrentItem(null);
+	}, [overlay]);
+
 	const handleClick = (x, item) => {
 		console.log('currentItem:', currentState.currentItem, 'currentObj', currentObj);
 		if (showListObject) {
@@ -91,7 +95,7 @@ export default function MinaTomater() {
 							objectType={'tomato'} 
 							method={'PUT'} 
 							page={'archive'} 
-							currentListDocId 
+							//currentListDocId={currentState.currentItem._id} 
 						/>
 						<div className={styles.showSettings}>
 							<DeleteButton listItem={currentState.currentItem}/>

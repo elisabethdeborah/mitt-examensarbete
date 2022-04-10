@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-//import Form from "../components/Form";
 import Meta from "../components/Meta";
 import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
 import LibraryArchiveObj from "../components/libraryArchiveObj";
 import DeleteButton from "../components/DeleteButton";
-import client, {
+/* import client, {
   getClient,
   usePreviewSubscription,
-} from "../lib/sanity";
+} from "../lib/sanity"; */
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import PopupLists from "../components/PopupLists";
 
@@ -120,7 +119,7 @@ export default function SparadeListor() {
 				addToListIsVisible && (
 					//<PopupLists setaddToListIsVisible={setaddToListIsVisible} />
 				<section className={styles.restartForm}>
-					<PopupLists setPopupIsOpen={closeAll} />
+					<PopupLists setPopupIsOpen={closeAll} setOverlay={setOverlay} />
 				</section>
 				)
 			}
@@ -148,8 +147,9 @@ export default function SparadeListor() {
 				{
 					isLoading ? (
 							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar sparade listor...</h1>
-						) : (
-							savedLists ? (
+						) : 
+							savedLists && savedLists.length > 0 ? 
+							(
 									savedLists.map((list, index) => {
 										return (
 											<LibraryArchiveObj  
@@ -176,9 +176,9 @@ export default function SparadeListor() {
 										);
 									})
 								) : (
-									<h3>Du har inga sparade listor</h3>
+									<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade listor</h1>
 								)
-						)
+						
 				}
 			</div>
 		</div>

@@ -49,7 +49,6 @@ export default function MinaTomater() {
 	}, [overlay]);
 
 	const handleClick = (x, item) => {
-		console.log('currentItem:', currentState.currentItem, 'currentObj', currentObj);
 		if (showListObject) {
 			setOverlay(false);
 			setShowAddTodo(false);
@@ -156,7 +155,7 @@ export default function MinaTomater() {
 					{
 						isLoading ? 
 						(
-							"hämtar tomater..."
+							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar tomater...</h1>
 						) :
 							tomatoLibrary ? 
 								(
@@ -184,7 +183,7 @@ export default function MinaTomater() {
 									<section className={styles.emptyList}>
 										<div className={styles.todoListTop} />
 										<article className={styles.addTomatoIcon} onClick={() => setAddTomatoFormIsVisible(!addTomatoFormIsVisible)} />
-										<h3>Du har inga sparade tomater</h3>
+										<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
 									</section>
 								)
 					}

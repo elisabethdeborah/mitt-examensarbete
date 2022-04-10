@@ -12,16 +12,19 @@ import PopupLists from './PopupLists';
 const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list, tomato}) => {
 	const currentState = useUpdateContext();
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "todos" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade-listor');
-	const [popupIsOpen, setPopupIsOpen] = useState(currentState.currentItem && currentState.currentItem.saved);
+	
+	const [popupIsOpen, setPopupIsOpen] = useState(false);
+	//const [popupIsOpen, setPopupIsOpen] = useState(currentState.currentItem && currentState.currentItem.saved);
+	const [overlay, setOverlay] = useState(false)
 
-	useEffect(() => {
+	/* useEffect(() => {
 		setPopupIsOpen(currentState.currentItem && currentState.currentItem.saved);
 
 		return () => setPopupIsOpen(false);
-	}, [currentState.currentItem])
+	}, [currentState.currentItem]) */
 
 
-	const handleClickOpen = (item, index) => {
+	/* const handleClickOpen = (item, index) => {
 		console.log('klick från listkomponent: ', item, 'index', index);
 		if (page === "tomato") {
 		 	console.log('POST TOMATO', tomato, 'TO CHOSEN TODO LIST: ', item, 'UPDATE LIST'); 
@@ -30,7 +33,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 		 } else if (page === 'home') {
 			console.log('go to todolists med denna som open: ', item); 
 		 }; 
-	};
+	}; */
 
 	return (
 		<>
@@ -80,7 +83,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} />
 									)
 								) : (
-									<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} />
+									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item}  />
 								)
 							)
 						}) : (

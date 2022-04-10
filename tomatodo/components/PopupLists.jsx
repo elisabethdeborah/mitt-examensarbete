@@ -1,9 +1,10 @@
-import LimboLists from './LimboListsComponent';
 import styles from '../styles/limboLists.module.scss';
 import DeleteButton from './DeleteButton';
 import { useUpdateContext, useTodoContext} from "../context/TodoContext";
+import {useRouter} from 'next/router';
 
-const PopupLists = ({previewTodosList, setPopupIsOpen}) => {
+const PopupLists = ({previewTodosList, setPopupIsOpen, setOverlay}) => {
+	const router = useRouter();
 	const currentState = useUpdateContext();
 	const state = useTodoContext()
 	const fetchAllLists = state.fetchTodos;
@@ -46,6 +47,8 @@ const PopupLists = ({previewTodosList, setPopupIsOpen}) => {
 		currentState.setCurrentItem(null);
 		setPopupIsOpen(false);
 		fetchAllLists();
+		setOverlay ? setOverlay(false) : null;
+		router.push('/mina-todos');
 	};
 
 	const handleClose = () => {

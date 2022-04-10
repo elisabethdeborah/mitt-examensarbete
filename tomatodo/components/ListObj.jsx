@@ -2,7 +2,9 @@ import DeleteButton from './DeleteButton';
 import clsx from 'clsx';
 import CheckBox from './CheckBox';
 import styles from '../styles/todoList.module.scss';
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import NumberFormat from './NumberFormat';
+import { groq } from 'next-sanity';
 import PlayTimerBtn from './PlayTimerBtn';
 import React, {useEffect, useState} from 'react';
 import client, {
@@ -14,12 +16,12 @@ const ListObj = ({listItem, width}) => {
 	const [save, setSave] = useState(false);
 	const [listId, setListId] = useState(null);
 	const [styleChecked, setStyleChecked] = useState(listItem.checked === true);
-
-	const checkedAllChecked = async() => {
+	const currentState = useUpdateContext();
+	/* const checkedAllChecked = async() => {
 		let allChecked;
 		allChecked = await client.fetch( 
-			`{
-				"listFinished": *[_id == "c5781972-fbf7-4f5e-8b5b-76558137636a"] | order(_createdAt desc) { 
+			groq`{
+				"listFinished": *[_id == "${currentState.currentItem._id}"] | order(_createdAt desc) { 
 					_id,
 					title,
 					saved,
@@ -36,7 +38,7 @@ const ListObj = ({listItem, width}) => {
 			let finished = list.nrOfTodos > 0 && list.numberOfNotChecked === 0;
 			finished ? setSave(true):null;
 			console.log('id', listId, 'allChecked??? query', 'saved', list.saved, 'finished', finished);
-	};
+	}; */
 
 	return (
 		<>
@@ -55,7 +57,7 @@ const ListObj = ({listItem, width}) => {
 				listItem ? (
 					width < 500 ? 
 						<article 
-							onClick={() =>checkedAllChecked()} 
+							/* onClick={() =>checkedAllChecked()}  */
 							key={listItem._id} 
 							className={clsx(styles.todoArticle, {
 								[styles.checkedItem]: styleChecked === true
@@ -81,7 +83,7 @@ const ListObj = ({listItem, width}) => {
 						</article> 
 					:
 						<article 
-							onClick={() =>checkedAllChecked()} 
+							//onClick={() =>checkedAllChecked()} 
 							key={listItem._id} 
 							className={clsx(styles.todoArticle, {
 								[styles.checkedItem]: styleChecked === true

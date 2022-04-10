@@ -92,12 +92,12 @@ export default function MinaTodos() {
 					})}
 				>
 					<Meta title='Mina todos' />
-					{
+					{/* {
 						displayWarning && 
 						<div className={styles.limboListContainer}>
 							{limboLists && limboLists.map((x) => <LimboLists key={x._id} list={x} setDisplayWarning={setDisplayWarning} />)}
 						</div>
-					}
+					} */}
 					{
 						!sideListVisible && (
 							<aside className={styles.optionContainer} onClick={() => handleSideListArrow()} >

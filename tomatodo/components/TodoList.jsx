@@ -1,12 +1,13 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styles from '../styles/todoList.module.scss';
 import AddTodo from '../svgAssets/addBtn.svg';
 import DeleteButton from './DeleteButton';
 import ListObj from './ListObj';
 import Form from './Form';
 import Resize from '../components/Resize';
-import { useUpdateContext } from "../context/TodoContext";
+import { useUpdateContext, useTodoContext } from "../context/TodoContext";
+import LimboLists from "../components/LimboListsComponent";
 
 const TodoList = ({list,setOverlay}) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
@@ -14,7 +15,14 @@ const TodoList = ({list,setOverlay}) => {
 	const sectionRef = useRef();
 	const [width, setWidth] = useState(); 
 	const [isLoading, setIsLoading] = useState(false);
+	const state = useTodoContext();
 	const currentState = useUpdateContext();
+	let limboLists;
+	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
+
+	if (state.initialFetch) {
+		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved);
+	};
 
 	const handleClickTodo = () => {
 			setAddListFormIsVisible(false);
@@ -27,6 +35,17 @@ const TodoList = ({list,setOverlay}) => {
 			setAddListFormIsVisible(true);
 			//currentState.setCurrentItem();
 	}; 
+
+	useEffect(() => {
+		setIsLoading(true);
+		return () => setIsLoading(false);
+	}, []);
+
+	useEffect(() => {
+		list && list.todos ? setIsLoading(false) : setIsLoading(true);
+		limboLists ? setDisplayWarning(true): null;
+		return () => setIsLoading(false);
+	}, [list, state.initialFetch]);
 
 	return (
 		list? (
@@ -54,6 +73,12 @@ const TodoList = ({list,setOverlay}) => {
 						/>
 					)
 				}
+				{
+					displayWarning && 
+					<div className={styles.limboListContainer}>
+						{limboLists && limboLists.map((x) => <LimboLists key={x._id} list={x} setDisplayWarning={setDisplayWarning} />)}
+					</div>
+				}
 				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 				{ 
 					list._id && (
@@ -80,6 +105,7 @@ const TodoList = ({list,setOverlay}) => {
 								) : (	
 									list.todos.length >0 ? (
 										list.todos.map((listItem, index) => {
+											//console.log('key:', listItem._rev)
 											return (
 												<ListObj key={listItem._rev} listItem={listItem} width={width &&(width)} />
 											)

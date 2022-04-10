@@ -7,16 +7,22 @@ import { useUpdateContext } from "../context/TodoContext";
 import Link from 'next/link';
 import styles from '../styles/listContainer.module.scss';
 
-const SmallListObj = ({item, contentIsVisible, index, open}) => {
+const SmallListObj = ({item, contentIsVisible, index, open, setPopupIsOpen}) => {
 	const currentState = useUpdateContext();
-	const handleClick = () => console.log('currentState:', currentState);
+	
 	const linkHref = item._type === 'todoList' && item.numberOfNotChecked > 0 && item.nrOfTodos > 0 ? '/mina-todos' : `#${item._id}`;
+
+	const handleClick = (x) => {
+		currentState.setCurrentItem(x);
+		x.saved ? setPopupIsOpen(true):null;
+	}; 
+
 	return (
 		<Link key={item._rev}  href={linkHref} passHref> 
 			<article 
 				id={`${item._id}`}
 				key={item._rev} 
-				onClick={() => currentState.setCurrentItem(item)} 
+				onClick={() => handleClick(item)} 
 				className={clsx(styles.hiddenLists, {
 					[styles.isVisible] : contentIsVisible === true,
 					[styles.tomatoObj] : item._type === 'tomato',

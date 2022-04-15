@@ -1,10 +1,10 @@
 import client from "../../../lib/sanity";
 
 const tomato = async function handler(req, res) {
+	let newTomato; 
 	switch (req.method) {
 		case "POST":
-			const newTomato = await JSON.parse(req.body);
-			console.log('id?: ', newTomato)
+			newTomato = await JSON.parse(req.body);
 			try {
 				await client
 				.create({
@@ -27,18 +27,19 @@ const tomato = async function handler(req, res) {
 			};
 			break;
 		case "PUT":
+			newTomato = await JSON.parse(req.body);
 			try {
-				const result = await client
-				.patch(req.body.id)
+				await client
+				.patch(newTomato.id)
 				.set({
-					_type: "tomato",
-					title: newTomato.title,
-					description: newTomato.description,
-					time: Number(newTomato.time),
+					"_type": "tomato",
+					"title": newTomato.title,
+					"description": newTomato.description,
+					"time": Number(newTomato.time),
 				})
 				.commit();
 				res.status(200).json({
-					status: result.checked,
+					status: res.body,
 				});
 			} catch (error) {
 				console.error(error);

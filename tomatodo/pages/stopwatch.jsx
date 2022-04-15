@@ -53,7 +53,7 @@ const Stopwatch = () => {
 							currentListDocId={''} 
 							setOverlay={setOverlay} 
 							typeName={'tomat'} 
-							defaultTime={Math.round(currentTime/10000)*10} 
+							defaultTime={Math.round(currentTime/10000)*10 > 59 ? Math.round(currentTime/10000)*10 : 60} 
 						/>
 					)
 				}

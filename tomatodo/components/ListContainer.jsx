@@ -3,43 +3,26 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/listContainer.module.scss';
 import clsx from 'clsx';
-import NumberFormat from './NumberFormat';
-import PlayTimerBtn from './PlayTimerBtn';
 import {useUpdateContext} from "../context/TodoContext";
 import SmallListObj from './SmallListObj';
 import PopupLists from './PopupLists';
 
-const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list, tomato}) => {
+const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
 	const currentState = useUpdateContext();
 	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "todos" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade-listor');
 	
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
-	//const [popupIsOpen, setPopupIsOpen] = useState(currentState.currentItem && currentState.currentItem.saved);
-	const [overlay, setOverlay] = useState(false)
+	const [overlay, setOverlay] = useState(false);
 
-	/* useEffect(() => {
-		setPopupIsOpen(currentState.currentItem && currentState.currentItem.saved);
-
-		return () => setPopupIsOpen(false);
-	}, [currentState.currentItem]) */
-
-
-	/* const handleClickOpen = (item, index) => {
-		console.log('klick från listkomponent: ', item, 'index', index);
-		if (page === "tomato") {
-		 	console.log('POST TOMATO', tomato, 'TO CHOSEN TODO LIST: ', item, 'UPDATE LIST'); 
-		 } else if (page === 'todo') {
-			setOpen(index);
-		 } else if (page === 'home') {
-			console.log('go to todolists med denna som open: ', item); 
-		 }; 
-	}; */
+	useEffect(() => {
+		popupIsOpen ? setOverlay(true):null;
+	}, [popupIsOpen]);
 
 	return (
 		<>
 			{
 				popupIsOpen && (
-					<PopupLists setPopupIsOpen={setPopupIsOpen} />
+					<PopupLists setPopupIsOpen={setPopupIsOpen} setOverlay={setOverlay} />
 				)
 			}
 			<div className={clsx(styles.listContainer, {
@@ -57,7 +40,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 					})} 
 					onClick={itemType !== "todos" ? () => setContentIsVisible(!contentIsVisible):null}
 				>
-					<h4>{`Mina ${itemType}`}</h4>
+					<h4>{`Mina ${itemType.split('-').join(' ')}`}</h4>
 					{
 						page === 'todo' && (
 							<p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>
@@ -71,7 +54,7 @@ const ListContainer = ({itemType, setSideListsVisible, setOpen, open, page, list
 							[styles.currentTodos]: itemType === "todos",
 							[styles.savedTodos]: itemType === "sparade-listor",
 						})}>
-							{`Gå till ${itemType}`}
+							{`Gå till ${itemType.split('-').join(' ')}`}
 						</p>
 					</Link>
 					{

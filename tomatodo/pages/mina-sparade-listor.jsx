@@ -4,15 +4,10 @@ import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
 import LibraryArchiveObj from "../components/libraryArchiveObj";
 import DeleteButton from "../components/DeleteButton";
-/* import client, {
-  getClient,
-  usePreviewSubscription,
-} from "../lib/sanity"; */
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import PopupLists from "../components/PopupLists";
 
 export default function SparadeListor() {
-	<Meta title='Mina sparade listor' />
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
@@ -27,6 +22,7 @@ export default function SparadeListor() {
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
 	const [isLoading, setIsLoading] = useState(false);
+
 	const currentLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
 	const savedLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0):null;
 
@@ -68,44 +64,10 @@ export default function SparadeListor() {
 		};	
 	};  
 
-	const handleAddToTodo = (list) => {
-		setShowSettingsForm(false);
-		setAddListFormIsVisible(false);
-		setShowAddTodo(!showAddTodo);
-	};
-
-	const handleStartTodoList = (list) => {
-		setShowStartList(!showStartList);
-		setaddToListIsVisible(!addToListIsVisible);
-	};
-
-	const resetTodoList = async() => {
-		console.log('SAVE!!!', list._id)
-		await fetch("/api/todos/todolist", {
-			method: "PUT",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				id: list._id,
-				saved: false,
-			}),
-		})
-		.then(console.log('saved'))
-		.catch(error => {
-			console.log('error:', error);
-		})
-		fetchAllLists();
-	}
-
 	const closeAll = (x) => {
 		setaddToListIsVisible(x);
 		setShowStartList(x);
-		//setOverlay(x);
-	}
-
-
+	};
 	
 	return (
 		<div className={styles.tomatoPageWrapper}>
@@ -117,24 +79,11 @@ export default function SparadeListor() {
 			}
 			{
 				addToListIsVisible && (
-					//<PopupLists setaddToListIsVisible={setaddToListIsVisible} />
 				<section className={styles.restartForm}>
 					<PopupLists setPopupIsOpen={closeAll} setOverlay={setOverlay} />
 				</section>
 				)
 			}
-			{/* {
-				addToListIsVisible && (
-					<section className={styles.restartForm}>
-					<h1> Alla todos är färdiga, bra jobbat!</h1>
-					<h3>Vill du spara eller ta bort <span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>?</h3>
-					<div className={styles.btnContainer}>
-						<input type={"button"} className={styles.addBtn} value="Spara" onClick={() => handleClick()} />
-					</div>
-					
-				</section>
-				)
-			} */}
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.savedListsHeader}>Mina sparade listor</h2> 
@@ -158,18 +107,7 @@ export default function SparadeListor() {
 												index={index} 
 												listObjectIndex={listObjectIndex} 
 												showListObject={showListObject} 
-												showSettingsForm={showSettingsForm} 
-												showAddTodo={showAddTodo} 
-												addListFormIsVisible={addListFormIsVisible} 
-												setAddListFormIsVisible={setAddListFormIsVisible} 
 												handleClick={handleClick}
-												handleStartTodoList={handleStartTodoList}
-												currentLists={currentLists}
-												overlay={overlay}
-												handleAddToTodo={handleAddToTodo}
-
-												setShowStartList={setShowStartList}
-												setCurrentObj={setCurrentObj}
 												setaddToListIsVisible={setaddToListIsVisible}
 												setShowDelete={setShowDelete}
 											/>
@@ -178,7 +116,6 @@ export default function SparadeListor() {
 								) : (
 									<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade listor</h1>
 								)
-						
 				}
 			</div>
 		</div>

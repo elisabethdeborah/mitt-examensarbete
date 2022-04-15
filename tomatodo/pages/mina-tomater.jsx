@@ -8,10 +8,6 @@ import clsx from "clsx";
 import LibraryArchiveObj from "../components/libraryArchiveObj";
 import DeleteButton from "../components/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-import client, {
-  getClient,
-  usePreviewSubscription,
-} from "../lib/sanity";
 
 export default function MinaTomater() {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
@@ -24,7 +20,6 @@ export default function MinaTomater() {
 	const [overlay, setOverlay] = useState(false)
 	const [showChangeForm, setShowChangeForm] = useState(false);
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
-	const [currentObj, setCurrentObj] = useState(null);
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
@@ -70,31 +65,19 @@ export default function MinaTomater() {
 		};		
 	};  
 
-	const handleAddToTodo = (list) => {
-		console.log('add', list);
-		setShowAddTodo(!showAddTodo);
-	};
-
-	const handleStartTodoList = (list) => {
-		console.log('start', list);
-		setShowAddTodo(!showAddTodo);
-	};
-
 	return (
-		<div className={clsx(styles.tomatoPageWrapper, {[styles.sideListVisible]: sideListVisible})}>
+		<div className={styles.tomatoPageWrapper}>
 			<Meta title='Mina tomater' />
 			{
 				showChangeForm && (
 					<>
 						<Form 
 							setFormIsVisible={setShowChangeForm} 
-							className={styles.archiveForm} 
 							list={currentState.currentItem} 
 							typeName={'redigera'} 
 							objectType={'tomato'} 
 							method={'PUT'} 
 							page={'archive'} 
-							//currentListDocId={currentState.currentItem._id} 
 						/>
 						<div className={styles.showSettings}>
 							<DeleteButton listItem={currentState.currentItem}/>
@@ -118,7 +101,6 @@ export default function MinaTomater() {
 									<>
 										<ActiveLists 
 											lista={activeLists} 
-											setOpen={setOpen} 
 											tomato={currentState.currentItem} 
 											open={4} 
 											page={'tomato'} 
@@ -157,7 +139,7 @@ export default function MinaTomater() {
 						(
 							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar tomater...</h1>
 						) :
-							tomatoLibrary ? 
+							tomatoLibrary && tomatoLibrary.length > 0 ? 
 								(
 									tomatoLibrary.map((list, index) => (
 										<LibraryArchiveObj  
@@ -167,24 +149,13 @@ export default function MinaTomater() {
 											index={index} 
 											listObjectIndex={listObjectIndex} 
 											showListObject={showListObject} 
-											showAddTodo={showAddTodo} 
-											addListFormIsVisible={addListFormIsVisible} 
-											setAddListFormIsVisible={setAddListFormIsVisible} 
 											handleClick={handleClick}
-											handleStartTodoList={handleStartTodoList}
-											overlay={overlay}
-											handleAddToTodo={handleAddToTodo}
 											setShowChangeForm={setShowChangeForm}
 											setaddToListIsVisible={setaddToListIsVisible}
-											setCurrentObj={setCurrentObj}
 										/>
 									))
 								) : (
-									<section className={styles.emptyList}>
-										<div className={styles.todoListTop} />
-										<article className={styles.addTomatoIcon} onClick={() => setAddTomatoFormIsVisible(!addTomatoFormIsVisible)} />
-										<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
-									</section>
+									<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
 								)
 					}
 				</div>

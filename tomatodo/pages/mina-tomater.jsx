@@ -35,13 +35,24 @@ export default function MinaTomater() {
 			setListObjectIndex(currentState.currentItem.listObjIndex);
 			setOverlay(true);
 		};
-		return () => setIsLoading(false)
+		return () => setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
 		tomatoLibrary ? setIsLoading(false) : setIsLoading(true)
 		return () => setIsLoading(false)
 	}, [tomatoLibrary]);
+
+	useEffect(() => {
+		if (!currentState.currentItem) {
+			setOverlay(false);
+			setAddListFormIsVisible(false);
+			setaddToListIsVisible(false);
+			setShowChangeForm(false);
+			setShowListObject(false);
+			setListObjectIndex(null);
+		}
+	}, [currentState.currentItem]);
 
 	const handleClick = (x) => {
 		if (showListObject) {

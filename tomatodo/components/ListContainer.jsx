@@ -63,10 +63,10 @@ const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
 							return (
 								page === 'todo' && !item.saved ? (
 									open !== index && (
-										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} />
+										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 									)
 								) : (
-									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item}  />
+									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 								)
 							)
 						}) : (

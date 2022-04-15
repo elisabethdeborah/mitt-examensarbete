@@ -28,8 +28,15 @@ export default function MinaTomater() {
 	const activeLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
 
 	useEffect(() => {
-		setIsLoading(true)
-		fetchAllLists()
+		setIsLoading(true);
+		fetchAllLists();
+		if (currentState.currentItem && currentState.currentItem._type === 'tomato') {
+			setShowListObject(true);
+			setShowAddTodo(false);
+			setAddListFormIsVisible(false);
+			setListObjectIndex(currentState.currentItem.listObjIndex);
+			setOverlay(true);
+		};
 		return () => setIsLoading(false)
 	}, []);
 
@@ -38,11 +45,7 @@ export default function MinaTomater() {
 		return () => setIsLoading(false)
 	}, [tomatoLibrary]);
 
-	useEffect(() => {
-		overlay ? null : currentState.setCurrentItem(null);
-	}, [overlay]);
-
-	const handleClick = (x, item) => {
+	const handleClick = (x) => {
 		if (showListObject) {
 			setOverlay(false);
 			setShowAddTodo(false);
@@ -51,6 +54,7 @@ export default function MinaTomater() {
 			setShowChangeForm(false);
 			setTimeout(() => {
 				setShowListObject(false);
+				currentState.setCurrentItem(null);
 				listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 			}, 600);
 		} else if (!showListObject) {

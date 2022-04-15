@@ -5,12 +5,13 @@ import { useUpdateContext } from "../context/TodoContext";
 import {useRouter} from 'next/router';
 import styles from '../styles/listContainer.module.scss';
 
-const SmallListObj = ({item, contentIsVisible, setPopupIsOpen}) => {
+const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen}) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 
 	const handleClick = (x) => {
-		currentState.setCurrentItem(x);
+		currentState.setCurrentItem({...x, listObjIndex: listObjIndex});
+		console.log({...x, listObjIndex: listObjIndex});
 		x.saved ? setPopupIsOpen(true):null;
 		if (item._type === 'todoList' && !item.saved) {
 			router.push('/mina-todos');

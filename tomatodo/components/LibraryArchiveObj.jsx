@@ -6,26 +6,27 @@ import PlayBtn from "./PlayTimerBtn";
 import DeleteButton from "./DeleteButton";
 import { useUpdateContext } from "../context/TodoContext";
 
-const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handleClick, overlay, setaddToListIsVisible, setShowDelete, setShowChangeForm }) => {
-	console.log(list.title)
+const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handleClick, setaddToListIsVisible, setShowDelete, setShowChangeForm }) => {
 	const currentState = useUpdateContext();
 	const handleClickObj = (index, list) => {
 		currentState.setCurrentItem(list);
-		handleClick(index, list, currentState);
+		handleClick(index);
 	};
 
 	const handleShowSettings = () => {
 		setaddToListIsVisible(false);
+		console.log('list', list)
 		list._type === 'tomato' ? setShowChangeForm(true):null;
 	};
 
 	const handleShowAddtolist = () => {
+		console.log('list', list)
 		list._type === 'tomato' ?setShowChangeForm(false):setShowDelete(false);
 		setaddToListIsVisible(true);
 	};
 
 	return (
-		<div className={styles.container}  onClick={() => console.log('list container', list)}>	
+		<div className={styles.container}>	
 			<article 
 				onClick={() => handleClickObj(index, list)} 
 				className={clsx(styles.listObject, {
@@ -66,7 +67,7 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 					showListObject && index === listObjectIndex && (
 						<>
 							<div className={clsx(styles.optionsDiv, {
-									[styles.visibleFirst]: showListObject, //&& overlay, 
+									[styles.visibleFirst]: showListObject, 
 								})}
 							>
 								{

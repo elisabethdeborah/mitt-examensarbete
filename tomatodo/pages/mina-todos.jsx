@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
-import ActiveLists from "../components/ActiveLists";
-import SavedLists from "../components/SavedLists";
-import LimboLists from "../components/LimboListsComponent";
+// import ActiveLists from "../components/ActiveLists";
+// import SavedLists from "../components/SavedLists";
+// import LimboLists from "../components/LimboListsComponent";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
 import TodoList from "../components/TodoList";
 import styles from "../styles/minaTodos.module.scss";
 import clsx from "clsx";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext"
-import { useRouter } from "next/router";
-import client, {
+//import { useRouter } from "next/router";
+/* import client, {
   getClient,
   usePreviewSubscription,
-} from "../lib/sanity";
-
-import { groq } from "next-sanity";
+} from "../lib/sanity"; */
+//import { groq } from "next-sanity";
 import Form from "../components/Form"; 
 import ListContainer from "../components/ListContainer";
 
@@ -70,13 +69,13 @@ export default function MinaTodos() {
 
 	const handleClick = () => {
 		if (addListFormIsVisible) {
-			setShowAddTodo(false);
+			//setShowAddTodo(false);
 			console.log('click', addListFormIsVisible);
 			setTimeout(() => {
 				setAddListFormIsVisible(false);
 			}, 600);
 		} else if (!addListFormIsVisible){
-			setShowAddTodo(false);
+			//setShowAddTodo(false);
 			setAddListFormIsVisible(true);
 		};		
 	}; 
@@ -92,12 +91,6 @@ export default function MinaTodos() {
 					})}
 				>
 					<Meta title='Mina todos' />
-					{/* {
-						displayWarning && 
-						<div className={styles.limboListContainer}>
-							{limboLists && limboLists.map((x) => <LimboLists key={x._id} list={x} setDisplayWarning={setDisplayWarning} />)}
-						</div>
-					} */}
 					{
 						!sideListVisible && (
 							<aside className={styles.optionContainer} onClick={() => handleSideListArrow()} >
@@ -109,7 +102,7 @@ export default function MinaTodos() {
 					{
 						<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
 							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={savedLists} activeLists={activeLists} setAddListFormIsVisible />
-							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists}  activeLists={activeLists}  setAddListFormIsVisible />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists && activeLists.length > 1 ? activeLists : null}  activeLists={activeLists}  setAddListFormIsVisible />
 						</section>
 					}
 					<div className={styles.todoListWrapper}>
@@ -119,7 +112,7 @@ export default function MinaTodos() {
 							)
 						}
 						{
-							activeLists? (
+							activeLists && activeLists.length > 0? (
 								activeLists.map((lista, index) => (
 									open === index && (
 										<TodoList key={lista._id} list={lista} />

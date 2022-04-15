@@ -15,7 +15,6 @@ export default function MinaTomater() {
 	const [open, setOpen] = useState(0); 
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
-	const [showAddTodo, setShowAddTodo] = useState(false);
 	const [overlay, setOverlay] = useState(false)
 	const [showChangeForm, setShowChangeForm] = useState(false);
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
@@ -32,7 +31,6 @@ export default function MinaTomater() {
 		fetchAllLists();
 		if (currentState.currentItem && currentState.currentItem._type === 'tomato') {
 			setShowListObject(true);
-			setShowAddTodo(false);
 			setAddListFormIsVisible(false);
 			setListObjectIndex(currentState.currentItem.listObjIndex);
 			setOverlay(true);
@@ -48,7 +46,6 @@ export default function MinaTomater() {
 	const handleClick = (x) => {
 		if (showListObject) {
 			setOverlay(false);
-			setShowAddTodo(false);
 			setAddListFormIsVisible(false);
 			setaddToListIsVisible(false);
 			setShowChangeForm(false);
@@ -59,7 +56,6 @@ export default function MinaTomater() {
 			}, 600);
 		} else if (!showListObject) {
 			setShowListObject(true);
-			setShowAddTodo(false);
 			setAddListFormIsVisible(false);
 			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 		setTimeout(() => {

@@ -8,14 +8,12 @@ import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import PopupLists from "../components/PopupLists";
 
 export default function SparadeListor() {
-	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
 	const [showSettingsForm, setShowSettingsForm] = useState(false);
 	const [showAddTodo, setShowAddTodo] = useState(false);
 	const [overlay, setOverlay] = useState(false)
 	const [showStartList, setShowStartList] = useState(false);
-	const [currentObj, setCurrentObj] = useState(null);
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
 	const [showDelete, setShowDelete] = useState(false);
 	const state = useTodoContext();
@@ -41,13 +39,11 @@ export default function SparadeListor() {
 		overlay ? null : currentState.setCurrentItem(null);
 	}, [overlay]);
 	  
-	const handleClick = (x, item) => {
+	const handleClick = (x) => {
 		if (showListObject) {
-			setCurrentObj(item);
 			setOverlay(false);
 			setShowAddTodo(false);
 			setShowSettingsForm(false);
-			setAddListFormIsVisible(false);
 			setaddToListIsVisible(false);
 			setTimeout(() => {
 				setShowListObject(false);
@@ -56,7 +52,6 @@ export default function SparadeListor() {
 		} else if (!showListObject){
 			setShowListObject(true);
 			setShowAddTodo(false);
-			setAddListFormIsVisible(false);
 			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 			setTimeout(() => {
 				setOverlay(true);

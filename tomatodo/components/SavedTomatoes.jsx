@@ -46,7 +46,7 @@ const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
 												</div>
 											</section>
 											<PlayTimerBtn listItem={tomato} color={"orange"} />
-											<Link href={"/timer"} passHref>
+											<Link href={"/timer-countdown"} passHref>
 												<article 
 													onClick={() => console.log('go to timer, time', tomato.time)} 
 													className={styles.playBtnTomato} 

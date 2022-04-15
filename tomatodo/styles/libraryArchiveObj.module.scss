@@ -6,7 +6,7 @@
 	align-items: center;
 	justify-content: center;
 	height: 250px;
-	width: 270px; //300px
+	width: 270px;
 	background-repeat: no-repeat;
 	background-position: 13% center;
 	background-size: contain;
@@ -134,6 +134,23 @@
 .showListObject {
 	z-index: 9;
 	position: relative;
+}
+
+.hoverDescription {
+	background-color: #111111d9;
+    padding: 1rem;
+    position: absolute;
+    top: 10%;
+    border-radius: 5px;
+	max-width: 250px;
+    color: #dadada;
+	opacity: 0;
+	transition: opacity 250ms ease-in-out;
+
+	&.showDescription {
+		opacity: 1;
+		transition: opacity 250ms ease-in-out;
+	}
 }
 
 .showOverlay {

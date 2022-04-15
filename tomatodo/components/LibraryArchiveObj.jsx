@@ -7,6 +7,9 @@ import DeleteButton from "./DeleteButton";
 import { useUpdateContext } from "../context/TodoContext";
 
 const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handleClick, setaddToListIsVisible, setShowDelete, setShowChangeForm }) => {
+
+	const [showHover, setShowHover] = useState(false);
+
 	const currentState = useUpdateContext();
 	const handleClickObj = (index, list) => {
 		currentState.setCurrentItem(list);
@@ -29,6 +32,7 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 		<div className={styles.container}>	
 			<article 
 				onClick={() => handleClickObj(index, list)} 
+				onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}
 				className={clsx(styles.listObject, {
 					[styles.orangeTomato]: list._type === 'tomato' && index % 2 === 0,
 					[styles.pinkTomato]: list._type === 'tomato' && index % 2 === 1,
@@ -38,6 +42,11 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				})} 
 				key={index}
 			>
+				{
+					list.description && list.description.length > 0 && (
+						<div className={clsx(styles.hoverDescription, {[styles.showDescription]: showHover === true})}>{list.description}</div> 
+					)
+				}
 				{
 					list._type !== 'tomato' ? (
 						<>

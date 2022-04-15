@@ -15,7 +15,8 @@ const todo = async function handler(req, res) {
 					publishedAt: new Date().toISOString(),
 					todoList: {
 						_type: "reference",
-						_ref: `${newTodo.parentRef}`
+						_ref: `${newTodo.parentRef}`,
+						_weak: true
 					}
 				})
 				.then((res) => {

@@ -3,6 +3,11 @@
 
 .playBtn {
 	@include hover-btn;
+	display: flex;
+	width: fit-content;
+	position: absolute;
+	top: 15%;
+	right: 15%;
 	background-repeat: no-repeat;
 	min-width: 40px;
 	min-height: 40px;

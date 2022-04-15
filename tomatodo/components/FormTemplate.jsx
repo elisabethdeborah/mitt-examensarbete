@@ -2,14 +2,17 @@ import React, { useState, useEffect } from "react";
 import styles from '../styles/form.module.scss';
 import clsx from "clsx";
 import { useUpdateContext } from "../context/TodoContext";
+import { useRouter } from "next/router";
 
-const FormTemplate = ({ setFormIsVisible, setUserInputTime, setFormPlay, setIsRunning }) => {
-	const setTimerState = useUpdateContext().setCurrentItem;
+const FormTemplate = ({ setFormIsVisible }) => {
 	const [overlay, setOverlay] = useState(false);
 	const [formInputTime, setFormInputTime] = useState({hh:0, min:0});
+	const [inputTitle, setInputTitle] = useState(null);
 	const inputTime = Number(formInputTime.hh *60 * 60 + formInputTime.min*60);
 	let hours = [];
 	const mins = [];
+	const currentState = useUpdateContext();
+	const router = useRouter();
 
 	for (let index = 0; index < 24; index++) {
 		hours.push(index);
@@ -20,15 +23,10 @@ const FormTemplate = ({ setFormIsVisible, setUserInputTime, setFormPlay, setIsRu
 	};
 
 	const handleClick = () => {
-		setTimerState(inputTime);
-		setUserInputTime(inputTime);
-		setFormPlay(true);
-		console.log(inputTime);
-		setIsRunning(true);
+		currentState.setCountdownItem({time: inputTime, title: inputTitle});
+		router.push('/timer-countdown');
 		setOverlay(false);
-			setTimeout(() => {
-				setFormIsVisible(false);
-			}, 600);
+		setFormIsVisible(false);
 	};
 
 	const handleGoBack = () => {
@@ -54,7 +52,13 @@ const FormTemplate = ({ setFormIsVisible, setUserInputTime, setFormPlay, setIsRu
 				})}
 				style={{padding: '60px'}}
 			>
-				<h1 className={styles.formHeader}>Lägg till tid</h1>
+				<h1 className={styles.formHeader}>Lägg till nedräkning</h1>
+				<input 
+					type="text" 
+					className={clsx(styles.input, styles.textInput)} 
+					placeholder={'Namn på nedräkning'} 
+					onChange={(e) => setInputTitle(e.target.value)} 
+				/>
 				<div className={styles.timeInputContainer} style={{width: '100%'}}>
 					<select
 						value={formInputTime.hh}

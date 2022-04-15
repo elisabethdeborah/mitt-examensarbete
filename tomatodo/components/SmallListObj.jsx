@@ -21,6 +21,7 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen}) =>
 	}; 
 
 	return (
+		<div style={{position: 'relative'}}>
 		<article 
 			id={`${item._id}`}
 			key={item._rev} 
@@ -86,11 +87,13 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen}) =>
 							</div>
 						</section>
 					</>
-						<PlayTimerBtn listItem={item} />
+					<PlayTimerBtn listItem={''} />
 				</>
 			)
 			}
 		</article>
+		<PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>
+		</div>
 	);
 };
 

@@ -12,7 +12,7 @@ const PlayBtn = ({listItem, size, content, styleChecked}) => {
 				listItem.time || currentState.countdownItem ? (
 					<>
 						<Link
-							href={'/timer'}
+							href={'/timer-countdown'}
 							passHref
 						>
 							<button 

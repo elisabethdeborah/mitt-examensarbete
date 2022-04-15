@@ -1,12 +1,34 @@
 import styles from '../styles/deleteBtn.module.scss';
 import {useTodoContext} from "../context/TodoContext";
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 	const [showWarning, setShowWarning] = useState(false);
-	const state = useTodoContext()
+	const [deleteing, setDeleteing] = useState(false);
+	const state = useTodoContext();
 	const fetchAllLists = state.fetchTodos;
+
+	
+
+	/* const deleteWholeList = async() => {
+		await fetch("/api/todos/todolist", {
+			method: "DELETE",
+			body: listItem._id,
+		})
+		.then(console.log('posted'))
+		.then(fetchAllLists())
+		.catch(error => {
+			console.log('error:', error);
+		})
+	};
+
+	useEffect(() => {
+		if (deleteing && listItem._type === 'todoList') { 
+			deleteWholeList();
+			setDeleteing(false);
+		};
+	}, [deleteing]); */
 
 	const handleDelete = async (listItem) => {
 		//delete todo
@@ -22,7 +44,6 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 			fetchAllLists();			 
 		//delete todo-list
 		} else if (listItem._type === 'todoList') {
-			console.log('todos: ',listItem.todos)
 			listItem.todos.map(async(x) => {
 				await fetch("/api/todos/todo", {
 					method: "DELETE",
@@ -32,12 +53,14 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 				.catch(error => {
 					console.log('error:', error);
 				})
-			})
+			});
+			//setDeleteing(true);
 			await fetch("/api/todos/todolist", {
 				method: "DELETE",
 				body: listItem._id,
 			})
 			.then(console.log('posted'))
+			.then(fetchAllLists())
 			.catch(error => {
 				console.log('error:', error);
 			})

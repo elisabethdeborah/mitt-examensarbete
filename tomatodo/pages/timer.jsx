@@ -8,7 +8,6 @@ import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 const TimerSet = () => {
 	const [inputformVisible, setInputformVisible] = useState(false);
 	const currentState = useUpdateContext();
-	let currentStateTime = currentState.countdownItem? Number(currentState.countdownItem.time)*1000:null;
 
 	const sectionRef = useRef();
 	const [width, setWidth] = useState();

@@ -3,7 +3,7 @@ export default {
 	title: "Sparade listor",
 	type: "document",
 	fields: [
-	  {
+	  /* {
 		name: "slug",
 		title: "Slug",
 		type: "slug",
@@ -12,7 +12,7 @@ export default {
 		  source: "title",
 		  maxLength: 96
 		}
-	  },
+	  }, */
 	  {
 		title: "Namn",
 		name: "name",
@@ -40,7 +40,6 @@ export default {
 	preview: {
 	  select: {
 		title: "title",
-		slug: "slug"
 	  },
 	}
   };

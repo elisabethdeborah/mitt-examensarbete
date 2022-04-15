@@ -13,7 +13,6 @@ export default function MinaTomater() {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [addTomatoFormIsVisible, setAddTomatoFormIsVisible] = useState(false);
 	const [open, setOpen] = useState(0); 
-	const [sideListVisible, setSideListsVisible] = useState(false);
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
 	const [showAddTodo, setShowAddTodo] = useState(false);

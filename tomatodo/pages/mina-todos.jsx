@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import ActiveLists from "../components/ActiveLists";
-// import SavedLists from "../components/SavedLists";
-// import LimboLists from "../components/LimboListsComponent";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
 import TodoList from "../components/TodoList";
 import styles from "../styles/minaTodos.module.scss";
 import clsx from "clsx";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext"
-//import { useRouter } from "next/router";
-/* import client, {
-  getClient,
-  usePreviewSubscription,
-} from "../lib/sanity"; */
-//import { groq } from "next-sanity";
 import Form from "../components/Form"; 
 import ListContainer from "../components/ListContainer";
 
@@ -69,13 +60,11 @@ export default function MinaTodos() {
 
 	const handleClick = () => {
 		if (addListFormIsVisible) {
-			//setShowAddTodo(false);
 			console.log('click', addListFormIsVisible);
 			setTimeout(() => {
 				setAddListFormIsVisible(false);
 			}, 600);
 		} else if (!addListFormIsVisible){
-			//setShowAddTodo(false);
 			setAddListFormIsVisible(true);
 		};		
 	}; 

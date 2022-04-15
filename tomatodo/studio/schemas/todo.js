@@ -11,7 +11,7 @@ export default {
 			type: "string",
 			validation: Rule => [Rule.max(50).warning('Kortare namn är oftast bättre'), Rule.required().min(1).error('Namnet måste vara minst 1 tecken/bokstav långt')],
 		},
-		{
+		/* {
 			name: "slug",
 			title: "Slug",
 			type: "slug",
@@ -20,7 +20,7 @@ export default {
 			  source: "title",
 			  maxLength: 96,
 			}
-		  },
+		  }, */
 	{
 		title: "Tid",
 		name: "time",
@@ -67,7 +67,7 @@ export default {
 		prepare({title, checked, date}) {
 			  return {
 				title: title,
-				subtitle: date.slice(0, 10), // YYYY-MM-DD
+				subtitle: date.slice(0, 10),
 				media: <span style={{fontSize: '1.5rem'}}>{checked ? '✅': '⬜'}</span>
 			  }
 		}

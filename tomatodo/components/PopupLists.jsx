@@ -53,7 +53,6 @@ const PopupLists = ({previewTodosList, setPopupIsOpen, setOverlay}) => {
 
 	const handleClose = () => {
 		setPopupIsOpen(false);
-		//currentState.setCurrentItem(null);
 	};
 
 	return (

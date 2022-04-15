@@ -4,6 +4,7 @@ const tomato = async function handler(req, res) {
 	switch (req.method) {
 		case "POST":
 			const newTomato = await JSON.parse(req.body);
+			console.log('id?: ', newTomato)
 			try {
 				await client
 				.create({
@@ -30,7 +31,10 @@ const tomato = async function handler(req, res) {
 				const result = await client
 				.patch(req.body.id)
 				.set({
-					body: req.body,
+					_type: "tomato",
+					title: newTomato.title,
+					description: newTomato.description,
+					time: Number(newTomato.time),
 				})
 				.commit();
 				res.status(200).json({
@@ -41,21 +45,21 @@ const tomato = async function handler(req, res) {
 					res.status(500).json({ msg: "Error, check console" });
 			};
 			break;
-		case "DELETE":
-			try {
-				await client
-				.delete(req.body)
-				.then((res) => {
-				res.body;
-				})
-				.then((res) => console.log(`Tomato was deleted`));
-				res.status(200).json({ msg: "Success" });
-			} catch (error) {
-				console.error(error);
-				res.status(500).json({ msg: "Error, check console" });
-			}
+			case "DELETE":
+				try {
+					await client
+					.delete(req.body)
+					.then((res) => {
+						res.body;
+					})
+					.then((res) => console.log(`Tomato was deleted`));
+					res.status(200).json({ msg: "Success" });
+				} catch (error) {
+					console.error(error);
+					res.status(500).json({ msg: "Error, check console" });
+				};
+				break;
 		default:
-		break;
 	};
 	console.log('client in tomatoes/tomato api page', req.body);    
 };

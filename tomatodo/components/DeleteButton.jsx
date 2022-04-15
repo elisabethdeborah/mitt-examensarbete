@@ -9,27 +9,6 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 	const state = useTodoContext();
 	const fetchAllLists = state.fetchTodos;
 
-	
-
-	/* const deleteWholeList = async() => {
-		await fetch("/api/todos/todolist", {
-			method: "DELETE",
-			body: listItem._id,
-		})
-		.then(console.log('posted'))
-		.then(fetchAllLists())
-		.catch(error => {
-			console.log('error:', error);
-		})
-	};
-
-	useEffect(() => {
-		if (deleteing && listItem._type === 'todoList') { 
-			deleteWholeList();
-			setDeleteing(false);
-		};
-	}, [deleteing]); */
-
 	const handleDelete = async (listItem) => {
 		//delete todo
 		if (listItem._type === 'todo') {
@@ -54,7 +33,6 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 					console.log('error:', error);
 				})
 			});
-			//setDeleteing(true);
 			await fetch("/api/todos/todolist", {
 				method: "DELETE",
 				body: listItem._id,
@@ -67,6 +45,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 			fetchAllLists();
 		} else if (listItem._type === 'tomato') {
 		//delete tomato
+		console.log('delete tomato (btn component)', 'id:', listItem._id, 'title:', listItem.title)
 			await fetch("/api/tomatoes/tomato", {
 				method: "DELETE",
 				body: listItem._id,

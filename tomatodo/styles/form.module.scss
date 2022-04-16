@@ -52,6 +52,10 @@
 			padding: 0 22px;
 			font-weight: bold;
 			width: 100%;
+
+			&:focus {
+				outline: 2px solid $color-pink;
+			}
 		}
 	}
 
@@ -128,9 +132,9 @@
 			background-position: center;
 		}
 
-		&.tomatoFormContainer {
+		/* &.tomatoFormContainer {
 			margin-top: 5rem;
-		}
+		} */
 	}
 
 	&.archObj {
@@ -167,14 +171,21 @@
 	font-size: 1rem;
 	//margin: 2rem auto;
 	color: $color-darkgrey;
+	background-color: $color-white;
 
 	> select {
 		border: none;
 		padding: 1rem;
 		font-size: 1rem;
-		background-color: transparent;
 		text-align: center;
 		width: 45%;
+		background-color: transparent;
+
+		&:focus {
+			color: $color-pink;
+			outline: none;
+			font-weight: bold;
+		}
 	}
 }
 

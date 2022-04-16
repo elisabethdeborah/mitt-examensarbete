@@ -20,7 +20,9 @@ import {
 	...config,
 	useCdn: false
   });
-  
-  export const getClient = usePreview =>
+
+// Helper function to choose the correct client
+export const getClient = (usePreview = false) =>
 	usePreview ? previewClient : client;
+
   export default client;

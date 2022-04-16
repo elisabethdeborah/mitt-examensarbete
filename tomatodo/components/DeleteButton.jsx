@@ -3,7 +3,7 @@ import {useTodoContext} from "../context/TodoContext";
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
-const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
+const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOverlay}) => {
 	const [showWarning, setShowWarning] = useState(false);
 	const [deleteing, setDeleteing] = useState(false);
 	const state = useTodoContext();
@@ -21,7 +21,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 				console.log('error:', error);
 			})
 			fetchAllLists();			 
-		//delete todo-list
+			closeOverlay ? closeOverlay() : null;
 		} else if (listItem._type === 'todoList') {
 			listItem.todos.map(async(x) => {
 				await fetch("/api/todos/todo", {
@@ -43,6 +43,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 				console.log('error:', error);
 			})
 			fetchAllLists();
+			closeOverlay ? closeOverlay() : null;
 		} else if (listItem._type === 'tomato') {
 		//delete tomato
 		console.log('delete tomato (btn component)', 'id:', listItem._id, 'title:', listItem.title)
@@ -51,6 +52,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning}) => {
 				body: listItem._id,
 			})
 			fetchAllLists();
+			closeOverlay ? closeOverlay() : null;
 		}
 		setDisplayWarning ? setDisplayWarning(false):null;
 		setShowWarning(false);

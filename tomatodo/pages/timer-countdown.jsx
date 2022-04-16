@@ -6,32 +6,19 @@ import React, { useState, useEffect, useRef } from 'react';
 import useCountDown from 'react-countdown-hook';
 import ProgressBar from "../components/ProgressBar";
 import NumberFormat from "../components/NumberFormat";
-import TimerComponent from "../components/TimerComponent";
-
-import FormTemplate from "../components/FormTemplate";
 import { useRouter } from "next/router";
-import client, {
-  getClient,
-  usePreviewSubscription,
-} from "../lib/sanity";
-import { groq } from "next-sanity";
-import {useUpdateContext, useTodoContext} from "../context/TodoContext";
+import { useUpdateContext } from "../context/TodoContext";
 
-const Timer = ({timerItemData, preview}) => {
+const Timer = () => {
 	const [isRunning, setIsRunning] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
 	const [timesUp, setTimesUp] = useState(false);
 	const [ soundOn, setSoundOn ] = useState(false);
-	//const [inputTime, setInputTime] = useState(0);
-	//const [inputformVisible, setInputformVisible] = useState(false);
-	// const [userInputName, setUserInputName] = useState('');
-	// const [userInputText, setUserInputText] = useState('');
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	let currentStateTime = currentState.countdownItem? Number(currentState.countdownItem.time)*1000:null;
 	const [initialTime, setInitialTime] = useState(currentStateTime);
 	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime);
-	//const [formPlay, setFormPlay] = useState(false);
 	const [percentage, setPercentage ] = useState(0);
 
 	useEffect(() => {
@@ -172,22 +159,6 @@ const Timer = ({timerItemData, preview}) => {
 		>
 			<Meta title='Timer' />
 			<section className={styles.contentContainer} >
-				{/* {
-					inputformVisible && (
-						<FormTemplate 
-							formIsVisible={inputformVisible} 
-							setFormIsVisible={setInputformVisible} 
-							setUserInputName={setUserInputName} 
-							setUserInputText={setUserInputText} 
-							setUserInputTime={setInputTime} 
-							userInputTime={inputTime} 
-							setFormPlay={setFormPlay} 
-							handleResume={handleResume} 
-							setIsRunning={setIsRunning} 
-							start={start}
-						/>
-					)
-				} */}
 				<div className={styles.tomatoChartContainer} >
 					{
 						isInitialized && !timesUp ? 
@@ -213,13 +184,6 @@ const Timer = ({timerItemData, preview}) => {
 				<h2 className={styles.todoTitle}>
 					{currentState.countdownItem && (currentState.countdownItem.title)}
 				</h2>
-				{/* { 
-					!isRunning && !isInitialized && (
-						<button className={styles.addTime} onClick={() => setInputformVisible(true)}>
-							lägg till tid
-						</button>
-					)
-				} */}
 				{
 					isInitialized && timesUp ? (
 							<>

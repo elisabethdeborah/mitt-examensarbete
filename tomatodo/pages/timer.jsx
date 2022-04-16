@@ -3,12 +3,9 @@ import clsx from "clsx";
 import styles from '../styles/timer.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import FormTemplate from "../components/FormTemplate";
-import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 const TimerSet = () => {
 	const [inputformVisible, setInputformVisible] = useState(false);
-	const currentState = useUpdateContext();
-
 	const sectionRef = useRef();
 	const [width, setWidth] = useState();
 	const getListSize = () => {

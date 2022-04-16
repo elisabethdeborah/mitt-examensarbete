@@ -63,6 +63,18 @@ export default function SparadeListor() {
 		setaddToListIsVisible(x);
 		setShowStartList(x);
 	};
+
+	const closeOverlay = () => {
+		setOverlay(false);
+		setAddListFormIsVisible(false);
+		setaddToListIsVisible(false);
+		setShowChangeForm(false);
+		setTimeout(() => {
+			setShowListObject(false);
+			currentState.setCurrentItem(null);
+			setListObjectIndex(null);
+		}, 600);
+	}
 	
 	return (
 		<div className={styles.tomatoPageWrapper}>
@@ -105,6 +117,7 @@ export default function SparadeListor() {
 												handleClick={handleClick}
 												setaddToListIsVisible={setaddToListIsVisible}
 												setShowDelete={setShowDelete}
+												closeOverlay={closeOverlay}
 											/>
 										);
 									})

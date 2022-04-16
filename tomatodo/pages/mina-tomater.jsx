@@ -60,10 +60,10 @@ export default function MinaTomater() {
 			setAddListFormIsVisible(false);
 			setaddToListIsVisible(false);
 			setShowChangeForm(false);
+			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 			setTimeout(() => {
 				setShowListObject(false);
 				currentState.setCurrentItem(null);
-				listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 			}, 600);
 		} else if (!showListObject) {
 			setShowListObject(true);
@@ -73,7 +73,19 @@ export default function MinaTomater() {
 			setOverlay(true);
 			}, 10);
 		};		
-	};  
+	};
+	
+	const closeOverlay = () => {
+		setOverlay(false);
+		setAddListFormIsVisible(false);
+		setaddToListIsVisible(false);
+		setShowChangeForm(false);
+		setTimeout(() => {
+			setShowListObject(false);
+			currentState.setCurrentItem(null);
+			setListObjectIndex(null);
+		}, 600);
+	}
 
 	return (
 		<div className={styles.tomatoPageWrapper}>
@@ -162,6 +174,7 @@ export default function MinaTomater() {
 											handleClick={handleClick}
 											setShowChangeForm={setShowChangeForm}
 											setaddToListIsVisible={setaddToListIsVisible}
+											closeOverlay={closeOverlay}
 										/>
 									))
 								) : (

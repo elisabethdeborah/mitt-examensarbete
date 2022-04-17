@@ -88,29 +88,11 @@
 		color: transparent;
 	}
 
-	
-	.textGroup {
-		position: relative;
-		width: 50%;
-		h3 {
-			font-size: 1rem;
-			margin-bottom: 3px;
-			word-break: break-word;
-		}
-		p {
-			font-size: 0.75rem;
-			font-weight: bold;
-		}
-	}
-
 	&.homePage {
-
 		.contentBox {
 			width: 100%;
 			overflow-y: scroll;
 			max-height: calc(100vh - 300px);
-			//padding-bottom: 1rem;
-			//height: 100%;
 			border-radius: 20px;
 			@media screen and (min-width: 600px) {
 			max-height: calc(100vh - 250px);
@@ -131,14 +113,11 @@
 		overflow-y: scroll;
 	}
 	
-	
 	@media screen and (min-width: 600px) {
-		
 		position: relative;
 		width: 80%;
 		margin: 0 auto 1rem;
 		max-height: calc(100vh - 250px);
-		//min-height: 155px;
 		height: fit-content;
 		padding: 49px 0 1.5rem;
 		border-radius: 30px;
@@ -147,7 +126,6 @@
 			text-align: center;
 			color: $color-darkgrey;
 		}
-
 
 		&.todoListPage {
 			&.showContent {
@@ -174,15 +152,11 @@
 		}
 
 		&.todolistPage {
-			//border-radius: 20px;
 	
 			&.showContent {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				//border-radius: 15px;
-				
-		
 				height: 200px;
 				transition: all 0.2s ease-in-out;
 				.contentBox {
@@ -191,27 +165,21 @@
 				}
 			}
 		}
-
 	}
 
 	&.tomatoPage {
 		background-color: transparent;
-	}
-
-	
+	}	
 
 	@media screen and (min-width: 1000px) {
 		height: 100%;
-		//min-height: 350px;
 		border-radius: 30px;
-		
 
 		.listTop {
 			border-radius: 30px 30px 0 0;
 		}
 		&.homePage {
 			border-radius: 30px;
-			//max-height: calc(100vh - 500px);
 			max-height: calc(90vh - 385px);
 			min-height: 200px;
 		}
@@ -219,13 +187,11 @@
 		&.todolistPage {
 			justify-content: space-evenly;
 			align-items: center;
-			//border-radius: 20px;
 			height: 200px;
 			margin: 1rem auto 2rem;
 			
 			&.showContent {
 				display: flex;
-				//border-radius: 20px;
 				min-height: 200px;
 				transition: all 0.2s ease-in-out;
 				height: fit-content;
@@ -235,25 +201,22 @@
 				justify-content: flex-start;
 				min-height: 200px;
 				height: fit-content;
+
 				&.showContent {
 					display: flex;
-					//border-radius: 20px;
 					justify-content: flex-start;
 					min-height: 200px;
 					transition: all 0.2s ease-in-out;
 				}
 			}
 		}
-
 	}
 }
-
-
-
 
 .iconGroup {
 	display: flex;
 	flex-direction: row;
+	justify-content: flex-end;
 	.nrOfTodosIcon {
 		background-image: url('../svgAssets/total-nr-todos.svg');
 	} 
@@ -299,7 +262,6 @@
 	width: 100%;
 	height: 50px;
 	color: $color-white;
-
 	border-radius: 0;
 
 	.arrowRight {
@@ -338,7 +300,6 @@
 	}
 }
 
-
 .hiddenLists {
 	background-color: $color-article-bg;
 	display: flex;
@@ -348,10 +309,31 @@
 	margin: 1rem auto 2rem;
 	padding: 0 1rem;
 	min-height: 73px;
-	width: 80%;
+	width: 90%;
 	height: fit-content;
 	box-shadow: none;
 	transition: box-shadow 0.2s ease-in-out;
+
+	.textGroup {
+		position: relative;
+		width: 45%;
+		overflow-wrap: break-word;
+		hyphens: auto;
+
+		h3 {
+			font-size: 1rem;
+			margin-bottom: 3px;
+		}
+		p {
+			font-size: 0.75rem;
+			font-weight: bold;
+		}
+
+		@media screen and (min-width: 600px) {
+			width: 50%;
+			flex: 1;
+		}
+	}
 
 	&.isVisible {
 		opacity: 1;
@@ -365,21 +347,23 @@
 	&.previewList {
 		width: 95%;
 	}
+
+	&.tomatoObj {
+		justify-content: flex-start;
+		.textGroup {
+			width: 50%;
+			margin-left: 0.5rem;
+
+			@media screen and (min-width: 600px) {
+				width: 55%;
+				margin-right: 60px;
+			}
+		}
+	}
 }
 
 .isVisible {
 	opacity: 1;
-}
-
-.textGroup {
-	h3 {
-		font-size: 1rem;
-		margin-bottom: 3px;
-	}
-	p {
-		font-size: 0.75rem;
-		font-weight: bold;
-	}
 }
 
 .iconGroup {
@@ -425,9 +409,8 @@
 		justify-content: space-between;
 		align-items: center;
 		background-color: $color-article-bg;
-		//border-radius: 15px;
 		margin: 1rem auto;
-		padding: 0 2rem;
+		padding: 0 1rem;
 		width: 80%;
 		height: fit-content;
 
@@ -443,9 +426,17 @@
 		&.previewList {
 			width: 100%;
 		}
+
+		&.tomatoObj {
+			padding: 0 1rem;
+			justify-content: flex-start;
+
+			.textGroup {
+				margin-left: 1rem;
+			}
+		}
 	}	
 }
-
 
 .smallTomato {
 	height: 60px;
@@ -458,7 +449,6 @@
 		transform: scale(1);
 	}
 }
-
 
 .optionContainer {
 	display: flex;

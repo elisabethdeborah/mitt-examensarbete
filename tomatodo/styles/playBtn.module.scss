@@ -6,8 +6,9 @@
 	display: flex;
 	width: fit-content;
 	position: absolute;
-	top: 15%;
-	right: 15%;
+	//top: 15%;
+	top: calc(50% - 20px);
+	right: 1.5rem;
 	background-repeat: no-repeat;
 	min-width: 40px;
 	min-height: 40px;
@@ -28,6 +29,10 @@
 
 	&.orange {
 		background-image: url('../svgAssets/play-btn-sm-orange.svg');
+		right: 40px;
+		@media screen and (min-width: 550px) {
+			right: 15%;
+		}
 	}
 	&.orangeLg {
 		background-image: url('../svgAssets/play-btn-sm-orange.svg');
@@ -41,6 +46,7 @@
 			position: fixed;
 			left: 33px;
 			top: calc(50vh + 165px);
+			margin-top: 15px;
 		}
 	}
 	&.green {
@@ -63,12 +69,17 @@
 	@media screen and (min-width: 550px) {
 		min-width: 50px;
 		min-height: 50px;
-		margin-top: 6px;
+		top: calc(50% - 25px);
+		right: 45px;
 	}
 
 }
 
 .playBtnPlaceholder {
+	width: fit-content;
+	position: absolute;
+	top: 15%;
+	right: 15%;
 	width: 40px;
 	height: 40px;
 	@media screen and (min-width: 550px) {

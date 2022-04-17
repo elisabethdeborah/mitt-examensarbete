@@ -14,7 +14,9 @@ const NumberFormat = ({milliSeconds, text, showSecs, styling}) => {
 
 	return (
 		<h2 style={styling}>
-			{text}{timeForm}
+			{time > 0 && 
+			`${text? text : ''} ${timeForm}`
+			}
 		</h2>
 	);
 };

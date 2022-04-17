@@ -23,7 +23,7 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen, pag
 	}; 
 
 	return (
-		<div style={{position: 'relative'}}>
+		<div style={{position: 'relative', height: 'fit-content'}}>
 		<article 
 			id={`${item._id}`}
 			key={item._rev} 
@@ -95,7 +95,7 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen, pag
 			)
 			}
 		</article>
-		{page === 'home' && item._type === 'tomato' && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
+		{page === 'home' && item._type === 'tomato' && item.time > 0 && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
 		</div>
 	);
 };

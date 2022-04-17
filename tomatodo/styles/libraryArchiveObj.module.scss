@@ -18,6 +18,7 @@
 	
 	&.orangeTomato,
 	&.pinkTomato {
+		color: $color-black;
 		> h3 {
 			font-size: 1.5rem;
 			width: 200px;
@@ -133,11 +134,15 @@
 
 .showListObject {
 	z-index: 9;
-	//position: relative;
 	position: fixed;
 	top: calc(50vh - 125px);
+	left: calc(50vw - 140px);
 	transform: scale3d(1.2, 1.2, 1.1);
 	transition: all 100ms ease-in-out;
+
+	@media screen and (min-width: 800px) {
+		left: calc(50vw - 162px);
+	}
 }
 
 .hoverDescription {
@@ -546,4 +551,5 @@
 .playBtnContainer {
 	position: fixed;
 	z-index: 9;
+	bottom: 15vh;
 }

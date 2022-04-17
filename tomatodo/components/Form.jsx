@@ -17,7 +17,6 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 	let header;
 
 	const calculateTime = () => {
-		//let initialTime = 0;
 		let initialObjTime = 0;
 	
 		if ( defaultTime ) {
@@ -157,17 +156,6 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 			}, 600)
 			currentState.setCurrentItem(null);
 		};
-
-		/* fetchAllLists();
-		setUserInputName('');
-		setUserInputTime(0);
-		setUserInputText('');
-		setErrMessage('');
-		setOverlay(false);
-		setTimeout(() => {
-			setFormIsVisible(false);
-		}, 600)
-		currentState.setCurrentItem(null); */
 	};
 
 	const handleGoBack = () => {
@@ -211,7 +199,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 						{header? `Redigera\n ${header}`: `Ny ${objectType}`}
 					</h1>
 					{
-					currentState.currentItem && currentState.currentItem.title ? (
+					 objectType !== 'todoList' && currentState.currentItem && currentState.currentItem.title ? (
 						<input 
 							type="text" 
 							className={clsx(styles.input, styles.textInput)} 

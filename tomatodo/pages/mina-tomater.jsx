@@ -22,7 +22,6 @@ export default function MinaTomater() {
 	const [isLoading, setIsLoading] = useState(false);
 
 	let tomatoLibrary = state.initialFetch? state.initialFetch.tomatoLibrary:null;
-	const activeLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -103,7 +102,6 @@ export default function MinaTomater() {
 							!addListFormIsVisible && (
 									<>
 										<ActiveLists 
-											//lista={activeLists} 
 											tomato={currentState.currentItem} 
 											setAddListFormIsVisible={setAddListFormIsVisible} 
 										/>

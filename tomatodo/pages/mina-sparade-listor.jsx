@@ -66,7 +66,6 @@ export default function SparadeListor() {
 
 	const closeOverlay = () => {
 		setOverlay(false);
-		setAddListFormIsVisible(false);
 		setaddToListIsVisible(false);
 		setShowChangeForm(false);
 		setTimeout(() => {

@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import styles from '../styles/todoList.module.scss';
 import AddTodo from '../svgAssets/addBtn.svg';
@@ -21,7 +20,7 @@ const TodoList = ({list,setOverlay}) => {
 	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
 
 	if (state.initialFetch) {
-		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved);
+		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved && x.nrOfTodos > 0);
 	};
 
 	const handleClickTodo = () => {
@@ -33,7 +32,6 @@ const TodoList = ({list,setOverlay}) => {
 	const handleClickList = () => {
 			setAddTodoFormIsVisible(false);
 			setAddListFormIsVisible(true);
-			//currentState.setCurrentItem();
 	}; 
 
 	useEffect(() => {
@@ -105,7 +103,6 @@ const TodoList = ({list,setOverlay}) => {
 								) : (	
 									list.todos.length >0 ? (
 										list.todos.map((listItem, index) => {
-											//console.log('key:', listItem._rev)
 											return (
 												<ListObj key={listItem._rev} listItem={listItem} width={width &&(width)} />
 											)

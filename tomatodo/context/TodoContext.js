@@ -13,6 +13,7 @@ export function TodoWrapper({children}) {
 	const [initialFetch, setInitialFetch] = useState(null);
 	const [currentItem, setCurrentItem] = useState(null);
 	const [countdownItem, setCountdownItem] = useState(null);
+	const [fetchRes, setFetchRes] = useState({show: false});
 
   const fetchTodos = async () => {
     let fetchedTodos;
@@ -54,7 +55,9 @@ export function TodoWrapper({children}) {
   const state = {
 	 initialFetch,
 	 setInitialFetch,
-	 fetchTodos
+	 fetchTodos,
+	 fetchRes,
+	 setFetchRes
   };
 
   const currentState = {

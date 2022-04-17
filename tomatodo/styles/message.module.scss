@@ -1,0 +1,35 @@
+@import './variables.scss';
+
+.textContainer {
+	position: fixed;
+	bottom: 20%;
+	border-radius: 10px;
+	z-index: 9999999;
+	opacity: 0;
+	padding: 1rem;
+	width: 300px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 1.1rem;
+	transition: opacity 250ms ease-in-out;
+
+	&.messageVisible {
+		opacity: 0.9;
+		transition: opacity 250ms ease-in-out;
+	}
+
+	&.warning {
+		color: $color-white;
+		background-color: rgb(206, 42, 42);
+	}
+
+	&.success {
+		color: #111;
+		background-color: #88d94e;
+	}
+
+	@media screen and (min-width: 600px) {
+		height: 150px;
+	}
+}

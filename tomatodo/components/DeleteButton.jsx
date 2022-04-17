@@ -16,7 +16,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 				method: "DELETE",
 				body: listItem._id,
 			})
-			.then(console.log('posted'))
+			.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
 			.catch(error => {
 				console.log('error:', error);
 			})
@@ -28,7 +28,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 					method: "DELETE",
 					body: x._id,
 				})
-				.then(console.log('posted'))
+				.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
 				.catch(error => {
 					console.log('error:', error);
 				})
@@ -37,7 +37,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 				method: "DELETE",
 				body: listItem._id,
 			})
-			.then(console.log('posted'))
+			.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
 			.then(fetchAllLists())
 			.catch(error => {
 				console.log('error:', error);
@@ -51,6 +51,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 				method: "DELETE",
 				body: listItem._id,
 			})
+			.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
 			fetchAllLists();
 			closeOverlay ? closeOverlay() : null;
 		}

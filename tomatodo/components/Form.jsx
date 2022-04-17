@@ -18,6 +18,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 	const [userInputTime, setUserInputTime] = useState(0);
 	const [errMessage, setErrMessage] = useState('');
 	const [overlay, setOverlay] = useState(false);
+	
 
 	
 	let header;
@@ -71,10 +72,9 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 		};
 	}; 
 	
-	const handleSubmit = async () => {
+	const handleSubmit = async () => {3
 		const inputTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
 		if (method === 'POST') {
-		console.log(`POST ${objectType} formulär ${userInputName}, ${inputTime}, ${currentListDocId}`)
 			if (userInputName.length == 0 ) {
 				setErrMessage("Namnet måste vara minst 1 tecken lång.");
 			} else if (typeof inputTime === 'number' && inputTime < 60 && inputTime > 86340) {
@@ -89,20 +89,24 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 							parentRef: currentListDocId,
 						}),
 				})
-				.then(console.log('POST posted'))
+				.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: objectType, title: userInputName, action: 'skapad', res: response.ok}))
 				.catch(error => {
 					console.log('error:', error);
 				})
-				fetchAllLists();
-				setUserInputName('');
-				setUserInputTime(0);
-				setUserInputText('');
-				setErrMessage('');
-				setOverlay(false);
-				setTimeout(() => {
-					setFormIsVisible(false);
-				}, 600);
-				currentState.setCurrentItem(null);
+				if (page === 'tomato' && objectType === 'todoList') {
+					fetchAllLists();
+				} else {
+					fetchAllLists();
+					setUserInputName('');
+					setUserInputTime(0);
+					setUserInputText('');
+					setErrMessage('');
+					setOverlay(false);
+					setTimeout(() => {
+						setFormIsVisible(false);
+					}, 600);
+					currentState.setCurrentItem(null);
+				}
 			}
 		} else if (method === 'PUT') {
 			if (objectType === 'tomato' ) { 
@@ -116,7 +120,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 						time: inputTime,
 					}),
 				})
-				.then(console.log('PUT posted'))
+				.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: objectType, title: userInputName, action: 'ändrad', res: response.ok}))
 				.catch(error => {
 					console.log('error:', error);
 				})
@@ -131,7 +135,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 						time: inputTime,
 					}),
 				})
-				.then(console.log('posted'))
+				.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: objectType, title: userInputName, action: 'ändrad', res: response.ok}))
 				.catch(error => {
 					console.log('error:', error);
 				})

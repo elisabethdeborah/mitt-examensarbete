@@ -4,20 +4,20 @@ import Meta from "../components/Meta";
 import TodoList from "../components/TodoList";
 import styles from "../styles/minaTodos.module.scss";
 import clsx from "clsx";
-import {useUpdateContext, useTodoContext} from "../context/TodoContext"
+import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import Form from "../components/Form"; 
 import ListContainer from "../components/ListContainer";
-
 
 export default function MinaTodos() {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [sideListVisible, setSideListsVisible] = useState(true);
 	const [flexDirection, setFlexDirection] = useState(false);
-	const state = useTodoContext()
-	const currentState = useUpdateContext()
-	const fetchAllLists = state.fetchTodos;
 	const [isLoading, setIsLoading] = useState(false);
 	const [open, setOpen] = useState(0); 
+
+	const state = useTodoContext();
+	const currentState = useUpdateContext();
+	const fetchAllLists = state.fetchTodos;
 	
 	let activeLists;
 	let savedLists;
@@ -70,6 +70,8 @@ export default function MinaTodos() {
 	}; 
 
 	return (
+		<>
+		{
 		isLoading ? 
 			(
 				<h1>laddar...</h1> 
@@ -90,14 +92,14 @@ export default function MinaTodos() {
 					} 
 					{
 						<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
-							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={savedLists} activeLists={activeLists} setAddListFormIsVisible />
-							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists && activeLists.length > 1 ? activeLists : null}  activeLists={activeLists}  setAddListFormIsVisible />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={savedLists} activeLists={activeLists} />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists && activeLists.length > 1 ? activeLists : null}  activeLists={activeLists} />
 						</section>
 					}
 					<div className={styles.todoListWrapper}>
 						{
 							addListFormIsVisible && (
-								<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'}/>
+								<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} />
 							)
 						}
 						{
@@ -118,5 +120,7 @@ export default function MinaTodos() {
 					</div>
 				</div>
 			)
+			}
+		</>
 	);
 };

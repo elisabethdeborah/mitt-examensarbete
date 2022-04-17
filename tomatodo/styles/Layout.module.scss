@@ -1,12 +1,8 @@
 @import './variables.scss';
 
 .container {
-/* 	display: flex;
-	flex-direction: column;
-	align-items: center; */
 	width: 100%;
 	height: 100%;
-	//padding-bottom: 100px;
 
 	.main {
 		display: flex;
@@ -15,12 +11,6 @@
 		width: 100vw;
 		height: 100%;
 	}
-	/* h3 {
-		font-weight: 600;
-	}
-	h4 {
-		font-weight: 400;
-	} */
 
 	p {
 		font-weight: 600;

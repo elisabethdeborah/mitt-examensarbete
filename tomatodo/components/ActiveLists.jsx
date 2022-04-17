@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from "../components/Form";
 import AddTodo from '../svgAssets/addBtn.svg';
-import styles from '../styles/activeLists.module.scss';
+import styles from '../styles/listContainer.module.scss';
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import SmallListObj from './SmallListObj';
 import clsx from 'clsx';
@@ -57,7 +57,7 @@ const ActiveLists = ({ tomato, previewLists}) => {
 		) : (			
 			<div className={clsx(styles.activeLists, styles.showContent, styles.tomatoPage)}>
 				<section className={styles.activeListsTop}>
-					<h4>Mina påbörjade listor</h4>
+					<h4 style={{textAlign: 'center'}}>Påbörjade listor</h4>
 				</section>
 				<section className={clsx(styles.contentBox, {[styles.previewLists]: previewLists===true})}>
 					{lista && lista.length > 0 ? 

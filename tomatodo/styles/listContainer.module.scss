@@ -46,6 +46,9 @@
 		height: 200px;
 		transition: all 0.2s ease-in-out;
 
+		h4 {
+			text-align: center;
+		}
 		.contentBox {
 			overflow-y: scroll;
 			height: fit-content;
@@ -358,6 +361,10 @@
 		box-shadow: 0px 0px 10px $color-box-shadow;
 		transition: box-shadow 0.1s ease-in-out;
 	}
+
+	&.previewList {
+		width: 95%;
+	}
 }
 
 .isVisible {
@@ -445,4 +452,20 @@
 	width: 60px;
 	background-image: url('../svgAssets/orange-tomato-small.svg');
 	background-repeat: no-repeat;
+	transform: scale(0.75);
+
+	@media screen and (min-width: 600px) {
+		transform: scale(1);
+	}
+}
+
+
+.optionContainer {
+	display: flex;
+	justify-content: center;
+	margin: 2rem auto;
+	.addTodoList {
+		background-color: transparent;
+		border: none;
+	}
 }

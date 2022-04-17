@@ -1,5 +1,5 @@
 import styles from '../styles/deleteBtn.module.scss';
-import {useTodoContext} from "../context/TodoContext";
+import {useTodoContext, useUpdateContext} from "../context/TodoContext";
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
@@ -7,6 +7,7 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 	const [showWarning, setShowWarning] = useState(false);
 	const [deleteing, setDeleteing] = useState(false);
 	const state = useTodoContext();
+	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
 
 	const handleDelete = async (listItem) => {
@@ -57,6 +58,8 @@ const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOver
 		}
 		setDisplayWarning ? setDisplayWarning(false):null;
 		setShowWarning(false);
+
+		currentState.setCurrentItem(null);
 	};
 
 	return (

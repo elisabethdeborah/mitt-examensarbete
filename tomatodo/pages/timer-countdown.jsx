@@ -46,7 +46,7 @@ const Timer = () => {
 	  
 	useEffect(() => {
 		if (isInitialized && isRunning && timeLeft <= 0) {
-			//setTimesUp(true);
+			setTimesUp(true);
 			console.log('ended:', 'timeleft', percentage, isInitialized && isRunning && timeLeft <= 0);
 		} else {
 			setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
@@ -104,6 +104,9 @@ const Timer = () => {
 		setIsInitialized(false);
 		setIsRunning(false);
 		sectionRef.current ? sectionRef.current.style.backgroundColor = '' :null;
+		setTimeout(() => {
+			router.replace('/timer');
+		}, 1000);
 	};
 
 	const calculateBgColor = () => {

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from '../styles/listContainer.module.scss';
@@ -63,10 +62,10 @@ const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
 							return (
 								page === 'todo' && !item.saved ? (
 									open !== index && (
-										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
+										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} page={page} />
 									)
 								) : (
-									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
+									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} page={page} />
 								)
 							)
 						}) : (

@@ -2,11 +2,6 @@ import React, { useState, useEffect } from "react";
 import styles from '../styles/form.module.scss';
 import clsx from "clsx";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-import client, {
-	getClient,
-	usePreviewSubscription,
-  } from "../lib/sanity";
-
 
 const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultTime, page, setInputTime }) => {
 	
@@ -18,8 +13,6 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 	const [userInputTime, setUserInputTime] = useState(0);
 	const [errMessage, setErrMessage] = useState('');
 	const [overlay, setOverlay] = useState(false);
-	
-
 	
 	let header;
 
@@ -60,8 +53,6 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 		mins.push(index);
 	};
 
-	
-
 	const createEndpoint = () => {
 		if (objectType === 'todo') {
 			return '/api/todos/todo';
@@ -72,7 +63,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 		};
 	}; 
 	
-	const handleSubmit = async () => {3
+	const handleSubmit = async () => {
 		const inputTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
 		if (method === 'POST') {
 			if (userInputName.length == 0 ) {
@@ -93,9 +84,12 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 				.catch(error => {
 					console.log('error:', error);
 				})
-				if (page === 'tomato' && objectType === 'todoList') {
+				if (page === 'archive') {
 					fetchAllLists();
-				} else {
+					setTimeout(() => {
+						setFormIsVisible(false);
+					}, 600);
+				} else if (page !== 'archive')  {
 					fetchAllLists();
 					setUserInputName('');
 					setUserInputTime(0);
@@ -164,7 +158,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 			currentState.setCurrentItem(null);
 		};
 
-		fetchAllLists();
+		/* fetchAllLists();
 		setUserInputName('');
 		setUserInputTime(0);
 		setUserInputText('');
@@ -173,7 +167,7 @@ const Form = ({ setFormIsVisible, objectType, method, currentListDocId, defaultT
 		setTimeout(() => {
 			setFormIsVisible(false);
 		}, 600)
-		currentState.setCurrentItem(null);
+		currentState.setCurrentItem(null); */
 	};
 
 	const handleGoBack = () => {

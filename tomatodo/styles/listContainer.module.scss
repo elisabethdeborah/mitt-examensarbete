@@ -432,6 +432,10 @@
 		&:hover {
 			cursor: pointer;
 		}
+
+		&.previewList {
+			width: 100%;
+		}
 	}	
 }
 

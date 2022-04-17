@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Form from "../components/Form";
 import ActiveLists from "../components/ActiveLists";
-import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
 import styles from "../styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
@@ -12,7 +11,6 @@ import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 export default function MinaTomater() {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [addTomatoFormIsVisible, setAddTomatoFormIsVisible] = useState(false);
-	const [open, setOpen] = useState(0); 
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
 	const [overlay, setOverlay] = useState(false)
@@ -45,22 +43,13 @@ export default function MinaTomater() {
 
 	useEffect(() => {
 		if (!currentState.currentItem) {
-			setOverlay(false);
-			setAddListFormIsVisible(false);
-			setaddToListIsVisible(false);
-			setShowChangeForm(false);
-			setShowListObject(false);
-			setListObjectIndex(null);
+			closeOverlay();
 		}
 	}, [currentState.currentItem]);
 
 	const handleClick = (x) => {
 		if (showListObject) {
-			setOverlay(false);
-			setAddListFormIsVisible(false);
-			setaddToListIsVisible(false);
-			setShowChangeForm(false);
-			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
+			closeOverlay();
 			setTimeout(() => {
 				setShowListObject(false);
 				currentState.setCurrentItem(null);
@@ -111,29 +100,13 @@ export default function MinaTomater() {
 				addToListIsVisible && (
 					<div className={styles.showActiveLists}>
 						{
-							addListFormIsVisible ? 
-								(
-									<Form 
-										setFormIsVisible={setAddListFormIsVisible} 
-										objectType={'todoList'} 
-										method={'POST'} 
-										typeName={'lista'} 
-									/>
-								) : (
+							!addListFormIsVisible && (
 									<>
 										<ActiveLists 
-											lista={activeLists} 
+											//lista={activeLists} 
 											tomato={currentState.currentItem} 
-											open={4} 
-											page={'tomato'} 
 											setAddListFormIsVisible={setAddListFormIsVisible} 
 										/>
-										<aside className={styles.optionContainer}>
-											<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
-												<h2>Skapa ny lista</h2>
-												<AddTodo className={styles.addTdodoSvg} />
-											</button>
-										</aside>
 									</>
 								)
 						}

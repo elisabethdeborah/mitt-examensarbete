@@ -8,7 +8,7 @@ import styles from '../styles/Home.module.scss';
 
 import { groq } from "next-sanity";
 import {useTodoContext} from "../context/TodoContext"
-import ListContainer from "../components/ListContainer";
+import ListContainer from "../components/Lists/ListContainer";
 import Resize from '../components/Resize';
 
 export default function Post({postdata, preview}) {

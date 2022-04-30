@@ -1,25 +1,31 @@
 import Meta from "../components/Meta";
 import clsx from "clsx";
-import PieChart from '../components/PieChart';
-import styles from '../styles/timer.module.scss';
+import PieChart from '../components/Time/PieChart';
+import styles from '../components/Time/styles/timer.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
+import calculateBgColor from "../functions";
 import useCountDown from 'react-countdown-hook';
-import ProgressBar from "../components/ProgressBar";
+import ProgressBar from "../components/Time/ProgressBar";
 import NumberFormat from "../components/NumberFormat";
 import { useRouter } from "next/router";
 import { useUpdateContext } from "../context/TodoContext";
+import ReactPlayer from 'react-player/lazy';
+import alarmSound from '../assets/sounds/arcade_game_alarm_long.mp3';
 
 const Timer = () => {
 	const [isRunning, setIsRunning] = useState(false);
 	const [isInitialized, setIsInitialized] = useState(false);
 	const [timesUp, setTimesUp] = useState(false);
-	const [ soundOn, setSoundOn ] = useState(false);
+	const [ soundOn, setSoundOn ] = useState(true);
+	const [volume, setVolume] = useState(1);
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	let currentStateTime = currentState.countdownItem? Number(currentState.countdownItem.time)*1000:null;
 	const [initialTime, setInitialTime] = useState(currentStateTime);
 	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime);
 	const [percentage, setPercentage ] = useState(0);
+	const src = alarmSound;
+
 
 	useEffect(() => {
 		initialTime? handlePlay() : null;
@@ -27,7 +33,6 @@ const Timer = () => {
 			handleStop();
 		};
 	}, []);
-
 
 	const sectionRef = useRef();
 	const [width, setWidth] = useState();
@@ -50,7 +55,7 @@ const Timer = () => {
 			console.log('ended:', 'timeleft', percentage, isInitialized && isRunning && timeLeft <= 0);
 		} else {
 			setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
-			isInitialized && (calculateBgColor());
+			isInitialized && (calculateBgColor(percentage, sectionRef));
 		};
 		return () => {
 			setTimesUp(false);
@@ -109,50 +114,6 @@ const Timer = () => {
 		}, 1000);
 	};
 
-	const calculateBgColor = () => {
-		console.log('percentage', percentage);
-		const endColor = [217, 35, 90];
-		const middleColor = [252, 255, 8];
-		const startColor = [136, 218, 78];
-		const gamma = 3;
-		let step = percentage< 50? percentage/100: percentage/90;
-		step = Math.min(1, step);
-
-		const average = (a, b, percent) => {
-			let a_2 = Math.pow(a, gamma);
-			let b_2 = Math.pow(b, gamma);
-			let c_2 = a_2 + (b_2 - a_2) * percent;
-			return Math.pow(c_2, 1/gamma);
-		};
-
-		const colorString = (r, g, b) => {
-			r = Math.min(255, Math.round(r));
-			g = Math.min(255, Math.round(g));
-			b = Math.min(255, Math.round(b));
-		return "#" 
-		+ ("0" + r.toString(16)).slice(-2) 
-		+ ("0" + g.toString(16)).slice(-2) 
-		+ ("0" + b.toString(16)).slice(-2)
-		};
-
-		const c = colorString (
-			average(startColor[0], middleColor[0], step),
-			average(startColor[1], middleColor[1], step),
-			average(startColor[2], middleColor[2], step)
-		);
-
-		const d = colorString (
-			average(middleColor[0], endColor[0], step),
-			average(middleColor[1], endColor[1], step),
-			average(middleColor[2], endColor[2], step)
-		);
-		if ( percentage <50) {
-			sectionRef.current.style.backgroundColor = c;
-		} else if (percentage >= 50) {
-			sectionRef.current.style.backgroundColor = d;
-		};
-	};
-
 	return (
 		<div 
 			className={clsx(styles.timerPageWrapper, {
@@ -161,7 +122,11 @@ const Timer = () => {
 			ref={sectionRef}
 		>
 			<Meta title='Timer' />
+			{console.log(soundOn, 'times up:', src)}
 			<section className={styles.contentContainer} >
+				<section className={styles.soundPlayerContainer}>
+					<ReactPlayer playing={isInitialized && timesUp} url={src} loop muted={!soundOn} volume={volume} />
+				</section>
 				<div className={styles.tomatoChartContainer} >
 					{
 						isInitialized && !timesUp ? 
@@ -189,7 +154,7 @@ const Timer = () => {
 				</h2>
 				{
 					isInitialized && timesUp ? (
-							<>
+							<> 
 								<section className={clsx(styles.timesUpHeaderContainer, {[styles.showText]: timesUp, [styles.hideText]: !timesUp})}>
 									<h1 className={styles.timesUpHeader}>Tiden är ute!</h1>
 								</section>
@@ -221,7 +186,7 @@ const Timer = () => {
 								)
 							}
 							<article className={clsx(styles.timerBtn, styles.restartBtn, {[styles.disabled]: !isInitialized})} onClick={() => restart()} />
-							<article className={clsx(styles.timerBtn, {[styles.soundOffBtn]: soundOn, [styles.soundOnBtn]: !soundOn})} onClick={() => setSoundOn(!soundOn)} />
+							<article className={clsx(styles.timerBtn, {[styles.soundOffBtn]: !soundOn, [styles.soundOnBtn]: soundOn})} onClick={() => setSoundOn(!soundOn)} />
 						</section>
 					) : (
 						<section className={styles.buttonContainerAfter}>

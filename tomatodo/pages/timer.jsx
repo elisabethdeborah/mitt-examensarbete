@@ -1,8 +1,8 @@
 import Meta from "../components/Meta";
 import clsx from "clsx";
-import styles from '../styles/timer.module.scss';
+import styles from '../components/Time/styles/timer.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
-import FormTemplate from "../components/FormTemplate";
+import FormTemplate from "../components/Forms/FormTemplate";
 
 const TimerSet = () => {
 	const [inputformVisible, setInputformVisible] = useState(false);

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Meta from "../components/Meta";
-import styles from "../styles/tomatoLibrary.module.scss";
+import styles from "../components/Lists/styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
-import LibraryArchiveObj from "../components/libraryArchiveObj";
-import DeleteButton from "../components/DeleteButton";
+import LibraryArchiveObj from "../components/Lists/libraryArchiveObj";
+import DeleteButton from "../components/Lists/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-import PopupLists from "../components/PopupLists";
+import PopupLists from "../components/Lists/PopupLists";
 
 export default function SparadeListor() {
 	const [showListObject, setShowListObject] = useState(false);

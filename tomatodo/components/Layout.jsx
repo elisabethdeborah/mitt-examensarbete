@@ -2,7 +2,7 @@ import Meta from './Meta';
 import styles from '../styles/Layout.module.scss';
 import Header from './Header';
 import {useTodoContext} from "../context/TodoContext";
-import Message from '../components/Message';
+import Message from './Message';
 
 const Layout = ({children}) => {
 	const state = useTodoContext();

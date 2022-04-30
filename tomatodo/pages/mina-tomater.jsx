@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import Form from "../components/Form";
-import ActiveLists from "../components/ActiveLists";
+import Form from "../components/Forms/Form";
+import ActiveLists from "../components/Lists/ActiveLists";
 import Meta from "../components/Meta";
-import styles from "../styles/tomatoLibrary.module.scss";
+import styles from "../components/Lists/styles/tomatoLibrary.module.scss";
 import clsx from "clsx";
-import LibraryArchiveObj from "../components/libraryArchiveObj";
-import DeleteButton from "../components/DeleteButton";
+import LibraryArchiveObj from "../components/Lists/libraryArchiveObj";
+import DeleteButton from "../components/Lists/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
 export default function MinaTomater() {

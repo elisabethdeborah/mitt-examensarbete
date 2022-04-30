@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 
 const Resize = ({width, setWidth, sectionRef}) => {

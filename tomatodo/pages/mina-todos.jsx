@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AddTodo from '../svgAssets/addBtn.svg';
 import Meta from "../components/Meta";
-import TodoList from "../components/TodoList";
-import styles from "../styles/minaTodos.module.scss";
+import TodoList from "../components/Lists/TodoList";
+import styles from "../components/Lists/styles/minaTodos.module.scss";
 import clsx from "clsx";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
-import Form from "../components/Form"; 
-import ListContainer from "../components/ListContainer";
+import Form from "../components/Forms/Form"; 
+import ListContainer from "../components/Lists/ListContainer";
 
 export default function MinaTodos() {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);

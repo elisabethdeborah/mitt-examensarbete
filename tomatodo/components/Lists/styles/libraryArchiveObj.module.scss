@@ -1,0 +1,555 @@
+@import '../../../styles/variables.scss';
+
+.listObject {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 250px;
+	width: 270px;
+	background-repeat: no-repeat;
+	background-position: 13% center;
+	background-size: contain;
+	color: $color-white;
+	padding-top: 4.4rem;
+	margin: 2rem auto;
+	position: relative;
+	transition: all 1s ease;
+	
+	&.orangeTomato,
+	&.pinkTomato {
+		color: $color-black;
+		> h3 {
+			font-size: 1.5rem;
+			width: 200px;
+			text-align: center;
+			right: 13%;
+			word-break: break-all;
+		}
+		> h2 {
+			margin-top: 0;
+		}
+	}
+
+	&.orangeTomato {
+		background-image: url('../../../svgAssets/orange-tomato-m.svg');
+	}
+
+	&.pinkTomato {
+		background-image: url('../../../svgAssets/pink-tomato-m.svg');
+	}
+
+	&.pinkTodoList,
+	&.blueTodoList {
+		flex-direction: row;
+		align-items: center;
+		width: 325px;
+		height: 230px;
+		border-radius: 20px;
+		padding: 0 1rem;
+
+		.textGroup {
+			display: flex;
+			flex-direction: column;
+			position: relative;
+			> h3 {
+				font-size: 1.5rem;
+				width: 200px;
+				text-align: center;
+				right: 13%;
+				word-break: break-all;
+			}
+		}
+
+		.nrOfTodosIcon {
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: cover;
+			width: 84px;
+			height: 84px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-left: 0.5rem;
+			overflow: visible;
+
+			.nrTodos {
+				font-size: 2rem;
+				font-weight: bold;
+				margin-right: 20px;
+			}
+		}
+	}
+
+	&.blueTodoList {
+		background-color: $color-article-bg;
+		color: $color-darkgrey;
+		.nrOfTodosIcon {
+			background-image: url('../../../svgAssets/totalNrGreyNew.svg');
+
+			.nrTodos {
+				color: $color-darkgrey;
+			}
+		}
+	}
+
+	&.pinkTodoList {
+		background-color: $color-pink;
+		color: $color-white;
+		.nrOfTodosIcon {
+			background-image: url('../../../svgAssets/totalNrWhiteNew.svg');
+
+			.nrTodos {
+				color: $color-white;
+			}
+		}
+	}
+
+	h3 {
+	font-size: 1.3rem;
+	word-break: break-all;
+	}
+	
+	p {
+		font-size: 1.3rem;
+		margin: 0.5rem auto;
+		word-break: break-all;
+	}
+
+	@media screen and (min-width: 600px) {
+		padding-left: 2.5rem;
+		width: 350px;
+		background-position: center;
+	}
+
+	&:hover {
+		cursor: pointer;
+	}
+
+	.timeParagraph {
+		display: flex;
+		flex-direction: row;
+	}
+}
+
+.showListObject {
+	z-index: 9;
+	position: fixed;
+	top: calc(50vh - 125px);
+	left: calc(50vw - 140px);
+	transform: scale3d(1.2, 1.2, 1.1);
+	transition: all 100ms ease-in-out;
+
+	@media screen and (min-width: 800px) {
+		left: calc(50vw - 162px);
+	}
+}
+
+.hoverDescription {
+	background-color: #111111d9;
+    padding: 1rem;
+    position: absolute;
+    top: 10%;
+    border-radius: 5px;
+	max-width: 250px;
+    color: #dadada;
+	opacity: 0;
+	transition: opacity 250ms ease-in-out;
+
+	&.showDescription {
+		opacity: 1;
+		transition: opacity 250ms ease-in-out;
+	}
+}
+
+.showOverlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #212121;
+	opacity: 0;
+	transition: opacity 0.5s ease;
+
+	&.overlayVisible {
+		opacity: 0.8;
+		transition: opacity 0.5s ease;
+	}
+}
+
+.optionsDiv {
+	position: fixed;
+	top: 1rem;
+	z-index: 9;
+	text-align: center;
+	height: 0px;
+	border-radius: 20px;
+	transition: height 0.5s ease;
+
+	.btnContainer {
+		z-index: 9999;
+		position: relative;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-end;
+		justify-content: center;
+		width: 100%;
+		height: 100px;
+		transition: transform 0.5s ease;
+		transition: all 0.5s ease;
+
+		z-index: 9999;
+		top: 1rem;
+		left: 0;
+		right: 0;
+		position: fixed;
+
+		.iconBtn {
+			@include hover-btn;
+			height: 100px;
+			margin: 3px;
+			width: 80px;
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+			overflow-y: visible;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			align-items: flex-end;
+
+			&.iconSettings {
+				background-image: url('../../../svgAssets/settings.svg');
+			}
+
+			&.iconAdd {
+				background-image: url('../../../svgAssets/add-todo-btnBlast.svg');
+			}
+
+			&.iconDelete {
+				background-image: url('../../../svgAssets/deleteTomatoFlippedNew.svg');
+			}
+
+			&:hover {
+				cursor: pointer;
+			}
+
+			@media screen and (min-width: 800px) {
+				height: 100px;
+				margin: 3px;
+				width: 80px;
+				background-repeat: no-repeat;
+				background-position: center;
+				background-size: contain;
+				overflow-x: visible;
+				align-items: center;
+			}
+		}
+
+		@media screen and (min-width: 800px) {
+			flex-direction: column;
+			align-items: flex-end;
+			justify-content: center;
+			top: 0;
+			height: 100%;
+			width: 100px;
+			overflow: visible;
+			transition: all 0.5s ease;
+		}
+	}
+
+.showSettings {
+	position: relative;
+	height: 0;
+	transition: all 1s ease;
+	opacity: 1;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.5s ease;
+	display: block;
+
+	@media screen and (min-width: 800px) {
+		opacity: 1;
+		position: absolute;
+		height: 500px;
+		width: 400px;
+		transition: all 0.5s ease;
+	}
+} 
+
+.showActiveLists {
+	position: relative;
+	top: 0;
+	height: 0;
+	transition: all 1s ease;
+	opacity: 1;
+	overflow: hidden;
+	overflow-y: scroll;
+	display: block;
+
+	.currentListsItem {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-evenly;
+		transition: all 1s ease;
+		width: 300px;
+		height: 100px;
+		opacity: 1;
+		transition: all 0.5s ease;
+	}
+
+	.optionContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding-bottom: 2rem;
+	}
+
+	.addTodoList {
+		display: flex;
+		align-items: center;
+		align-self: flex-end;
+		margin: 0 3rem;
+		border: none;
+		background-color: transparent;
+
+		h2, h3 {
+			color: $color-darkgrey;
+			border-bottom: 1px solid transparent;
+		}
+		p {
+			margin-left: 1rem;
+			font-size: 1.5rem;
+		}
+		.addTdodoSvg {
+			margin-left: 1rem;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+	}
+
+	@media screen and (min-width: 800px) {
+		position: absolute;
+		height: 500px;
+		width: 400px;
+		transition: all 0.5s ease;
+	}
+}
+
+	&.visibleFirst {
+		position: fixed;
+		left: 0;
+		//z-index: 999;
+		height: 100px;
+		transition: height 0.5s ease;
+		overflow: hidden;
+
+		.btnContainer {
+			z-index: 97;
+			transition: all 0.5s ease;
+
+			//z-index: 9999;
+			top: 1rem;
+			left: 0;
+			right: 0;
+			@media screen and (min-width: 800px) {
+				transition: all 0.5s ease;
+				top: 0rem;
+			}
+		}
+		@media screen and (min-width: 800px) {
+			flex-direction: row-reverse;
+			align-items: center;
+			justify-content: flex-start;
+			transition: width 0.5s ease;
+			height: 500px;
+			width: 100px;
+		}
+	}
+
+	&.visibleSettings {
+		position: absolute;
+		height: 400px;
+		transition: all 0.5s ease;
+
+		.showSettings {
+			position: absolute;
+			border-radius: 30px;
+			background-color: $color-container-bg-transp;
+			//z-index: 1;
+			opacity: 1;
+			height: 300px;
+			transition: all 0.5s ease;
+
+			.inputTomato {
+				border-radius: 100px;
+				border: 1px solid $color-orange;
+				padding: 0 22px;
+				font-size: 1.2rem;
+				font-weight: bold;
+				height: 50px;
+				margin: 1rem auto;
+				opacity: 1;
+				transition: all 0.5s ease;
+			}
+		}
+	}
+
+	&.visibleLists {
+		height: 400px;
+		transition: all 0.5s ease;
+
+		.showActiveLists {
+			position: relative;
+			border-radius: 30px;
+			background-color: $color-container-bg;
+			z-index: 1;
+			opacity: 1;
+			height: 300px;
+			transition: all 0.5s ease;
+			
+			.currentListsItem {
+				opacity: 1;
+				transition: all 0.5s ease;
+			}
+		}
+	}
+
+	&.visibleListForm {
+		position: relative;
+		height: 500px;
+		transition: all 0.5s ease;
+
+		@media screen and (min-width: 800px) {
+			transition: all 0.5s ease;
+			width: 400px;
+		}
+	}
+
+	h3, p {
+		position: relative;
+		font-size: 1rem;
+	}
+
+	.changeTomatoBtn {
+		position: relative;
+		bottom: 0;
+		background-color: $color-pink;
+		border-radius: 100px;
+		color: $color-white;
+		display: flex;
+		border: 1px solid $color-white;
+		margin: 0.5rem auto;
+		padding: 0 1.5rem;
+		width: 200px;
+		font-weight: bold;
+
+		> p {
+			text-align: center;
+			width: 400px;
+			font-size: 1.2rem;
+		}
+	}
+	
+	@media screen and (min-width: 800px) {
+		left: unset;
+		top: unset;
+		top: 0;
+		width: 100px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		height: 500px;
+		position: absolute;
+		transition: width 0.5s ease;
+	}
+}
+
+.formContainer {
+	z-index: 9999;
+	position: relative;
+	top: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	background-color: $color-container-bg;
+	width: 90vw;
+	max-width: 414px;
+	border-radius: 20px;
+	min-height: fit-content;
+	padding: 52px;
+	font-family: $font-family;
+	transition: opacity 0.5s ease;
+	
+	.formHeader {
+		color: $color-pink;
+		margin-bottom: 0;
+		font-size: 2.5rem;
+		letter-spacing: 2px;
+	}
+
+	&.tomatoFormContainer {
+		margin-top: 5rem;
+	}
+
+	.input {
+		border: 1px solid $color-pink;
+		border-radius: 100px;
+		color: $color-darkgrey;
+		margin-top: 35px;
+
+		&.textInput {
+			font-size: 1rem;
+			line-height: 2.7rem;
+			padding: 0 22px;
+			font-weight: bold;
+			width: 100%;
+		}
+	}
+
+	.btnContainer {
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+
+		> input {
+			border: 1px solid $color-pink;
+			border-radius: 100px;
+			font-size: 1.125rem;
+			line-height: 2.4rem;
+			font-weight: bold;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.closeForm {
+			color: $color-pink;
+			background-color: $color-white;
+			flex: 1;
+			margin-right: 3px;
+		}
+
+		.addBtn {
+			color: $color-white;
+			background-color: $color-pink;
+			flex: 1;
+			margin-left: 3px;
+		}
+	}
+}
+
+.playBtnContainer {
+	position: fixed;
+	z-index: 9;
+	bottom: 15vh;
+}

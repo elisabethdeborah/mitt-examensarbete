@@ -1,9 +1,9 @@
 import Meta from "../components/Meta";
 import clsx from "clsx";
-import styles from '../styles/timer.module.scss';
+import styles from '../components/Time/styles/timer.module.scss';
 import { useEffect, useState } from "react";
 import NumberFormat from "../components/NumberFormat";
-import Form from "../components/Form";
+import Form from "../components/Forms/Form";
 import { useUpdateContext } from "../context/TodoContext";
 
 const Stopwatch = () => {

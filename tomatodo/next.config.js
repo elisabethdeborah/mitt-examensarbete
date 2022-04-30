@@ -9,5 +9,14 @@ const STUDIO_REWRITE = {
   
   module.exports = {
 	rewrites: () => [STUDIO_REWRITE],
+	webpack(config, options) {
+		config.module.rules.push({
+		  test: /\.mp3$/,
+		  use: {
+			loader: 'url-loader',
+		  },
+		});
+		return config;
+	  },
   };
 

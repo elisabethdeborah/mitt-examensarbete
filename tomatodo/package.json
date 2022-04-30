@@ -17,13 +17,19 @@
     "@sanity/client": "^2.8.0",
     "@xendora/react-timer": "^1.1.0",
     "babel-plugin-inline-react-svg": "^2.0.1",
+    "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
     "chart.js": "^3.7.1",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.4",
     "gsap": "^3.9.1",
+    "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^8.5.1",
     "magic-link": "0.0.1",
     "magic-sdk": "^8.0.1",
     "next": "^12.1.0",
+    "next-auth": "^4.3.2",
+    "next-connect": "^0.12.2",
     "next-sanity": "^0.5.0",
     "nextjs-cors": "^2.1.0",
     "rc-time-picker": "^3.7.3",
@@ -32,12 +38,15 @@
     "react-countdown-hook": "^1.1.1",
     "react-date-picker": "^8.1.1",
     "react-dom": "17.0.2",
+    "react-player": "^2.10.0",
     "react-simple-picker": "^1.1.4",
     "react-time-picker-input": "^2.0.10",
     "sass": "^1.49.7"
   },
   "devDependencies": {
     "eslint": "8.9.0",
-    "eslint-config-next": "12.0.10"
+    "eslint-config-next": "12.0.10",
+    "file-loader": "^6.2.0",
+    "url-loader": "^4.1.1"
   }
 }

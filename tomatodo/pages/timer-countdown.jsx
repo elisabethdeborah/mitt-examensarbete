@@ -34,6 +34,10 @@ const Timer = () => {
 		};
 	}, []);
 
+	useEffect(() => {
+		!currentState.countdownItem ? router.replace('/timer') : null;
+	}, [currentState]);
+
 	const sectionRef = useRef();
 	const [width, setWidth] = useState();
 	const getListSize = () => {
@@ -122,7 +126,6 @@ const Timer = () => {
 			ref={sectionRef}
 		>
 			<Meta title='Timer' />
-			{console.log(soundOn, 'times up:', src)}
 			<section className={styles.contentContainer} >
 				<section className={styles.soundPlayerContainer}>
 					<ReactPlayer playing={isInitialized && timesUp} url={src} loop muted={!soundOn} volume={volume} />

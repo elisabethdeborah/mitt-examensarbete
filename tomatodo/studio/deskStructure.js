@@ -52,4 +52,14 @@ export default () =>
 				.filter('_type == "tomato"')
 			),
       S.divider(),
+	  S.listItem()
+			.title('Användare')
+			.schemaType('user')
+			.id('allusers')
+			.child(
+				S.documentList()
+				.title("user")
+				.filter('_type == "user"')
+			),
+      S.divider(),
     ]);

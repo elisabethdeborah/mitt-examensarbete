@@ -6,6 +6,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import todo from './todo';
 import todoList from './todoList';
 import tomato from './tomato';
+import user from './user';
 
 export default createSchema({
   name: "default",
@@ -13,5 +14,6 @@ export default createSchema({
 	todo,
 	todoList,
 	tomato,
+	user
   ])
 });

@@ -6,10 +6,12 @@ import client, {
 	usePreviewSubscription,
   } from "../lib/sanity";
 
+const UserContext = createContext();
 const TodoContext = createContext();
 const UpdateContext = createContext();
 
 export function TodoWrapper({children}) {
+	const [loggedInUser, setLoggedInUser] = useState(null);
 	const [initialFetch, setInitialFetch] = useState(null);
 	const [currentItem, setCurrentItem] = useState(null);
 	const [countdownItem, setCountdownItem] = useState(null);
@@ -52,6 +54,11 @@ export function TodoWrapper({children}) {
 	  return; 
   };
 
+  const loggedInUserState = {
+	  loggedInUser,
+	  setLoggedInUser
+  };
+
   const state = {
 	 initialFetch,
 	 setInitialFetch,
@@ -68,13 +75,21 @@ export function TodoWrapper({children}) {
   };
 
 	return (
-		<TodoContext.Provider value={state}>
-			<UpdateContext.Provider value={currentState}>
-				{children}
-			</UpdateContext.Provider>
-		</TodoContext.Provider>
+		<UserContext.Provider value={loggedInUserState}>
+			<TodoContext.Provider value={state}>
+				<UpdateContext.Provider value={currentState}>
+					{children}
+				</UpdateContext.Provider>
+			</TodoContext.Provider>
+		</UserContext.Provider>
 	);
 };
+
+export function useUserContext() {
+	const userState = useContext(UserContext);
+	return userState;
+};
+
 
 export function useTodoContext() {
 	const todoState = useContext(TodoContext);

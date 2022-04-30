@@ -2,31 +2,39 @@ import React, { useState, useEffect } from "react";
 import styles from './styles/form.module.scss';
 import clsx from "clsx";
 import { useUpdateContext } from "../../context/TodoContext";
+import TimeInput from "./TimeInput";
+import { validateTime } from "./formFunctions";
 import { useRouter } from "next/router";
 
 const FormTemplate = ({ setFormIsVisible }) => {
-	const [overlay, setOverlay] = useState(false);
-	const [formInputTime, setFormInputTime] = useState({hh:0, min:0});
-	const [inputTitle, setInputTitle] = useState(null);
-	const inputTime = Number(formInputTime.hh *60 * 60 + formInputTime.min*60);
-	let hours = [];
-	const mins = [];
+	
 	const currentState = useUpdateContext();
 	const router = useRouter();
+	const [userInputTime, setUserInputTime] = useState({
+		hh: 0, min: 0
+	});
+	const [errMessage, setErrMessage] = useState('');
+	const [overlay, setOverlay] = useState(false);
+	const [inputTime, setInputTime] = useState(0);
+	const [body, setBody] = useState({title: '', time: inputTime});
 
-	for (let index = 0; index < 24; index++) {
-		hours.push(index);
-	};
+	useEffect(() => {
+		setErrMessage("");
+		const validTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
+		validTime ? setInputTime(validTime) : setInputTime(0);
+		validTime ? setBody((body) => ({...body, time: validTime})): setBody((body) => ({...body, time: 0}));
+	}, [userInputTime]);
 
-	for (let index = 0; index < 60; index++) {
-		mins.push(index);
-	};
-
-	const handleClick = () => {
-		currentState.setCountdownItem({time: inputTime, title: inputTitle});
-		router.push('/timer-countdown');
-		setOverlay(false);
-		setFormIsVisible(false);
+	const handleTimerClick = (body) => {
+		const checkValid = validateTime(body);
+		if (checkValid === "valid") {
+			currentState.setCountdownItem(body);
+			router.push('/timer-countdown');
+			setOverlay(false);
+			setFormIsVisible(false);
+		} else {
+			setErrMessage(checkValid);
+		}
 	};
 
 	const handleGoBack = () => {
@@ -57,34 +65,14 @@ const FormTemplate = ({ setFormIsVisible }) => {
 					type="text" 
 					className={clsx(styles.input, styles.textInput)} 
 					placeholder={'Namn på nedräkning'} 
-					onChange={(e) => setInputTitle(e.target.value)} 
+					onChange={(e) => setBody((body) => ({...body, title: e.target.value}))}
 				/>
-				<div className={styles.timeInputContainer} style={{width: '100%'}}>
-					<select
-						value={formInputTime.hh}
-						onChange={({ target: { value } }) => setFormInputTime({hh: value, min: formInputTime.min})}
-					>
-						{hours.map((value, index) => (
-							<option key={index} value={value}>
-								{value<10? `0${value}`: value}
-							</option>
-						))}
-					</select>
-					<select
-						value={formInputTime.min}
-						onChange={({ target: { value } }) => setFormInputTime({hh: formInputTime.hh, min: value})}
-					>
-						{mins.map((value, index) => (
-							<option key={index} value={value}>
-								{value<10? `0${value}`: value}
-							</option>
-						))}
-					</select>
-				</div>
+				<TimeInput userInputTime={userInputTime} setUserInputTime={setUserInputTime} setBody={setBody} body={body} inputTime={inputTime} />
 				<div className={styles.btnContainer}>
 					<input type={"button"} className={styles.closeForm} value="Ångra" onClick={ () => handleGoBack()} />
-					<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleClick()} />
+					<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleTimerClick(body)} />
 				</div>
+				{errMessage}
 			</section>
 		</>
 	);

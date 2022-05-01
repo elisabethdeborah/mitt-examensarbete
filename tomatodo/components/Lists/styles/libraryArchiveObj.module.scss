@@ -1,6 +1,9 @@
 @import '../../../styles/variables.scss';
 
 .listObject {
+	@include hover-btn;
+	@include active-btn;
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -133,7 +136,7 @@
 }
 
 .showListObject {
-	z-index: 9;
+	z-index: 999;
 	position: fixed;
 	top: calc(50vh - 125px);
 	left: calc(50vw - 140px);
@@ -162,7 +165,7 @@
 	}
 }
 
-.showOverlay {
+/* .showOverlay {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -176,12 +179,12 @@
 		opacity: 0.8;
 		transition: opacity 0.5s ease;
 	}
-}
+} */
 
 .optionsDiv {
 	position: fixed;
 	top: 1rem;
-	z-index: 9;
+	z-index: 999;
 	text-align: center;
 	height: 0px;
 	border-radius: 20px;
@@ -207,6 +210,8 @@
 
 		.iconBtn {
 			@include hover-btn;
+			@include active-btn;
+
 			height: 100px;
 			margin: 3px;
 			width: 80px;
@@ -549,7 +554,8 @@
 }
 
 .playBtnContainer {
+	@include active-btn;
 	position: fixed;
-	z-index: 9;
+	z-index: 999;
 	bottom: 15vh;
 }

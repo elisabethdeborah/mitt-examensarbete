@@ -454,6 +454,8 @@
 	justify-content: center;
 	margin: 2rem auto;
 	.addTodoList {
+		@include hover-btn;
+		@include active-btn;
 		background-color: transparent;
 		border: none;
 	}

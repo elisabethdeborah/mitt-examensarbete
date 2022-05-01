@@ -85,15 +85,12 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 					lista ? 
 						lista.map((list, index) => {
 							let listItem = previewTodosList? list.todos:null;
-							//console.group('listItem', listItem, 'index', index);
 							return (
 								<div className={styles.savedListsContainer} key={index}>
 									{
 										popupIsOpen && currentState.currentItem._id === list._id && (
 											<div onClick={() => clickItem(list)} className={styles.listContainer}>
-												<article
-													//className={(styles.hiddenLists)}
-												>
+												<article>
 												<section className={styles.textGroup}>
 													<h2 className={styles.headerPartOne}>{`Vill du starta om`}</h2>
 													<span className={styles.headerPartTwo}>{`${list.title}`}</span>

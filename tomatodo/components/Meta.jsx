@@ -14,7 +14,7 @@ const Meta = ({title, keywords, description}) => {
 
 Meta.defaultProps = {
 	title: 'TomaTodo',
-	keywords: 'time management, student, examensarbete, pomodoro, todo list, adhd, add, npf, att göra, tidsuppfattning',
+	keywords: 'time management, student, examensarbete, pomodoro, todo list, adhd, add, npf, att göra, tidsuppfattning, hjälpmedel, tidshjälpmedel, kids, barn',
 	description: '',
 }
 

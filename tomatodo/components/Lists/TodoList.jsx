@@ -8,7 +8,7 @@ import Resize from '../Resize';
 import { useUpdateContext, useTodoContext } from "../../context/TodoContext";
 import LimboLists from "./LimboListsComponent";
 
-const TodoList = ({list,setOverlay}) => {
+const TodoList = ({list}) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const sectionRef = useRef();
@@ -23,16 +23,17 @@ const TodoList = ({list,setOverlay}) => {
 		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved && x.nrOfTodos > 0);
 	};
 
-	const handleClickTodo = () => {
-			setAddListFormIsVisible(false);
-			setAddTodoFormIsVisible(true);
-			currentState.setCurrentItem(null);
-	}; 
+	const handleAddList = () => {
+		setAddListFormIsVisible(true);
+		setAddTodoFormIsVisible(false);
+		currentState.setFormIsVisible(true);
+	};
 
-	const handleClickList = () => {
-			setAddTodoFormIsVisible(false);
-			setAddListFormIsVisible(true);
-	}; 
+	const handleAddTodo = () => {
+		setAddTodoFormIsVisible(true);
+		setAddListFormIsVisible(false);
+		currentState.setFormIsVisible(true);
+	};
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -49,25 +50,25 @@ const TodoList = ({list,setOverlay}) => {
 		list? (
 			<section className={styles.todoListSection} key={list._rev} ref={sectionRef}>
 				{ 
-					addTodoFormIsVisible && !addListFormIsVisible && (
+					currentState.formIsVisible && 
+					addTodoFormIsVisible && 
+					!addListFormIsVisible && (
 						<Form 
-							setFormIsVisible={setAddTodoFormIsVisible} 
 							objectType={'todo'} 
 							method={'POST'} 
 							currentListDocId={list._id} 
-							setOverlay={setOverlay} 
 							typeName={'todo'} 
 						/>
 					)
 				}
 				{ 
-					addListFormIsVisible && !addTodoFormIsVisible && (
+					currentState.formIsVisible && 
+					addListFormIsVisible && 
+					!addTodoFormIsVisible && (
 						<Form 
-							setFormIsVisible={setAddListFormIsVisible} 
 							objectType={'todoList'} 
 							method={'POST'} 
 							typeName={'lista'} 
-							setOverlay={setOverlay} 
 						/>
 					)
 				}
@@ -88,11 +89,11 @@ const TodoList = ({list,setOverlay}) => {
 								<DeleteButton color={'orange'} listItem={list} />
 							</div>
 							<div className={styles.addBtnGroup}>
-								<button className={styles.addTodoList} onClick={() => handleClickTodo()} >
+								<button className={styles.addTodoList} onClick={() => handleAddTodo()} >
 									<h3>Ny todo</h3>
 									<AddTodo className={styles.addTdodoSvg} />
 								</button>
-								<button className={styles.addTodoList} onClick={() => handleClickList()} >
+								<button className={styles.addTodoList} onClick={() => handleAddList()} >
 									<h3>Ny lista</h3>
 									<AddTodo className={styles.addTdodoSvg} />
 								</button>
@@ -102,14 +103,14 @@ const TodoList = ({list,setOverlay}) => {
 									"hämtar todos..."
 								) : (	
 									list.todos.length >0 ? (
-										list.todos.map((listItem, index) => {
+										list.todos.map((listItem) => {
 											return (
 												<ListObj key={listItem._rev} listItem={listItem} width={width &&(width)} />
 											)
 										})
 									) : (
 										<section className={styles.emptyList}>
-											<article className={styles.addListIconBtn} onClick={() => setAddTodoFormIsVisible(true)} />
+											<article className={styles.addListIconBtn} onClick={() => handleAddTodo()} />
 											<h3>Den här listan är tom.</h3>
 										</section>
 									)

@@ -6,7 +6,7 @@ import TimeInput from "./TimeInput";
 import { validateTime } from "./formFunctions";
 import { useRouter } from "next/router";
 
-const FormTemplate = ({ setFormIsVisible }) => {
+const FormTemplate = () => {
 	
 	const currentState = useUpdateContext();
 	const router = useRouter();
@@ -14,7 +14,6 @@ const FormTemplate = ({ setFormIsVisible }) => {
 		hh: 0, min: 0
 	});
 	const [errMessage, setErrMessage] = useState('');
-	const [overlay, setOverlay] = useState(false);
 	const [inputTime, setInputTime] = useState(0);
 	const [body, setBody] = useState({title: '', time: inputTime});
 
@@ -30,51 +29,38 @@ const FormTemplate = ({ setFormIsVisible }) => {
 		if (checkValid === "valid") {
 			currentState.setCountdownItem(body);
 			router.push('/timer-countdown');
-			setOverlay(false);
-			setFormIsVisible(false);
+			currentState.handleGoBack();
 		} else {
 			setErrMessage(checkValid);
 		}
 	};
 
-	const handleGoBack = () => {
-		setOverlay(false);
-		setTimeout(() => {
-			setFormIsVisible(false);
-		}, 600);
-	};
-
 	useEffect(() => {
 		setTimeout(() => {
-			setOverlay(true);
+			currentState.setOverlay(true);
 		}, 10);
-		return () => setOverlay(false);
+		return () => currentState.setOverlay(false);
 	}, []);
 
 	return (
-		<>
-			<div onClick={() => handleGoBack()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/>
-			<section 
-				className={clsx(styles.formContainer, {
-					[styles.formIsVisible]: overlay
-				})}
-				style={{padding: '60px'}}
-			>
-				<h1 className={styles.formHeader}>Lägg till nedräkning</h1>
-				<input 
-					type="text" 
-					className={clsx(styles.input, styles.textInput)} 
-					placeholder={'Namn på nedräkning'} 
-					onChange={(e) => setBody((body) => ({...body, title: e.target.value}))}
-				/>
-				<TimeInput userInputTime={userInputTime} setUserInputTime={setUserInputTime} setBody={setBody} body={body} inputTime={inputTime} />
-				<div className={styles.btnContainer}>
-					<input type={"button"} className={styles.closeForm} value="Ångra" onClick={ () => handleGoBack()} />
-					<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleTimerClick(body)} />
-				</div>
-				{errMessage}
-			</section>
-		</>
+		<section 
+			className={styles.formContainer}
+			style={{padding: '60px'}}
+		>
+			<h1 className={styles.formHeader}>Lägg till nedräkning</h1>
+			<input 
+				type="text" 
+				className={clsx(styles.input, styles.textInput)} 
+				placeholder={'Namn på nedräkning'} 
+				onChange={(e) => setBody((body) => ({...body, title: e.target.value}))}
+			/>
+			<TimeInput userInputTime={userInputTime} setUserInputTime={setUserInputTime} setBody={setBody} body={body} inputTime={inputTime} />
+			<div className={styles.btnContainer}>
+				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={ () => currentState.handleGoBack()} />
+				<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleTimerClick(body)} />
+			</div>
+			{errMessage}
+		</section>
 	);
 };
 

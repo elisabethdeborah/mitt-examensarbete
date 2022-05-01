@@ -1,13 +1,12 @@
 @import '../../../styles/variables.scss';
 
-
 .tomatoPageWrapper {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.libraryContainer{
+.libraryContainer {
 	position: relative;
 	display: grid;
 	width: 90vw;
@@ -63,7 +62,6 @@
 		&:hover {
 			cursor: pointer;
 		}
-		
 	}
 
 	.tomatoListTop {
@@ -121,7 +119,7 @@
 	}
 }
 
-.showOverlay {
+/* .showOverlay {
 	z-index: 9;
 	position: fixed;
 	top: 0;
@@ -136,7 +134,7 @@
 		opacity: 0.8;
 		transition: opacity 0.5s ease;
 	}
-}
+} */
 
  .showActiveLists {
 	height: 0;
@@ -146,7 +144,7 @@
 	overflow-y: scroll;
 	display: block;
 	position: fixed;
-    z-index: 99;
+    z-index: 1000;
 	height: 65vh;
 	width: 90%;
 	max-width: 400px;
@@ -174,6 +172,7 @@
 	}
 
 	.addTodoList {
+		@include hover-btn;
 		display: flex;
 		align-items: center;
 		align-self: flex-end;
@@ -301,6 +300,7 @@
 .addBtn {
 	@include pink-btn;
 	@include hover-btn;
+	@include active-btn;
 	color: $color-white;
 	background-color: $color-pink;
 	margin-left: 3px;

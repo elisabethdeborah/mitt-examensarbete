@@ -8,18 +8,16 @@ import LibraryArchiveObj from "../components/Lists/libraryArchiveObj";
 import DeleteButton from "../components/Lists/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 
-export default function MinaTomater() {
+const MinaTomater = () => {
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
-	const [addTomatoFormIsVisible, setAddTomatoFormIsVisible] = useState(false);
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
-	const [overlay, setOverlay] = useState(false)
 	const [showChangeForm, setShowChangeForm] = useState(false);
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
-	const [isLoading, setIsLoading] = useState(false);
 
 	let tomatoLibrary = state.initialFetch? state.initialFetch.tomatoLibrary:null;
 
@@ -30,7 +28,7 @@ export default function MinaTomater() {
 			setShowListObject(true);
 			setAddListFormIsVisible(false);
 			setListObjectIndex(currentState.currentItem.listObjIndex);
-			setOverlay(true);
+			currentState.setOverlay(true);
 		};
 		return () => setIsLoading(false);
 	}, []);
@@ -46,6 +44,11 @@ export default function MinaTomater() {
 		}
 	}, [currentState.currentItem]);
 
+	useEffect(() => {
+		showListObject ? currentState.setOverlay(true): currentState.setOverlay(false);
+		return () => currentState.setOverlay(false);
+	}, [showListObject]);
+
 	const handleClick = (x) => {
 		if (showListObject) {
 			closeOverlay();
@@ -58,13 +61,13 @@ export default function MinaTomater() {
 			setAddListFormIsVisible(false);
 			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 		setTimeout(() => {
-			setOverlay(true);
+			currentState.setOverlay(true);
 			}, 10);
 		};		
 	};
 	
 	const closeOverlay = () => {
-		setOverlay(false);
+		currentState.setOverlay(false);
 		setAddListFormIsVisible(false);
 		setaddToListIsVisible(false);
 		setShowChangeForm(false);
@@ -73,7 +76,7 @@ export default function MinaTomater() {
 			currentState.setCurrentItem(null);
 			setListObjectIndex(null);
 		}, 600);
-	}
+	};
 
 	return (
 		<div className={styles.tomatoPageWrapper}>
@@ -82,7 +85,6 @@ export default function MinaTomater() {
 				showChangeForm && (
 					<>
 						<Form 
-							setFormIsVisible={setShowChangeForm} 
 							list={currentState.currentItem} 
 							typeName={'redigera'} 
 							objectType={'tomato'} 
@@ -112,21 +114,16 @@ export default function MinaTomater() {
 				)
 			}
 			{
-				addTomatoFormIsVisible && (
-					<Form setFormIsVisible={setAddTomatoFormIsVisible} objectType={'tomato'} method={'POST'} />
+				currentState.formIsVisible && (
+					<Form objectType={'tomato'} method={'POST'} />
 				)
 			}
 			{
 				<div className={styles.libraryContainer}>
 					<div className={styles.tomatoListTop}>
 						<h2 className={styles.tomatoLibraryHeader}>Mina tomater</h2> 
-						<article className={styles.addTomatoIcon} onClick={() => setAddTomatoFormIsVisible(!addTomatoFormIsVisible)} />
+						<article className={styles.addTomatoIcon} onClick={() => currentState.setFormIsVisible(true)} />
 					</div>
-					{
-						showListObject && (
-							<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> 
-						)
-					}
 					{
 						isLoading ? 
 						(
@@ -145,7 +142,6 @@ export default function MinaTomater() {
 											handleClick={handleClick}
 											setShowChangeForm={setShowChangeForm}
 											setaddToListIsVisible={setaddToListIsVisible}
-											closeOverlay={closeOverlay}
 										/>
 									))
 								) : (
@@ -157,3 +153,5 @@ export default function MinaTomater() {
 		</div>
 	);
 };
+
+export default MinaTomater;

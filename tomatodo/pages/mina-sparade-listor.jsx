@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Meta from "../components/Meta";
 import styles from "../components/Lists/styles/tomatoLibrary.module.scss";
-import clsx from "clsx";
 import LibraryArchiveObj from "../components/Lists/libraryArchiveObj";
 import DeleteButton from "../components/Lists/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import PopupLists from "../components/Lists/PopupLists";
 
-export default function SparadeListor() {
+const SparadeListor = () => {
 	const [showListObject, setShowListObject] = useState(false);
 	const [listObjectIndex, setListObjectIndex] = useState();
-	const [showSettingsForm, setShowSettingsForm] = useState(false);
-	const [showAddTodo, setShowAddTodo] = useState(false);
-	const [overlay, setOverlay] = useState(false)
+	//const [showSettingsForm, setShowSettingsForm] = useState(false);
+	//const [showAddTodo, setShowAddTodo] = useState(false);
+	// const [overlay, setOverlay] = useState(false)
 	const [showStartList, setShowStartList] = useState(false);
 	const [addToListIsVisible, setaddToListIsVisible] = useState(false);
 	const [showDelete, setShowDelete] = useState(false);
@@ -21,7 +20,8 @@ export default function SparadeListor() {
 	const fetchAllLists = state.fetchTodos;
 	const [isLoading, setIsLoading] = useState(false);
 
-	const currentLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
+	//const currentLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0):null;
+
 	const savedLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0):null;
 
 	useEffect(() => {
@@ -35,15 +35,26 @@ export default function SparadeListor() {
 		return () => setIsLoading(false);
 	}, [savedLists]);
 
-	useEffect(() => {
+/* 	useEffect(() => {
 		overlay ? null : currentState.setCurrentItem(null);
-	}, [overlay]);
+	}, [overlay]); */
+	useEffect(() => {
+		if (!currentState.currentItem) {
+			closeOverlay();
+		}
+	}, [currentState.currentItem]);
+
+
+	useEffect(() => {
+		showListObject ? currentState.setOverlay(true): currentState.setOverlay(false);
+		return () => currentState.setOverlay(false);
+	}, [showListObject]);
 	  
 	const handleClick = (x) => {
 		if (showListObject) {
-			setOverlay(false);
-			setShowAddTodo(false);
-			setShowSettingsForm(false);
+			currentState.setOverlay(false);
+			//setShowAddTodo(false);
+			//setShowSettingsForm(false);
 			setaddToListIsVisible(false);
 			setTimeout(() => {
 				setShowListObject(false);
@@ -51,10 +62,10 @@ export default function SparadeListor() {
 			}, 600);
 		} else if (!showListObject){
 			setShowListObject(true);
-			setShowAddTodo(false);
+			//setShowAddTodo(false);
 			listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
 			setTimeout(() => {
-				setOverlay(true);
+				currentState.setOverlay(true);
 			}, 10);
 		};	
 	};  
@@ -65,9 +76,9 @@ export default function SparadeListor() {
 	};
 
 	const closeOverlay = () => {
-		setOverlay(false);
+		currentState.setOverlay(false);
 		setaddToListIsVisible(false);
-		setShowChangeForm(false);
+		//setShowChangeForm(false);
 		setTimeout(() => {
 			setShowListObject(false);
 			currentState.setCurrentItem(null);
@@ -86,7 +97,7 @@ export default function SparadeListor() {
 			{
 				addToListIsVisible && (
 				<section className={styles.restartForm}>
-					<PopupLists setPopupIsOpen={closeAll} setOverlay={setOverlay} />
+					<PopupLists setPopupIsOpen={closeAll} /* setOverlay={setOverlay} */ />
 				</section>
 				)
 			}
@@ -94,11 +105,11 @@ export default function SparadeListor() {
 				<div className={styles.tomatoListTop}>
 					<h2 className={styles.savedListsHeader}>Mina sparade listor</h2> 
 				</div>
-				{
+				{/* {
 					showListObject && (
 						<div onClick={() => handleClick()} className={clsx(styles.showOverlay, {[styles.overlayVisible]: overlay})}/> 
 					)
-				}
+				} */}
 				{
 					isLoading ? (
 							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar sparade listor...</h1>
@@ -128,3 +139,5 @@ export default function SparadeListor() {
 		</div>
 	);
 };
+
+export default SparadeListor;

@@ -9,7 +9,6 @@ import Form from "../components/Forms/Form";
 import ListContainer from "../components/Lists/ListContainer";
 
 export default function MinaTodos() {
-	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const [sideListVisible, setSideListsVisible] = useState(true);
 	const [flexDirection, setFlexDirection] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,17 +57,6 @@ export default function MinaTodos() {
 		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
 	}, [currentState.currentItem]);
 
-	const handleClick = () => {
-		if (addListFormIsVisible) {
-			console.log('click', addListFormIsVisible);
-			setTimeout(() => {
-				setAddListFormIsVisible(false);
-			}, 600);
-		} else if (!addListFormIsVisible){
-			setAddListFormIsVisible(true);
-		};		
-	}; 
-
 	return (
 		<>
 		{
@@ -98,8 +86,13 @@ export default function MinaTodos() {
 					}
 					<div className={styles.todoListWrapper}>
 						{
-							addListFormIsVisible && (
-								<Form setFormIsVisible={setAddListFormIsVisible} objectType={'todoList'} method={'POST'} typeName={'lista'} />
+							currentState.formIsVisible && 
+							(
+								<Form 
+									objectType={'todoList'} 
+									method={'POST'} 
+									typeName={'lista'} 
+								/>
 							)
 						}
 						{
@@ -112,7 +105,7 @@ export default function MinaTodos() {
 							) : (
 								<section className={styles.emptyList}>
 									<div className={styles.todoListTop} />
-									<article className={styles.addListIconBtn} onClick={() => handleClick()} />
+									<article className={styles.addListIconBtn} onClick={() => currentState.setFormIsVisible()} />
 									<h3>Du har inga pågående listor</h3>
 								</section>
 							)

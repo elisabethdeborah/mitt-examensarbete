@@ -16,6 +16,19 @@ export function TodoWrapper({children}) {
 	const [currentItem, setCurrentItem] = useState(null);
 	const [countdownItem, setCountdownItem] = useState(null);
 	const [fetchRes, setFetchRes] = useState({show: false});
+	const [overlay, setOverlay] = useState(false);
+	const [formIsVisible, setFormIsVisible] = useState(false);
+	const router = useRouter();
+
+	const handleGoBack = () => {
+		setOverlay(false);
+		setTimeout(() => {
+			setFormIsVisible(false);
+		}, 600);
+		
+		router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor' ? 
+		currentState.setCurrentItem(null) : null;
+	};
 
   const fetchTodos = async () => {
     let fetchedTodos;
@@ -71,7 +84,12 @@ export function TodoWrapper({children}) {
 	  currentItem,
 	  setCurrentItem,
 	  countdownItem,
-	  setCountdownItem
+	  setCountdownItem, 
+	  overlay,
+	  setOverlay,
+	  handleGoBack, 
+	  setFormIsVisible,
+	  formIsVisible
   };
 
 	return (
@@ -100,31 +118,3 @@ export function useUpdateContext() {
 	const updatedState = useContext(UpdateContext);
 	return updatedState;
 };
-
-
-
-
-
-/* 
-
-{
-				"allTodoLists": * [_type == "todoList"] | order(_createdAt desc) { 
-				  title,
-				  saved,
-				  "todos": * [_type == "todo" && todoList._ref == ^._id]{..., "slug": slug.current}+[...list]{..., "slug": slug.current},
-				  "nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]{checked} +[...list]{checked}),
-				  'numberOfChecked': count([...list[checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][checked]),
-				  'numberOfNotChecked': count([...list[!checked]]) + count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
-				  ...,
-				  },
-			  
-				  "tomatoLibrary": * [_type == "tomato"] | order(_createdAt desc) {
-				  title, 
-				  time, 
-				  slug,
-				  ...,
-				  "slug": slug.current,
-				}
-			  }
-
-*/

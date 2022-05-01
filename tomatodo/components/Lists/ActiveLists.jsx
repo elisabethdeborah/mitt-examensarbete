@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Form from "../Forms/Form";
 import AddTodo from '../../svgAssets/addBtn.svg';
 import styles from './styles/listContainer.module.scss';
@@ -8,9 +8,8 @@ import SmallListObj from './SmallListObj';
 import clsx from 'clsx';
 
 const ActiveLists = ({ tomato, previewLists}) => {
-
-	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const state = useTodoContext();
+	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
 	let lista;
 
@@ -40,15 +39,16 @@ const ActiveLists = ({ tomato, previewLists}) => {
 	};
 
 	useEffect(() => {
-		console.log(addListFormIsVisible)
-		return () => setAddListFormIsVisible(false);
-	}, [])
+		setTimeout(() => {
+			currentState.setOverlay(true);
+		}, 10);
+		return () => currentState.handleGoBack(false);
+	}, []);
 
 	return (
-		addListFormIsVisible ? 
+		currentState.formIsVisible ? 
 		(
 			<Form 
-				setFormIsVisible={setAddListFormIsVisible} 
 				objectType={'todoList'} 
 				method={'POST'} 
 				typeName={'lista'} 
@@ -70,7 +70,7 @@ const ActiveLists = ({ tomato, previewLists}) => {
 							)
 						})}
 						<aside className={styles.optionContainer}>
-							<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
+							<button className={styles.addTodoList} onClick={() => currentState.setFormIsVisible(true)} >
 								<h2>Skapa ny lista</h2>
 								<AddTodo className={styles.addTdodoSvg} />
 							</button>
@@ -79,7 +79,7 @@ const ActiveLists = ({ tomato, previewLists}) => {
 					:<>
 						<h3>Tomt!</h3>
 						<aside className={styles.optionContainer}>
-							<button className={styles.addTodoList} onClick={() => setAddListFormIsVisible(true)} >
+							<button className={styles.addTodoList} onClick={() => currentState.setFormIsVisible(true)} >
 								<h2>Skapa ny lista</h2>
 								<AddTodo className={styles.addTdodoSvg} />
 							</button>

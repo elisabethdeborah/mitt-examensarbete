@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import Link from 'next/link';
-import styles from './styles/limboLists.module.scss';
+//import Link from 'next/link';
+//import styles from './styles/limboLists.module.scss';
+import styles from '../../components/Forms/styles/Form.module.scss';
 import { useTodoContext} from "../../context/TodoContext";
 import clsx from 'clsx';
 import DeleteButton from './DeleteButton';
@@ -11,7 +12,6 @@ const LimboLists = ({list, page, tomato, previewLists, setDisplayWarning}) => {
 	const fetchAllLists = state.fetchTodos;
 
 	const handleClick = async() => {
-		console.log('SAVE!!!', list._id)
 		await fetch("/api/todos/todolist", {
 			method: "PUT",
 			headers: {
@@ -23,7 +23,8 @@ const LimboLists = ({list, page, tomato, previewLists, setDisplayWarning}) => {
 				saved: true,
 			}),
 		})
-		.then(console.log('saved'))
+		//.then(console.log('saved'))
+		.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: 'startad', res: response.ok}))
 		.catch(error => {
 			console.log('error:', error);
 		})

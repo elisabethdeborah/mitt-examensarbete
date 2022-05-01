@@ -1,6 +1,5 @@
 import Meta from "../components/Meta";
 import clsx from "clsx";
-import PieChart from '../components/Time/PieChart';
 import styles from '../components/Time/styles/timer.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import calculateBgColor from "../functions";
@@ -11,6 +10,8 @@ import { useRouter } from "next/router";
 import { useUpdateContext } from "../context/TodoContext";
 import ReactPlayer from 'react-player/lazy';
 import alarmSound from '../assets/sounds/arcade_game_alarm_long.mp3';
+import ChartSection from "../components/Time/ChartSection";
+import TomatoBtnContainers from "../components/Time/TomatoBtnContainers";
 
 const Timer = () => {
 	const [isRunning, setIsRunning] = useState(false);
@@ -26,7 +27,6 @@ const Timer = () => {
 	const [percentage, setPercentage ] = useState(0);
 	const src = alarmSound;
 
-
 	useEffect(() => {
 		initialTime? handlePlay() : null;
 		return () => {
@@ -35,7 +35,7 @@ const Timer = () => {
 	}, []);
 
 	useEffect(() => {
-		!currentState.countdownItem ? router.replace('/timer') : null;
+		!currentState.countdownItem ? router.back() : null;
 	}, [currentState]);
 
 	const sectionRef = useRef();
@@ -65,11 +65,6 @@ const Timer = () => {
 			setTimesUp(false);
 		};
 	}, [timeLeft]);
-
-	useEffect(() => {
-		!currentState.countdownItem ? 
-		router.replace('/timer') : null;
-	}, [currentState.countdownItem]);
 	
 	const restart = () => {
 		setTimesUp(false);
@@ -114,8 +109,22 @@ const Timer = () => {
 		setIsRunning(false);
 		sectionRef.current ? sectionRef.current.style.backgroundColor = '' :null;
 		setTimeout(() => {
-			router.replace('/timer');
+			router.back();
 		}, 1000);
+	};
+	
+	const functions = {
+		handlePlay,
+		handlePause,
+		handleStop,
+		setSoundOn,
+		restart,
+	};
+
+	const states = {
+		soundOn,
+		isRunning,
+		isInitialized
 	};
 
 	return (
@@ -126,27 +135,14 @@ const Timer = () => {
 			ref={sectionRef}
 		>
 			<Meta title='Timer' />
+			<div onClick={() => {router.back()}} 
+				className={styles.closeCountdown} 
+			/>
 			<section className={styles.contentContainer} >
 				<section className={styles.soundPlayerContainer}>
 					<ReactPlayer playing={isInitialized && timesUp} url={src} loop muted={!soundOn} volume={volume} />
 				</section>
-				<div className={styles.tomatoChartContainer} >
-					{
-						isInitialized && !timesUp ? 
-							(
-								<PieChart 
-									className={clsx( styles.viewPieChart, {
-										[styles.isVisible]: isRunning
-									})} 
-									startTime={initialTime} 
-									color={sectionRef.current && (sectionRef.current.style.backgroundColor)} 
-									timeLeft={timeLeft} 
-								/> 
-							) : (
-								<article className={clsx(styles.tomatoWhiteBorder, {[styles.isVisible]: !isRunning, [styles.animate]: timesUp})} />
-							)
-					}
-				</div>
+				<ChartSection isRunning={isRunning} timesUp={timesUp} isInitialized={isInitialized} initialTime={initialTime} timeLeft={timeLeft} sectionRef={sectionRef} />
 				{
 					isInitialized && !timesUp && (
 						<article className={styles.tomatoCountDown} />
@@ -157,43 +153,35 @@ const Timer = () => {
 				</h2>
 				{
 					isInitialized && timesUp ? (
-							<> 
-								<section className={clsx(styles.timesUpHeaderContainer, {[styles.showText]: timesUp, [styles.hideText]: !timesUp})}>
-									<h1 className={styles.timesUpHeader}>Tiden är ute!</h1>
-								</section>
-							</>
-						) : ( 
-							<section className={clsx(styles.showCountdownNumbers, {[styles.hideNumber]: timesUp, [styles.showNumbers]: !timesUp})}>
-								{
-									isInitialized && typeof timeLeft ==="number" && (
-										<NumberFormat 
-											className={styles.formattedTime} 
-											milliSeconds={Number(timeLeft)} 
-											text={''} 
-											styling={{fontSize: '1.75rem', position: 'relative'}} 
-											showSecs 
-										/> 
-								)}
-							</section>
+					<> 
+						<section className={clsx(styles.timesUpHeaderContainer, {
+							[styles.showText]: timesUp, 
+							[styles.hideText]: !timesUp
+						})}>
+							<h1 className={styles.timesUpHeader}>Tiden är ute!</h1>
+						</section>
+					</>
+					) : ( 
+						<section className={clsx(styles.showCountdownNumbers, {[styles.hideNumber]: timesUp, [styles.showNumbers]: !timesUp})}>
+							{
+								isInitialized && typeof timeLeft ==="number" && (
+									<NumberFormat 
+										className={styles.formattedTime} 
+										milliSeconds={Number(timeLeft)} 
+										text={''} 
+										styling={percentage > 80 ? {fontSize: '1.75rem', position: 'relative', color: 'white'}:{fontSize: '1.75rem', position: 'relative'}} 
+										showSecs 
+									/> 
+							)}
+						</section>
 						) 
 				}
 				{ 
 					!timesUp ? (
-						<section className={styles.buttonContainer}>
-							<article className={clsx(styles.timerBtn, styles.playBtn, {[styles.disabled]: isRunning || !isInitialized})} onClick={!isRunning && isInitialized ? () => handlePlay(): null} />
-							{
-								isRunning ? (
-									<article className={clsx(styles.timerBtn, styles.pauseBtn, {[styles.disabled]: !isRunning})} onClick={() => handlePause()} />
-								) : (
-									<article className={clsx(styles.timerBtn, styles.stopBtn, {[styles.disabled]: !isInitialized})} onClick={() => handleStop()} />
-								)
-							}
-							<article className={clsx(styles.timerBtn, styles.restartBtn, {[styles.disabled]: !isInitialized})} onClick={() => restart()} />
-							<article className={clsx(styles.timerBtn, {[styles.soundOffBtn]: !soundOn, [styles.soundOnBtn]: soundOn})} onClick={() => setSoundOn(!soundOn)} />
-						</section>
+						<TomatoBtnContainers page={'countdown'} functions={functions} states={states}/>
 					) : (
 						<section className={styles.buttonContainerAfter}>
-							<article className={clsx(styles.timerBtn, styles.stopBtn)}  onClick={() => handleStopAlarm()} /> 
+							<article className={styles.stopAlarmBtn}  onClick={() => handleStopAlarm()}>Stoppa</article> 
 						</section>
 					)
 				}

@@ -1,54 +1,53 @@
+import React, { useState, useEffect, useRef } from 'react';
 import Meta from "../components/Meta";
 import clsx from "clsx";
 import styles from '../components/Time/styles/timer.module.scss';
-import React, { useState, useEffect, useRef } from 'react';
 import FormTemplate from "../components/Forms/FormTemplate";
+import ChartSection from "../components/Time/ChartSection";
+import TomatoBtnContainers from '../components/Time/TomatoBtnContainers';
+import { useUpdateContext } from "../context/TodoContext";
 
 const TimerSet = () => {
-	const [inputformVisible, setInputformVisible] = useState(false);
 	const sectionRef = useRef();
+	const currentState = useUpdateContext();
 	const [width, setWidth] = useState();
+	const [fadeIn, setFadeIn] = useState(false);
+
 	const getListSize = () => {
 		const newWidth = sectionRef.current.clientWidth;
 		setWidth(newWidth);
 	};
 
 	useEffect(() => {
+		setFadeIn(true);
 		getListSize();
 		window.addEventListener("resize", getListSize);
 		return () => {
+			setFadeIn(false);
 			window.removeEventListener("resize", getListSize);
 		}
 	}, []);
 
 	return (
-		<div 
-			className={styles.timerPageWrapper}
-			ref={sectionRef}
-		>
-			<Meta title='Timer' />
-			<section className={styles.contentContainer} >
-				{
-					inputformVisible && (
-						<FormTemplate 
-							setFormIsVisible={setInputformVisible} 
-						/>
-					)
-				}
-				<div className={styles.tomatoChartContainer} >
-					<article className={styles.tomatoWhiteBorder} />
-				</div>
-					<button className={styles.addTime} onClick={() => setInputformVisible(true)}>
-						lägg till tid
-					</button>
-					<section className={styles.buttonContainer}>
-							<article className={clsx(styles.timerBtn, styles.playBtn, styles.disabled)}/>
-							<article className={clsx(styles.timerBtn, styles.stopBtn, styles.disabled)}/>
-							<article className={clsx(styles.timerBtn, styles.restartBtn, styles.disabled)}/>
-							<article className={clsx(styles.timerBtn, styles.soundOffBtn, styles.disabled)}/>
-						</section>
-			</section>
-		</div>
+		<>
+			{currentState.formIsVisible && (
+				<FormTemplate />
+			)}
+			<div 
+				className={clsx(styles.timerPageWrapper, {[styles.pageLoading]: fadeIn})}
+				ref={sectionRef}
+			>
+				<Meta title='Timer' />
+				<section className={styles.contentContainer} >
+					<ChartSection sectionRef={sectionRef} />
+
+						<button className={styles.addTime} onClick={() => currentState.setFormIsVisible(true)}>
+							lägg till tid
+						</button>
+						<TomatoBtnContainers page={'none'} />
+				</section>
+			</div>
+		</>
 	);
 };
   

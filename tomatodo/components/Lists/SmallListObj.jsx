@@ -5,16 +5,16 @@ import { useUpdateContext } from "../../context/TodoContext";
 import {useRouter} from 'next/router';
 import styles from './styles/listContainer.module.scss';
 
-const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen, page}) => {
+const SmallListObj = ({ item, listObjIndex, contentIsVisible, setPopupIsOpen }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 
 	const handleClick = (x) => {
-		if ( page !== 'archive') {
+		if ( router.pathname !== '/mina-tomater') {
 			currentState.setCurrentItem({...x, listObjIndex: listObjIndex});
 			console.log({...x, listObjIndex: listObjIndex});
 			x.saved ? setPopupIsOpen(true):null;
-			if (item._type === 'todoList' && !item.saved && page !== 'todo') {
+			if (item._type === 'todoList' && !item.saved && router.pathname !== '/mina-todos') {
 				router.push('/mina-todos');
 			} else if (item._type === 'tomato') {
 				router.push('/mina-tomater');
@@ -32,7 +32,7 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen, pag
 				[styles.isVisible] : contentIsVisible === true,
 				[styles.tomatoObj] : item._type === 'tomato',
 				[styles.todoListObj] : item._type === 'todoList',
-				[styles.previewList] : page === 'archive'
+				[styles.previewList] : router.pathname === '/mina-tomater'
 			})}
 		>
 			{item._type !== 'tomato' ? (
@@ -95,7 +95,7 @@ const SmallListObj = ({item, listObjIndex, contentIsVisible, setPopupIsOpen, pag
 			)
 			}
 		</article>
-		{page === 'home' && item._type === 'tomato' && item.time > 0 && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
+		{router.pathname === '/' && item._type === 'tomato' && item.time > 0 && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
 		</div>
 	);
 };

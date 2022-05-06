@@ -3,33 +3,35 @@ import Link from 'next/link';
 import styles from './styles/listContainer.module.scss';
 import clsx from 'clsx';
 import {useUpdateContext} from "../../context/TodoContext";
+import { useRouter } from "next/router";
 import SmallListObj from './SmallListObj';
 import PopupLists from './PopupLists';
 
-const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
+const ListContainer = ({ itemType, setSideListsVisible, open, list }) => {
 	const currentState = useUpdateContext();
-	const [contentIsVisible, setContentIsVisible] = useState(page === 'home'  && itemType === "todos" || page === 'tomato' && itemType === "tomater" || page === 'saved' && itemType === 'sparade-listor');
+	const router = useRouter();
+	const [contentIsVisible, setContentIsVisible] = useState(router.pathname === '/'  && itemType === "todos" || router.pathname === '/mina-tomater' && itemType === "tomater" || router.pathname === '/mina-sparade-listor' && itemType === 'sparade-listor');
 	
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
-	const [overlay, setOverlay] = useState(false);
+	//const [overlay, setOverlay] = useState(false);
 
 	useEffect(() => {
-		popupIsOpen ? setOverlay(true):null;
+		popupIsOpen ? currentState.setOverlay(true) : null;
 	}, [popupIsOpen]);
 
 	return (
 		<>
 			{
 				popupIsOpen && (
-					<PopupLists setPopupIsOpen={setPopupIsOpen} setOverlay={setOverlay} />
+					<PopupLists setPopupIsOpen={setPopupIsOpen} />
 				)
 			}
 			<div className={clsx(styles.listContainer, {
 				[styles.showContent]: contentIsVisible,
-				[styles.homePage]: page === 'home',
-				[styles.tomatoPage]: page === 'tomato',
-				[styles.todolistPage]: page === 'todo',
-				[styles.savedListsPage]: page === 'saved',
+				[styles.homePage]: router.pathname === '/',
+				[styles.tomatoPage]: router.pathname === '/mina-tomater',
+				[styles.todolistPage]: router.pathname === '/mina-todos',
+				[styles.savedListsPage]: router.pathname === '/mina-sparade-listor',
 			})}>
 				<section 
 					className={clsx(styles.listTop, {
@@ -41,7 +43,7 @@ const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
 				>
 					<h4>{`Mina ${itemType.split('-').join(' ')}`}</h4>
 					{
-						page === 'todo' && (
+						router.pathname === '/mina-todos' && (
 							<p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>
 						)
 					}
@@ -60,12 +62,12 @@ const ListContainer = ({itemType, setSideListsVisible, open, page, list}) => {
 					list && list.length > 0 ? 
 						list.map((item, index) => {
 							return (
-								page === 'todo' && !item.saved ? (
+								router.pathname === '/mina-todos' && !item.saved ? (
 									open !== index && (
-										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} page={page} />
+										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 									)
 								) : (
-									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} page={page} />
+									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 								)
 							)
 						}) : (

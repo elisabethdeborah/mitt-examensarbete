@@ -8,7 +8,7 @@ import Resize from '../Resize';
 import { useUpdateContext, useTodoContext } from "../../context/TodoContext";
 import LimboLists from "./LimboListsComponent";
 
-const TodoList = ({list}) => {
+const TodoList = ({ list }) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const sectionRef = useRef();

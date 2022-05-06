@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import styles from '../styles/message.module.scss';
 import clsx from "clsx";
 
-const Message = ({text, response, setFetchRes}) => {
+const Message = ({ text, response, setFetchRes }) => {
 	const [showText, setShowText] = useState(true);
 
 	useEffect(() => {

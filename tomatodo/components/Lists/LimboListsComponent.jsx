@@ -1,13 +1,9 @@
-
-import React, { useState } from 'react';
-//import Link from 'next/link';
-//import styles from './styles/limboLists.module.scss';
-import styles from '../../components/Forms/styles/Form.module.scss';
+import React from 'react';
+import styles from '../../components/Forms/styles/form.module.scss';
 import { useTodoContext} from "../../context/TodoContext";
-import clsx from 'clsx';
 import DeleteButton from './DeleteButton';
 
-const LimboLists = ({list, page, tomato, previewLists, setDisplayWarning}) => {
+const LimboLists = ({ list, tomato, previewLists, setDisplayWarning }) => {
 	const state = useTodoContext();
 	const fetchAllLists = state.fetchTodos;
 
@@ -23,7 +19,6 @@ const LimboLists = ({list, page, tomato, previewLists, setDisplayWarning}) => {
 				saved: true,
 			}),
 		})
-		//.then(console.log('saved'))
 		.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: 'startad', res: response.ok}))
 		.catch(error => {
 			console.log('error:', error);

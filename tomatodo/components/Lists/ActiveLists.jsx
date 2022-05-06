@@ -7,7 +7,7 @@ import {useUpdateContext, useTodoContext} from "../../context/TodoContext";
 import SmallListObj from './SmallListObj';
 import clsx from 'clsx';
 
-const ActiveLists = ({ tomato, previewLists}) => {
+const ActiveLists = ({ tomato, previewLists }) => {
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
@@ -57,7 +57,7 @@ const ActiveLists = ({ tomato, previewLists}) => {
 		) : (			
 			<div className={clsx(styles.activeLists, styles.showContent, styles.tomatoPage)}>
 				<section className={styles.activeListsTop}>
-					<h4 style={{textAlign: 'center'}}>Påbörjade listor</h4>
+					<h4 style={{textAlign: 'center'}}>Pågående listor</h4>
 				</section>
 				<section className={clsx(styles.contentBox, {[styles.previewLists]: previewLists===true})}>
 					{lista && lista.length > 0 ? 

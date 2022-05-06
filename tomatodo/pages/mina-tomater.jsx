@@ -3,7 +3,6 @@ import Form from "../components/Forms/Form";
 import ActiveLists from "../components/Lists/ActiveLists";
 import Meta from "../components/Meta";
 import styles from "../components/Lists/styles/tomatoLibrary.module.scss";
-import clsx from "clsx";
 import LibraryArchiveObj from "../components/Lists/libraryArchiveObj";
 import DeleteButton from "../components/Lists/DeleteButton";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
@@ -130,23 +129,23 @@ const MinaTomater = () => {
 							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center'}}>Hämtar tomater...</h1>
 						) :
 							tomatoLibrary && tomatoLibrary.length > 0 ? 
-								(
-									tomatoLibrary.map((list, index) => (
-										<LibraryArchiveObj  
-											className={styles.gridItem}
-											key={list._rev} 
-											list={list} 
-											index={index} 
-											listObjectIndex={listObjectIndex} 
-											showListObject={showListObject} 
-											handleClick={handleClick}
-											setShowChangeForm={setShowChangeForm}
-											setaddToListIsVisible={setaddToListIsVisible}
-										/>
-									))
-								) : (
-									<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
-								)
+							(
+								tomatoLibrary.map((list, index) => (
+									<LibraryArchiveObj  
+										className={styles.gridItem}
+										key={list._rev} 
+										list={list} 
+										index={index} 
+										listObjectIndex={listObjectIndex} 
+										showListObject={showListObject} 
+										handleClick={handleClick}
+										setShowChangeForm={setShowChangeForm}
+										setaddToListIsVisible={setaddToListIsVisible}
+									/>
+								))
+							) : (
+								<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
+							)
 					}
 				</div>
 			}

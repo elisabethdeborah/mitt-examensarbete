@@ -6,7 +6,7 @@ import styles from './styles/charts.module.scss';
 import clsx from 'clsx';
 Chart.register(ArcElement);
 
-const TimerChart = ({startTime, timeLeft, color}) => {
+const TimerChart = ({ startTime, timeLeft, color }) => {
 	const [grow, setGrow] = useState(false);
 	const transparent = startTime-timeLeft;
 	const orange = timeLeft;

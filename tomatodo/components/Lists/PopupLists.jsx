@@ -1,9 +1,8 @@
 import styles from './styles/limboLists.module.scss';
-import DeleteButton from './DeleteButton';
 import { useUpdateContext, useTodoContext} from "../../context/TodoContext";
 import {useRouter} from 'next/router';
 
-const PopupLists = ({previewTodosList, setPopupIsOpen, setOverlay}) => {
+const PopupLists = ({ previewTodosList, setPopupIsOpen }) => {
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	const state = useTodoContext()
@@ -47,7 +46,7 @@ const PopupLists = ({previewTodosList, setPopupIsOpen, setOverlay}) => {
 		currentState.setCurrentItem(null);
 		setPopupIsOpen(false);
 		fetchAllLists();
-		setOverlay ? setOverlay(false) : null;
+		currentState.setOverlay(false);
 		router.push('/mina-todos');
 	};
 
@@ -59,7 +58,11 @@ const PopupLists = ({previewTodosList, setPopupIsOpen, setOverlay}) => {
 		currentState.currentItem && currentState.currentItem._id && currentState.currentItem.saved && (
 			<article className={styles.popupContainer}>
 				<section className={styles.textGroup}>
-				<h2>Vill du starta om <span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>?</h2>
+					<h2>
+						Vill du starta om 
+							<span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>
+						?
+					</h2>
 					<div className={styles.btnContainer}>
 						<input type={"button"} className={styles.closeForm} value="Stäng" onClick={() => handleClose()} />
 						<input type={"button"} className={styles.addBtn} value="Starta" onClick={() => handleClick(currentState.currentItem)} />

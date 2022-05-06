@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from "next/router";
 import styles from './styles/savedLists.module.scss';
 import clsx from 'clsx';
 import DeleteButton from './DeleteButton';
 import { useUpdateContext} from "../../context/TodoContext";
 
-const SavedLists = ({lista, setSideListsVisible, page }) => {
+const SavedLists = ({ lista, setSideListsVisible }) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
 	const [previewTodosList, setPreviewTodosList] = useState(null);
 	const currentState = useUpdateContext();
+	const router = useRouter();
 
 	const handleClickOpen = (list, index) => {
-		if (page === 'todo') {
+		if (router.pathname === '/mina-todos') {
 			setPreviewTodosList(list.todos);
 			console.log("show todolist's todos: ", list.todos, 'index', index); 
-		} else if (page === 'home') {
+		} else if (router.pathname === '/') {
 			console.log("show todolist's todos: ", list.todos); 
 		};	 
 	};
@@ -64,14 +66,12 @@ const SavedLists = ({lista, setSideListsVisible, page }) => {
 		console.log(currentState.currentItem, clickItem);
 	};
 
-
-
 	return (
 		<div className={clsx(styles.savedLists, {
 			[styles.showContent]: contentIsVisible,
-			[styles.homePage]: page === 'home',
-			[styles.todolistPage]: page === 'todo',
-			[styles.savedListsPage]: page === 'saved'})}
+			[styles.homePage]: router.pathname === '/',
+			[styles.todolistPage]: router.pathname === '/mina-todos',
+			[styles.savedListsPage]: router.pathname === '/mina-sparade-listor'})}
 		>
 			<section className={styles.savedListsTop} onClick={() => setContentIsVisible(!contentIsVisible)}>
 				<h4>Mina sparade listor</h4>

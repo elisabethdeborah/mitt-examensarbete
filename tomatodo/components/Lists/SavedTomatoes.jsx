@@ -1,15 +1,14 @@
-
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from "next/router";
 import styles from './styles/savedTomatoes.module.scss';
 import clsx from 'clsx';
 import NumberFormat from '../NumberFormat';
 import PlayTimerBtn from '../PlayTimerBtn';
 
-const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
-
+const ActiveLists = ({ tomatoes, setSideListsVisible, open }) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
-
+	const router = useRouter();
 	const handleClickTomato = (tomato, index) => {
 		console.log('tomato-klick från sidlista: ', tomato, 'index', index)
 	};
@@ -17,8 +16,8 @@ const ActiveLists = ({tomatoes, setSideListsVisible, open, page}) => {
 	return (
 		<div className={clsx(styles.activeLists, {
 			[styles.showContent]: contentIsVisible,
-			[styles.homePage]: page === 'home',
-			[styles.tomatoPage]: page === 'tomato'})}
+			[styles.homePage]: router.pathname === '/',
+			[styles.tomatoPage]: router.pathname === '/mina-tomater'})}
 		>
 			<section className={styles.activeListsTop} onClick={() => setContentIsVisible(!contentIsVisible)}>
 				<h4>Mina tomater</h4>

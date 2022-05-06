@@ -1,8 +1,8 @@
-import clsx from 'clsx';
 import React from 'react';
+import clsx from 'clsx';
 import styles from './styles/charts.module.scss';
 
-const ProgressBar = ({color, percentage}) => {
+const ProgressBar = ({ color, percentage }) => {
 	return (
 		<section className={styles.wrapperSection}>
 			<div className={clsx(styles.progressbarWrapper, {[styles.visible]: percentage > 0})}>

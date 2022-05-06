@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styles from '../styles/Navigation.module.scss';
 
-const Navigation = ({navIsOpen, setNavIsOpen}) => {
+const Navigation = ({ navIsOpen, setNavIsOpen }) => {
 	const router = useRouter();
 
 	return (

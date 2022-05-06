@@ -1,11 +1,10 @@
+import { useState } from 'react';
 import styles from './styles/deleteBtn.module.scss';
 import {useTodoContext, useUpdateContext} from "../../context/TodoContext";
 import clsx from 'clsx';
-import { useEffect, useState } from 'react';
 
-const DeleteButton = ({color, listItem, size, text, setDisplayWarning, closeOverlay}) => {
+const DeleteButton = ({ color, listItem, size, text, setDisplayWarning, closeOverlay }) => {
 	const [showWarning, setShowWarning] = useState(false);
-	const [deleteing, setDeleteing] = useState(false);
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;

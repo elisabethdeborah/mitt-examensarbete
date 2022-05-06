@@ -44,7 +44,7 @@ const TimerSet = () => {
 						<button className={styles.addTime} onClick={() => currentState.setFormIsVisible(true)}>
 							lägg till tid
 						</button>
-						<TomatoBtnContainers page={'none'} />
+						<TomatoBtnContainers />
 				</section>
 			</div>
 		</>

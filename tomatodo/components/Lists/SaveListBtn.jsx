@@ -1,8 +1,7 @@
-import SaveList from '../../svgAssets/save-list.svg';
-import styles from './styles/todoList.module.scss';
 import { useState } from 'react';
-
-const SaveListBtn = ({list}) => {
+import styles from './styles/todoList.module.scss';
+import SaveList from '../../svgAssets/save-list.svg';
+const SaveListBtn = ({ list }) => {
 	const [showPopup, setShowPopup] = useState(false);
 
 	const saveList = async(list) => {
@@ -36,7 +35,6 @@ const SaveListBtn = ({list}) => {
 	};
 
 	const handleSave = async (listItem) => {
-		console.log('saveklick:',listItem.title, listItem._id, listItem._type, 'item', listItem.numberOfNotChecked)
 		if (listItem._type === 'todoList' && listItem.numberOfNotChecked === 0) {
 			saveList(listItem);
 		} else if (listItem._type === 'todoList' && listItem.numberOfNotChecked > 0) {

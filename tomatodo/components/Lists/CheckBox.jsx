@@ -1,5 +1,5 @@
 import styles from './styles/todoList.module.scss';
-import { useTodoContext} from "../../context/TodoContext";
+import { useTodoContext } from "../../context/TodoContext";
 
 const CheckBox = ({listItem, setStyleChecked}) => {
 	const state = useTodoContext();

@@ -99,7 +99,7 @@ const Stopwatch = () => {
 					/>
 				</section>
 				<div className={styles.filler} />
-				<TomatoBtnContainers page={'stopwatch'} functions={functions} states={states} />
+				<TomatoBtnContainers functions={functions} states={states} />
 			</section>
 		</div>
 		</>

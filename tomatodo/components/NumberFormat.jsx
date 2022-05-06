@@ -1,4 +1,4 @@
-const NumberFormat = ({milliSeconds, text, showSecs, styling}) => {
+const NumberFormat = ({ milliSeconds, text, showSecs, styling }) => {
 
 	let time = Math.round(Number(milliSeconds)/1000);
 	let hours = Math.floor(time/60/60);

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-const Resize = ({width, setWidth, sectionRef}) => {
+const Resize = ({ width, setWidth, sectionRef }) => {
 	useEffect(() => {
 		const onResize = () => {
 			const newWidth = sectionRef.current.clientWidth;

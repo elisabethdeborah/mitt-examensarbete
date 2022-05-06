@@ -7,15 +7,12 @@ import { validateTime } from "./formFunctions";
 import { useRouter } from "next/router";
 
 const FormTemplate = () => {
-	
-	const currentState = useUpdateContext();
-	const router = useRouter();
-	const [userInputTime, setUserInputTime] = useState({
-		hh: 0, min: 0
-	});
+	const [userInputTime, setUserInputTime] = useState({hh: 0, min: 0});
 	const [errMessage, setErrMessage] = useState('');
 	const [inputTime, setInputTime] = useState(0);
 	const [body, setBody] = useState({title: '', time: inputTime});
+	const currentState = useUpdateContext();
+	const router = useRouter();
 
 	useEffect(() => {
 		setErrMessage("");

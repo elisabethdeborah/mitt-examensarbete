@@ -15,11 +15,10 @@
     height: 100vh;
 	padding-top: 100px;
     flex-wrap: wrap;
-    
     background-color: $color-orange;
 	transform: translateX(100%);
 	transition: all 0.3s ease-in;
-	color: #f3f9fc;
+	color: $color-white;
 
 	&.navIsOpen {
 		transform: translateX(0%);
@@ -39,7 +38,7 @@
 		margin: 0.5rem 1rem;
 		padding-bottom: 0.5rem;
 		text-decoration: none;
-		color: $color-white;
+	//	color: $color-white;
 		transition: all 0.3s ease;
 		font-size: 1.5rem;
 		padding-bottom: 5px;
@@ -50,27 +49,20 @@
 				border-bottom: 2px solid $color-white;
 			}
 		}
-		&:hover {
-			color: $color-pink;
-			transition: all 0.3s ease;
-			opacity: 0.5;
-		}
 	}
 
 	@media screen and (min-width: 600px) {
 		z-index: 1;
 		position: relative;
 		top: -50px;
-
 		width: 100vw;
 		height: unset;
 		display: flex;
 		flex-wrap: wrap;
-
 		padding-top: 0;
 		background-color: initial;
 		transform: translateX(0%);
-
+		color: $color-darkgrey;
 		.list {
 			display: flex;
 			flex-direction: row;
@@ -81,7 +73,6 @@
 		}
 		.navLink {
 			font-size: 1rem;
-			color: $color-darkgrey;
 			padding-bottom: 2px;
 
 			&.active {
@@ -90,11 +81,12 @@
 					border-bottom: none;
 				}
 			}
-	
 			&:hover {
-				color: $color-pink;
-				transition: all 0.3s ease;
-				opacity: 0.5;
+				> a {
+					color: $color-pink;
+					transition: all 0.3s ease;
+					//opacity: 0.5;
+				}
 			}
 		}
 	}

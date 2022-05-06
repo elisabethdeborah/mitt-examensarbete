@@ -88,7 +88,6 @@ const MinaTomater = () => {
 							typeName={'redigera'} 
 							objectType={'tomato'} 
 							method={'PUT'} 
-							page={'archive'} 
 						/>
 						<div className={styles.showSettings}>
 							<DeleteButton listItem={currentState.currentItem}/>
@@ -113,7 +112,7 @@ const MinaTomater = () => {
 				)
 			}
 			{
-				currentState.formIsVisible && (
+				!addToListIsVisible && currentState.formIsVisible && (
 					<Form objectType={'tomato'} method={'POST'} />
 				)
 			}

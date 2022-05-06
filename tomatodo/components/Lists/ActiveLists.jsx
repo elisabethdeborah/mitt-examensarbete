@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import Form from "../Forms/Form";
+import FormArch from "../Forms/FormArchive";
 import AddTodo from '../../svgAssets/addBtn.svg';
 import styles from './styles/listContainer.module.scss';
 import {useUpdateContext, useTodoContext} from "../../context/TodoContext";
@@ -48,12 +48,7 @@ const ActiveLists = ({ tomato, previewLists }) => {
 	return (
 		currentState.formIsVisible ? 
 		(
-			<Form 
-				objectType={'todoList'} 
-				method={'POST'} 
-				typeName={'lista'} 
-				page={'archive'}
-			/>
+			<FormArch />
 		) : (			
 			<div className={clsx(styles.activeLists, styles.showContent, styles.tomatoPage)}>
 				<section className={styles.activeListsTop}>

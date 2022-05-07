@@ -70,6 +70,7 @@
 }
 
 .buttonContainer {
+	//position: relative;
 	display: flex;
 	flex-direction: row;
 	max-width: 90vw;
@@ -146,4 +147,93 @@
     background-color: transparent;
     border-radius: 0;
     bottom: 20px;
+}
+
+.showVolumeBtn {
+	@include hover-btn;
+	@include active-btn;
+	position: absolute;
+	right: 200px;
+	background-color: $color-orange;
+	color: $color-white;
+	border: none;
+	padding: 4px 8px;
+	font-size: 1rem;
+	font-weight: 600;
+	border-radius: 2px;
+}
+
+.volumeSection {
+	position: absolute;
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px 15px 10px;
+	border-radius: 5px;
+	background-color: #4d4b4b26;
+
+	
+}
+
+.volumeBtnGroup {
+//	position: absolute;
+	bottom: 0;
+	right: 0;
+	display: flex;
+	flex-direction: row;
+	height: 20px;
+	margin-top: 20px;
+	width: 80%;
+	align-items: center;
+
+	.volumePercent {
+		width: 100%;
+		text-align: center;
+		margin: 0;
+	}
+
+	.volumController {
+		@include hover-btn;
+		@include active-btn;
+		background-color: $color-orange;
+		color: $color-white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border: none;
+		font-size: 2rem;
+		font-weight: 600;
+		line-height: 0px;
+		width: 40px;
+		height: 30px;
+		border-radius: 3px;
+	}
+}
+
+.volumGraph {
+	width: 140px;
+	height: 50px;
+	display: flex;
+	flex-direction: row;
+	align-items: flex-end;
+
+	.volumBox {
+		position: relative;
+		height: 30px;
+		width: 10px;
+		margin: 2px;
+		border-radius: 3px;
+		opacity: 0.8;
+
+		&.volumeBlue {
+			background-color: $color-darkgrey;
+		}
+		&.volumeOrange {
+			background-color: $color-yellow;
+		}
+		&.volumePink {
+			background-color: $color-pink;
+		}
+	}
 }

@@ -8,5 +8,6 @@ export const config = {
 	 * Authenticated request (like preview) will always bypass the CDN
 	 **/
 	 token: process.env.SANITY_WRITE_KEY_2,
-	useCdn: true,
+	 jwToken: process.env.JWT_SECRET,
+	useCdn: false,
   };

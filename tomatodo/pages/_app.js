@@ -1,14 +1,17 @@
 import '../styles/globals.scss';
+import { StoreProvider } from '../context/UserStore';
 import Layout from '../components/Layout';
-import {TodoWrapper} from '../context/TodoContext';
+import { TodoWrapper } from '../context/TodoContext';
 
 function MyApp({ Component, pageProps }) {
   return (
-	  <TodoWrapper>
-		<Layout>
-			<Component {...pageProps} />
-		</Layout>
-	  </TodoWrapper>
+	  <StoreProvider>
+		<TodoWrapper>
+			<Layout>
+				<Component {...pageProps} />
+			</Layout>
+		</TodoWrapper>
+	  </StoreProvider>
   )
 }
 

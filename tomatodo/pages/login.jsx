@@ -1,67 +1,46 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../components/Forms/styles/form.module.scss';
 import clsx from "clsx";
-import {useUserContext, useUpdateContext, useTodoContext} from "../context/TodoContext";
-
+import { useUpdateContext, useTodoContext } from "../context/TodoContext";
+import { useUserStore } from '../context/UserStore';
 import Link from 'next/link';
-
+import axios from 'axios';
 import { useRouter } from 'next/router';
-
-
+import jsCookie from 'js-cookie';
 
 const Login = () => {
 	const todoState = useTodoContext();
-	const loggedInUserState = useUserContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = todoState.fetchTodos;
 	const [errMessage, setErrMessage] = useState('');
 	const [userEmailInput, setUserEmailInput] = useState('');
 	const [userPasswordInput, setUserPasswordInput] = useState('');
 
-	
-  const userInfo = loggedInUserState;
-  const router = useRouter();
+	const { state, dispatch } = useUserStore();
+	const { userInfo } = state;
+  
+	const router = useRouter();
 
-  const redirect = `/start/${userInfo.user}`;
+  	const { redirect } = router.query;
+	//const redirect = `/${userInfo}`;
 
-  useEffect(() => {
-    if (userInfo.user) {
-      router.push(redirect || '/');
-    }
-  }, [router, userInfo, redirect]);
+	useEffect(() => {
+		if (userInfo) {
+		router.push(redirect || '/');
+		}
+	}, [router, userInfo, redirect]);
 
-  useEffect(() => {
-    setErrMessage('')
-  }, [userEmailInput, userPasswordInput]);
-
-
-  const submitHandler = async () => {
-	if ( !userEmailInput.includes('@') || 
-		!userEmailInput.split('').slice(userEmailInput.split('').findIndex(x => x === '@')).includes('.') || 
-		userEmailInput.split('').reverse().slice((userEmailInput.split('').reverse().slice(x => x === '.'))).join('').length <5 && userEmailInput.split('').reverse().slice((userEmailInput.split('').reverse().slice(x => x === '.')))
-		) {
-		console.log(
-			userEmailInput.includes('@'),
-			userEmailInput.split('').slice(userEmailInput.split('').findIndex(x => x === '@')).includes('.'), 
-			userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).join('').length > -1, 
-			userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).findIndex(x => Number(x) > -1))
-
-		setErrMessage("Inte giltig emailadress.");
-		} else if (userPasswordInput.length < 6 || userPasswordInput.split('').findIndex(x => Number(x) > -1) || userPasswordInput.split('').findIndex(x => typeof x === 'string')) {
-			userPasswordInput.split('').map(x => console.log(typeof x, userPasswordInput.split('').findIndex(x => Number(x) > -1)))
-				setErrMessage("Lösenordet måste vara minst 6 tecken långt och innehålla minst 1 siffra.");
-		} else {
-			await fetch('api/users/login', {
-				method: 'POST',
-				body: JSON.stringify({
-						email: userEmailInput,
-						password: userPasswordInput,
-					})
-			})
-			.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, title: userEmailInput, action: 'inloggad', res: response.ok}))
-			.catch(error => {
-				console.log('error:', error);
-			})
+  	const submitHandler = async ( email, password ) => {
+		try {
+			const { data } = await axios.post('/api/users/login', {
+				email,
+				password,
+			});
+			dispatch({ type: 'USER_LOGIN', payload: data });
+			jsCookie.set('userInfo', JSON.stringify(data));
+			router.push(redirect || '/');
+		}  catch (error) {
+			console.log('error in page:', error);
 		}
 	};
 
@@ -90,19 +69,19 @@ const Login = () => {
 				className={clsx(styles.input, styles.textInput)}
 			/>
 			<div className={styles.btnContainer}>
-				<button type="submit" onClick={() => submitHandler()} className={styles.addBtn}>
+				<button type="submit" onClick={() => submitHandler(userEmailInput, userPasswordInput)} className={styles.addBtn}>
 					Logga in
 				</button>
 			</div>
 			Har du inget konto?{' '}
-			<Link href={`/register`} passHref>Skapa konto
+			<Link href={`/register?redirect=${redirect || '/'}`} passHref>
+			{/* <Link href={`/register`} passHref> */}
+				Skapa konto
 			</Link>
 			{errMessage}
       	</section>
     </div>
   );
-}
+};
 
 export default Login;
-
-

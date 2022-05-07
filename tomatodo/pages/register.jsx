@@ -1,26 +1,46 @@
 import React, { useContext, useEffect, useState } from 'react';
 import styles from '../components/Forms/styles/form.module.scss';
 import clsx from "clsx";
-import {useUpdateContext, useTodoContext, useUserContext} from "../context/TodoContext";
-
+import { useUpdateContext, useTodoContext } from "../context/TodoContext";
+import { useUserStore } from '../context/UserStore';
 import Link from 'next/link';
-
 import { useRouter } from 'next/router';
-
+import jsCookie from 'js-cookie';
+import axios from 'axios';
 
 
 const Register = () => {
-	const userState = useUserContext();
 	const todoState = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = todoState.fetchTodos;
 	const [errMessage, setErrMessage] = useState('');
+	const [userNameInput, setUserNameInput] = useState('');
 	const [userEmailInput, setUserEmailInput] = useState('');
 	const [userPasswordInput, setUserPasswordInput] = useState('');
 	const [repeatPasswordInput, setRepeatPasswordInput] = useState('');
 
-  const router = useRouter();
+	const { state, dispatch } = useUserStore();
+	const { userInfo } = state;
 
+	const router = useRouter();
+
+	const { redirect } = router.query;
+
+  //OM REDAN INLOGGAD, REDIRECT ISTÄLLET FÖR ATT VISA DENNA SIDA
+  /* useEffect(() => {
+		if(userInfo && userInfo !== undefined) {
+			router.push('/');
+		}
+  	}, [router, userInfo, redirect]); */
+
+
+  /* useEffect(() => {
+	 state: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')): null;
+    if (userInfo) {
+
+      router.push(redirect || '/');
+    }
+  }, [router, userInfo, redirect]); */
 
   useEffect(() => {
     setErrMessage('')
@@ -30,8 +50,7 @@ const Register = () => {
   const validateRepeat = () => {
 	const numberOfChars = repeatPasswordInput.split('').length;
 	const checkNumber = userPasswordInput.split('').slice(0, numberOfChars).join('');
-	  console.log(numberOfChars, checkNumber, userPasswordInput, repeatPasswordInput === checkNumber)
-	  repeatPasswordInput !== checkNumber ? setErrMessage('Inte samma') : setErrMessage('');
+	  repeatPasswordInput !== checkNumber ? setErrMessage('Inte samma.') : setErrMessage('');
   }
 
   useEffect(() => {
@@ -40,42 +59,58 @@ const Register = () => {
   }, [repeatPasswordInput]);
 
 
-  const submitHandler = async () => {
-	if ( !userEmailInput.includes('@') || 
-		!userEmailInput.split('').slice(userEmailInput.split('').findIndex(x => x === '@')).includes('.') || 
-		!userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).join('').length > -1 || 
-		!userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).findIndex(x => typeof x !== 'string' > -1)) {
-		console.log(
+  const submitHandler = async ( name, email, password ) => {
+	if (!userNameInput || !userNameInput.length > 1) {
+		setErrMessage("Namnet måste vara minst 2 tecken långt.");
+	} else if ( !userEmailInput.includes('@') || 
+		!userEmailInput.split('').slice(userEmailInput.split('').findIndex(x => x === '@')).includes('.') 
+		//|| !userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).join('').length > -1 
+		//|| !userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).findIndex(x => typeof x !== 'string' > -1)
+		) {
+		/* console.log(
 			userEmailInput.includes('@'),
 			userEmailInput.split('').slice(userEmailInput.split('').findIndex(x => x === '@')).includes('.'), 
 			userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).join('').length > -1, 
-			userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).findIndex(x => Number(x) > -1))
+			userEmailInput.split('').reverse().slice(userEmailInput.split('').findIndex(x => x === '.')).findIndex(x => Number(x) > -1)) */
 
 		setErrMessage("Inte giltig emailadress.");
-		} else if (userPasswordInput.length < 6 || userPasswordInput.split('').findIndex(x => Number(x) > -1) || userPasswordInput.split('').findIndex(x => typeof x === 'string')) {
-			userPasswordInput.split('').map(x => console.log(typeof x, userPasswordInput.split('').findIndex(x => Number(x) > -1)))
+		} else if (userPasswordInput.length < 6
+			//|| userPasswordInput.split('').findIndex(x => Number(x) > -1)
+		//|| userPasswordInput.split('').findIndex(x => typeof x === 'string')
+		) {
+			/* userPasswordInput.split('').map(x => console.log(typeof x, userPasswordInput.split('').findIndex(x => Number(x) > -1))) */
 				setErrMessage("Lösenordet måste vara minst 6 tecken långt och innehålla minst 1 siffra.");
 		} else {
-			await fetch('api/users/login', {
-				method: 'POST',
-				body: JSON.stringify({
-						email: userEmailInput,
-						password: userPasswordInput,
-					})
-			})
-			.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, title: userEmailInput, action: 'inloggad', res: response.ok}))
-			.catch(error => {
-				console.log('error:', error);
-			})
+			try {
+				const { data } = await axios.post('/api/users/register', {
+				  name,
+				  email,
+				  password,
+				});
+				dispatch({ type: 'USER_LOGIN', payload: data });
+				jsCookie.set('userInfo', JSON.stringify(data));
+				router.push(redirect || '/');
+			}  catch (error) {
+				console.log('error in page:', error);
+			}
 		}
 	};
 
   return (
     <div className={clsx(styles.loginPageWrapper)} >
-      	<section onSubmit={() => handleSubmit(submitHandler)} className={clsx(styles.formContainer, styles.formIsVisible)}>
+      	<section className={clsx(styles.formContainer, styles.formIsVisible)}>
 			<h1 className={styles.formHeader}>
 			Logga in
 			</h1>
+			<input
+				name="name"
+				type={'text'}
+				id="name"
+				label="Name"
+				placeholder='namn'
+				onChange={(e) => setUserNameInput(e.target.value)}
+				className={clsx(styles.input, styles.textInput)}
+			/>
 			<input
 				name="email"
 				type={'email'}
@@ -104,12 +139,15 @@ const Register = () => {
 				className={clsx(styles.input, styles.textInput)}
 			/>
 			<div className={styles.btnContainer}>
-				<button type="submit" onClick={() => submitHandler()} className={styles.addBtn}>
+				<button type="button" onClick={() => submitHandler(userNameInput, userEmailInput, userPasswordInput)} className={styles.addBtn}>
 					Skapa konto
 				</button>
 			</div>
-			<Link href={`/login`} passHref>Logga in
+			<Link href={`/login`} forwardRef>Logga in
 			</Link>
+            {/* <Link href={`/login?redirect=${redirect || '/'}`} forwardRef>
+			Har du redan ett konto?{' '}
+            </Link> */}
 			{errMessage}
       	</section>
     </div>
@@ -117,6 +155,3 @@ const Register = () => {
 }
 
 export default Register;
-
-
-

@@ -1,0 +1,58 @@
+@import './variables.scss';
+
+.userContainer {
+	//z-index: 99999;
+	z-index: 99;
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: flex;
+	width: 100vw;
+	height: 40px;
+	background-color: #bce2f9dc;
+	justify-content: flex-end;
+	padding: 5px;
+
+	.textContent {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		margin: 0 10px;
+	}
+
+	.inloggad {
+		font-size: 0.65rem;
+		line-height: 1rem;
+		margin: 0;
+		font-weight: bold;
+	}
+
+	.userName {
+		font-size: 0.65rem;
+		line-height: 1rem;
+		margin: 0;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+
+	button {
+		@include hover-btn;
+		@include active-btn;
+		font-weight: 600;
+		margin: 0 2px;
+		border-radius: 100px;
+		padding: 0 10px;
+
+		&:first-child {
+			border: 2px solid $color-pink;
+			background-color: $color-white;
+			color: $color-pink;
+		}
+
+		&:last-child {
+			border: 2px solid $color-white;
+			color: $color-white;
+			background-color: $color-pink;
+		}
+	}
+}

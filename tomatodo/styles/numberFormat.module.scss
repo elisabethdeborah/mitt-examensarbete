@@ -1,0 +1,12 @@
+@import './variables.scss';
+
+.numbersContainer {
+	display: flex;
+
+	.number {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 50px;
+	}
+}

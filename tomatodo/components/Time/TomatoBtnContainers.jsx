@@ -97,14 +97,15 @@ const TomatoBtnContainers = ({ functions, states }) => {
 								})}
 								</div>
 								<div className={styles.volumeBtnGroup}>
-							<button className={styles.volumController} onClick={() =>  setVolume('subtract', states.volume)}> - </button>
-							<p className={styles.volumePercent}>{`${states.volume * 100}%`}</p>
-							<button className={styles.volumController} onClick={() => setVolume('add', states.volume)}> + </button>
+								<button className={styles.volumController} onClick={() =>  setVolume('subtract', states.volume)}> – </button>
+								<p className={styles.volumePercent}>{`${states.volume * 100}%`}</p>
+								<button className={styles.volumController} onClick={() => setVolume('add', states.volume)}> + </button>
 							</div>
 							</div>
+							
 						</>		
 				)}
-				<button className={styles.showVolumeBtn} onClick={() => setShowVolume(!showVolume)}>{showVolume ? 'dölj':'ändra volym'}</button>
+				<button className={clsx(styles.showVolumeBtn, {[styles.open]: showVolume, [styles.close]: !showVolume})} onClick={() => setShowVolume(!showVolume)}>{showVolume ? '–':'+/-'}</button>
 			</>
 		}	
 		</section>)

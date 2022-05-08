@@ -12,13 +12,19 @@
 	background-size: cover;
 	overflow: visible;
 	&.saveBtn {
-		width: 60px;
-		height: 64px;
+		right: 10px;
+		bottom: 10px;
+		width: 64px;
+		height: 70px;
 		background-size: contain;
 		background-color: transparent;
 		border-radius: 0;
-		bottom: 13px;
-		right: 10px;
+		
+		@media screen and (min-width: 600px) {
+			bottom: 13px;
+			width: 60px;
+			height: 64px;
+		}
 	}
 
 	&.disabled {
@@ -70,7 +76,7 @@
 }
 
 .buttonContainer {
-	//position: relative;
+	position: relative;
 	display: flex;
 	flex-direction: row;
 	max-width: 90vw;
@@ -152,40 +158,55 @@
 .showVolumeBtn {
 	@include hover-btn;
 	@include active-btn;
+
+	z-index: 10;
 	position: absolute;
-	right: 200px;
+	right: -10px;
+	bottom: -25px;
+	height: fit-content;
 	background-color: $color-orange;
 	color: $color-white;
 	border: none;
 	padding: 4px 8px;
 	font-size: 1rem;
 	font-weight: 600;
-	border-radius: 2px;
+	border-radius: 4px;
+
+	@media screen and (min-width: 600px) {
+		right: -40px;
+		bottom: 0;
+	}
 }
 
 .volumeSection {
+	z-index: 9;
 	position: absolute;
-	right: 0;
+	right: -5vw;
+	bottom: 7vh;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 20px 15px 10px;
+	padding: 20px 15px 15px;
 	border-radius: 5px;
-	background-color: #4d4b4b26;
+	background-color: #ffffffe1;
 
+	@media screen and (min-width: 600px) {
+		background-color: #ffffffac;
+	}
 	
 }
 
 .volumeBtnGroup {
-//	position: absolute;
+	//position: absolute;
 	bottom: 0;
 	right: 0;
 	display: flex;
 	flex-direction: row;
-	height: 20px;
+	height: 18px;
 	margin-top: 20px;
-	width: 80%;
+	width: 100%;
 	align-items: center;
+	justify-content: center;
 
 	.volumePercent {
 		width: 100%;
@@ -196,7 +217,7 @@
 	.volumController {
 		@include hover-btn;
 		@include active-btn;
-		background-color: $color-orange;
+		background-color: #4d4b4ba0;
 		color: $color-white;
 		display: flex;
 		justify-content: center;
@@ -208,6 +229,17 @@
 		width: 40px;
 		height: 30px;
 		border-radius: 3px;
+		transition: transform 0 filter 0;
+
+		&:first-child {
+			padding-bottom: 5px;
+		}
+
+		&:active {
+			transform: translateY(1px)  scale(0.99);
+			filter: brightness(0.7);
+			transition: transform 0;
+		}
 	}
 }
 

@@ -55,4 +55,10 @@
 			background-color: $color-pink;
 		}
 	}
+
+	&.mobile {
+		position: relative;
+		background-color: transparent;
+		justify-content: center;
+	}
 }

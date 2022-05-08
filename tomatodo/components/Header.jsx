@@ -6,7 +6,7 @@ import Hamburger from '../svgAssets/hamburger.svg';
 import Link from 'next/link';
 import CloseNav from '../svgAssets/deleteTomatoWhiteNew.svg';
 
-const Header = () => {
+const Header = ({ width }) => {
 	const [navIsOpen, setNavIsOpen] = useState(false);
 	return (
 		<header className={styles.header}>
@@ -19,7 +19,7 @@ const Header = () => {
 					<h1 className={clsx(styles.logoHeader, styles.partTwo)}>todo</h1>
 				</section>
 			</Link>
-			<Navigation navIsOpen={navIsOpen} setNavIsOpen={setNavIsOpen} />
+			<Navigation navIsOpen={navIsOpen} setNavIsOpen={setNavIsOpen} width={width} />
 		</header>
 	);
 };

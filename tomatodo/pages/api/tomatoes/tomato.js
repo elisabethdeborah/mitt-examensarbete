@@ -2,9 +2,11 @@ import client from "../../../lib/sanity";
 
 const tomato = async function handler(req, res) {
 	let newTomato; 
+	
 	switch (req.method) {
 		case "POST":
 			newTomato = await JSON.parse(req.body);
+			console.log('newTomato: ', newTomato)
 			try {
 				await client
 				.create({
@@ -14,6 +16,11 @@ const tomato = async function handler(req, res) {
 					time: Number(newTomato.time),
 					publishedAt: new Date().toISOString(),
 					numberOfClicks: 0,
+					user: {
+						_type: "reference",
+						_ref: `${newTomato.userId}`,
+						_weak: true
+					}
 				})
 				.then((res) => {
 					console.log(`Tomato was created, document ID is ${res._id}. Res body is ${res.body}`);

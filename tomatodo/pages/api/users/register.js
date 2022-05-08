@@ -19,6 +19,7 @@ handler.post(async (req, res) => {
 			email: req.body.email,
 			password: bcrypt.hashSync(req.body.password),
 			isAdmin: false,
+			registerDate: new Date().toISOString(),
 		},
 		},
 	];

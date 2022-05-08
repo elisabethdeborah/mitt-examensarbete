@@ -11,6 +11,13 @@ const todolist = async function handler(req, res) {
 					title: newTodoList.title,
 					publishedAt: new Date().toISOString(),
 					saved: false,
+					user: newTodoList.user,
+					numberOfClicks: 0,
+					user: {
+						_type: "reference",
+						_ref: `${newTodoList.userId}`,
+						_weak: true
+					}
 				})
 				.then((res) => {
 					console.log(`TodoList was created, document ID is ${res._id}. Res body is ${res.body}`);

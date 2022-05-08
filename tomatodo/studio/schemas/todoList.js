@@ -9,15 +9,6 @@ export default {
 		type: "string",
 		validation: Rule => [Rule.max(50).warning('Kortare namn är oftast bättre'), Rule.required().min(1).error('Namnet måste vara minst 1 tecken/bokstav långt')],
 	  },
-	  /* {
-		name: "slug",
-		title: "Slug",
-		type: "slug",
-		options: {
-		  source: "title",
-		  maxLength: 96
-		}
-	  }, */
 	  {
 		name: "publishedAt",
 		title: "Published at",
@@ -36,10 +27,25 @@ export default {
 			{type: "todo"}
 		],
 	},
+	{
+		title: "Antal omstarter",
+		name: "numberOfClicks",
+		type: "number",
+		description: "Antal klick (starta om lista) för att se hur populär listan är",
+	},
+	{
+		title: "Användare",
+		name: "user",
+		description: "Användare som listan tillhör",
+		type: "reference",
+		weak: true,
+		to: [{type: "user"}]
+	}
 	],
 	initialValue: () => ({
 		saved: false,
-		publishedAt: new Date().toISOString()
+		publishedAt: new Date().toISOString(),
+		numberOfClicks: 0,
 	  }),
 	preview: {
 	  select: {

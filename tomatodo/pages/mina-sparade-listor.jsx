@@ -17,7 +17,7 @@ const SparadeListor = () => {
 	const fetchAllLists = state.fetchTodos;
 	const [isLoading, setIsLoading] = useState(false);
 
-	const savedLists = state.initialFetch? state.initialFetch.allTodoLists.filter(x => x.saved && x.numberOfNotChecked === 0):null;
+	const savedLists = state.initialFetch? state.initialFetch.savedLists:null;
 
 	useEffect(() => {
 		setIsLoading(true);
@@ -59,9 +59,12 @@ const SparadeListor = () => {
 		};	
 	};  
 
-	const closeAll = (x) => {
-		setaddToListIsVisible(x);
-		setShowStartList(x);
+	const closeAll = () => {
+		setaddToListIsVisible(false);
+		setShowStartList(false);
+		setShowListObject(false);
+			currentState.setCurrentItem(null);
+			setListObjectIndex(null);
 	};
 
 	const closeOverlay = () => {
@@ -81,9 +84,7 @@ const SparadeListor = () => {
 				<DeleteButton list={currentState.currentItem} type={'deleteLg'} />
 			)}
 			{addToListIsVisible && (
-				<section className={styles.restartForm}>
-					<PopupLists setPopupIsOpen={closeAll} />
-				</section>
+				<PopupLists closeAll={closeAll} />
 			)}
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>

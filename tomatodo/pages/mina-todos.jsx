@@ -13,24 +13,13 @@ export default function MinaTodos() {
 	const [flexDirection, setFlexDirection] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const [open, setOpen] = useState(0); 
-
-	const state = useTodoContext();
+	const [lists, setLists] = useState({activeLists: null, savedLists: null, tomatoLibrary: null});
+	const todoState = useTodoContext();
 	const currentState = useUpdateContext();
-	const fetchAllLists = state.fetchTodos;
-	
-	let activeLists;
-	let savedLists;
-	let titles;
-	let limboLists;
-	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
+	const fetchAllLists = todoState.fetchTodos;
+	let titles = lists.activeLists && lists.activeLists.map(x => x.title);
 
-	if (state.initialFetch) {
-		activeLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-		savedLists = state.initialFetch.allTodoLists.filter(x => x.saved);
-		titles = activeLists.map(x => x.title);
-		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved);
-	};
-	
+
 	const handleSideListArrow = () => {
 		setFlexDirection(true);
 		setTimeout(() => {
@@ -47,14 +36,26 @@ export default function MinaTodos() {
 	}, []);
 
 	useEffect(() => {
-		activeLists && savedLists ? setIsLoading(false) : setIsLoading(true);
-		limboLists ? setDisplayWarning(true): null;
-		open < 0 || !open ? setOpen(0) : console.log('open?', open);
+		if (todoState.initialFetch) {
+			setLists({activeLists: todoState.initialFetch.activeLists, savedLists: todoState.initialFetch.savedLists, tomatoLibrary: todoState.initialFetch.tomatoLibrary})
+			setIsLoading(false);
+		} else {
+			setIsLoading(true);
+		}; 
 		return () => setIsLoading(false);
-	}, [activeLists, savedLists]);
+	}, [todoState.initialFetch]);
 
 	useEffect(() => {
-		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
+		
+		lists.activeLists && lists.savedLists ? setIsLoading(false) : setIsLoading(true);
+		open < 0 || !open ? setOpen(0) : console.log('open?', open);
+		return () => setIsLoading(false);
+	}, [lists.activeLists, lists.savedLists]);
+
+	useEffect(() => {
+		titles ?
+		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title)) : null;
+		return () => setOpen(0);
 	}, [currentState.currentItem]);
 
 	return (
@@ -80,8 +81,8 @@ export default function MinaTodos() {
 					} 
 					{
 						<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
-							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={savedLists} activeLists={activeLists} />
-							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={activeLists && activeLists.length > 1 ? activeLists : null}  activeLists={activeLists} />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={lists.savedLists} activeLists={lists.activeLists} />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={lists.activeLists && lists.activeLists.length > 1 ? lists.activeLists : null}  activeLists={lists.activeLists} />
 						</section>
 					}
 					<div className={styles.todoListWrapper}>
@@ -96,19 +97,19 @@ export default function MinaTodos() {
 							)
 						}
 						{
-							activeLists && activeLists.length > 0? (
-								activeLists.map((lista, index) => (
+							lists.activeLists && lists.activeLists.length > 0? (
+								lists.activeLists.map((lista, index) => (
 									open === index && (
 										<TodoList key={lista._id} list={lista} />
 									)
 								))
-							) : (
-								<section className={styles.emptyList}>
-									<div className={styles.todoListTop} />
-									<article className={styles.addListIconBtn} onClick={() => currentState.setFormIsVisible()} />
-									<h3>Du har inga pågående listor</h3>
-								</section>
-							)
+								) : (
+									<section className={styles.emptyList}>
+										<div className={styles.todoListTop} />
+										<article className={styles.addListIconBtn} onClick={() => currentState.setFormIsVisible()} />
+										<h3>Du har inga pågående listor</h3>
+									</section>
+								)
 						}
 					</div>
 				</div>

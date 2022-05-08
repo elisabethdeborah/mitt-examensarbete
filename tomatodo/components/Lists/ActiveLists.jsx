@@ -7,15 +7,12 @@ import {useUpdateContext, useTodoContext} from "../../context/TodoContext";
 import SmallListObj from './SmallListObj';
 import clsx from 'clsx';
 
-const ActiveLists = ({ tomato, previewLists }) => {
+const ActiveLists = ({ tomato, previewLists, setAddListFormIsVisible }) => {
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
-	let lista;
+	let lista = state.initialFetch ? state.initialFetch.activeLists : null;
 
-	if (state.initialFetch) {
-		lista = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked > 0 || x.nrOfTodos === 0);
-	};
 
 	const postTomatoTodo = async(tomatoTodo, toList) => {
 		await fetch("/api/todos/todo", {
@@ -42,7 +39,7 @@ const ActiveLists = ({ tomato, previewLists }) => {
 		setTimeout(() => {
 			currentState.setOverlay(true);
 		}, 10);
-		return () => currentState.handleGoBack(false);
+		return () => setAddListFormIsVisible(false);
 	}, []);
 
 	return (
@@ -60,7 +57,7 @@ const ActiveLists = ({ tomato, previewLists }) => {
 						{lista.map((list, index) => {
 							return (
 								<div onClick={() => handleClickOpen(list, tomato)} key={list._id}>
-									<SmallListObj setPopupIsOpen={null} contentIsVisible={true} item={list} listObjIndex={index} page={'archive'}/>
+									<SmallListObj  contentIsVisible={true} item={list} listObjIndex={index} page={'archive'}/>
 								</div>
 							)
 						})}
@@ -72,7 +69,7 @@ const ActiveLists = ({ tomato, previewLists }) => {
 						</aside>
 					</>
 					:<>
-						<h3>Tomt!</h3>
+						<h3 className={styles.tomtHeader}>Tomt!</h3>
 						<aside className={styles.optionContainer}>
 							<button className={styles.addTodoList} onClick={() => currentState.setFormIsVisible(true)} >
 								<h2>Skapa ny lista</h2>

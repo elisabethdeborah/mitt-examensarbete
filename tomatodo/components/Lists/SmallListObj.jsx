@@ -5,7 +5,7 @@ import { useUpdateContext } from "../../context/TodoContext";
 import {useRouter} from 'next/router';
 import styles from './styles/listContainer.module.scss';
 
-const SmallListObj = ({ item, listObjIndex, contentIsVisible, setPopupIsOpen }) => {
+const SmallListObj = ({ item, listObjIndex, contentIsVisible,setOpen }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 
@@ -13,7 +13,7 @@ const SmallListObj = ({ item, listObjIndex, contentIsVisible, setPopupIsOpen }) 
 		if ( router.pathname !== '/mina-tomater') {
 			currentState.setCurrentItem({...x, listObjIndex: listObjIndex});
 			console.log({...x, listObjIndex: listObjIndex});
-			x.saved ? setPopupIsOpen(true):null;
+			x.saved ? currentState.setPopupIsOpen(true):null;
 			if (item._type === 'todoList' && !item.saved && router.pathname !== '/mina-todos') {
 				router.push('/mina-todos');
 			} else if (item._type === 'tomato') {

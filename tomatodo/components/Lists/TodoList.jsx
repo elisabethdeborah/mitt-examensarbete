@@ -6,7 +6,6 @@ import ListObj from './ListObj';
 import Form from '../Forms/Form';
 import Resize from '../Resize';
 import { useUpdateContext, useTodoContext } from "../../context/TodoContext";
-import LimboLists from "./LimboListsComponent";
 
 const TodoList = ({ list }) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
@@ -14,14 +13,8 @@ const TodoList = ({ list }) => {
 	const sectionRef = useRef();
 	const [width, setWidth] = useState(); 
 	const [isLoading, setIsLoading] = useState(false);
-	const state = useTodoContext();
+	const todoState = useTodoContext();
 	const currentState = useUpdateContext();
-	let limboLists;
-	const [displayWarning, setDisplayWarning] = useState(limboLists && limboLists.length > 0);
-
-	if (state.initialFetch) {
-		limboLists = state.initialFetch.allTodoLists.filter(x => x.numberOfNotChecked === 0 && !x.saved && x.nrOfTodos > 0);
-	};
 
 	const handleAddList = () => {
 		setAddListFormIsVisible(true);
@@ -42,9 +35,8 @@ const TodoList = ({ list }) => {
 
 	useEffect(() => {
 		list && list.todos ? setIsLoading(false) : setIsLoading(true);
-		limboLists ? setDisplayWarning(true): null;
 		return () => setIsLoading(false);
-	}, [list, state.initialFetch]);
+	}, [list, todoState.initialFetch]);
 
 	return (
 		list? (
@@ -71,12 +63,6 @@ const TodoList = ({ list }) => {
 							typeName={'lista'} 
 						/>
 					)
-				}
-				{
-					displayWarning && 
-					<div className={styles.limboListContainer}>
-						{limboLists && limboLists.map((x) => <LimboLists key={x._id} list={x} setDisplayWarning={setDisplayWarning} />)}
-					</div>
 				}
 				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 				{ 

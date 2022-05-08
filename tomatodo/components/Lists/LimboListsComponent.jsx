@@ -1,10 +1,11 @@
-import React from 'react';
-import styles from '../../components/Forms/styles/form.module.scss';
-import { useTodoContext} from "../../context/TodoContext";
+import React, { useEffect } from 'react';
+import styles from '../../components/Lists/styles/deleteBtn.module.scss';
+import {useTodoContext, useUpdateContext} from "../../context/TodoContext";
 import DeleteButton from './DeleteButton';
 
-const LimboLists = ({ list, tomato, previewLists, setDisplayWarning }) => {
+const LimboLists = ({ list, setDisplayWarning }) => {
 	const state = useTodoContext();
+	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
 
 	const handleClick = async() => {
@@ -40,19 +41,26 @@ const LimboLists = ({ list, tomato, previewLists, setDisplayWarning }) => {
 				console.log('error:', error);
 			})
 		})
-		setDisplayWarning(false);
 		fetchAllLists();
+		currentState.setOverlay(false);
 	};
 
+	useEffect(() => {
+		currentState.setOverlay(true);
+	}, []);
+
 	return (
-		<div className={styles.listContainer}>
+		<div className={styles.deleteWarning}>
 				<article
 					className={(styles.hiddenLists)}
 				>
 				<section className={styles.textGroup}>
-					<h2> Alla todos är färdiga, bra jobbat!</h2>
-					<h3>Vill du spara eller ta bort denna lista?</h3>
-					<h2>{list.title}</h2>
+					<h1> Alla todos är färdiga, bra jobbat!</h1>
+					<div className={styles.question}>
+						<p>Vill du spara eller ta bort 
+						<span>{` "${list.title}"`}</span>
+						?</p>
+					</div>
 					<div className={styles.btnContainer}>
 						<DeleteButton setDisplayWarning={setDisplayWarning} listItem={list} size={'regular'} text={'delete'} />
 						<input type={"button"} className={styles.addBtn} value="Spara" onClick={() => handleClick()} />

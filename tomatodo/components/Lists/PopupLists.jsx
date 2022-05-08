@@ -1,12 +1,15 @@
-import styles from './styles/limboLists.module.scss';
+import { useState, useEffect } from 'react';
+import styles from './styles/deleteBtn.module.scss';
 import { useUpdateContext, useTodoContext} from "../../context/TodoContext";
 import {useRouter} from 'next/router';
+import clsx from 'clsx';
 
-const PopupLists = ({ previewTodosList, setPopupIsOpen }) => {
+const PopupLists = ({ previewTodosList,closeAll }) => {
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	const state = useTodoContext()
 	const fetchAllLists = state.fetchTodos;
+	//const [overlay, setOverlay] = useState(false);
 	
 	const handleClick = async(list) => {
 		console.log('SAVE!!!', list._id)
@@ -44,33 +47,56 @@ const PopupLists = ({ previewTodosList, setPopupIsOpen }) => {
 		})
 		
 		currentState.setCurrentItem(null);
-		setPopupIsOpen(false);
+		currentState.setPopupIsOpen(false);
 		fetchAllLists();
+		closeAll ? closeAll() : null;
 		currentState.setOverlay(false);
 		router.push('/mina-todos');
 	};
 
 	const handleClose = () => {
-		setPopupIsOpen(false);
+		currentState.setOverlay(false);
+		currentState.setPopupIsOpen(false);
 	};
+
+	useEffect(() => {
+		currentState.setOverlay(true);
+		return () => {
+			currentState.setPopupIsOpen(false);
+			currentState.setOverlay(false);
+		};
+	}, []);
+
+	/* useEffect(() => {
+		if (currentState.overlay && !popupIsOpen) {
+		//setPopupIsOpen(false);
+		}
+
+		if (!currentState.overlay && popupIsOpen) {
+		//	setPopupIsOpen(false);
+		}
+	}, [currentState.overlay]); */
 
 	return (
 		currentState.currentItem && currentState.currentItem._id && currentState.currentItem.saved && (
-			<article className={styles.popupContainer}>
+			<div className={styles.deleteWarning}>
 				<section className={styles.textGroup}>
-					<h2>
+					<h2 className={styles.removeHeader}>
 						Vill du starta om 
 							<span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>
 						?
 					</h2>
 					<div className={styles.btnContainer}>
-						<input type={"button"} className={styles.closeForm} value="Stäng" onClick={() => handleClose()} />
+						<input type={"button"} className={styles.closeForm} value="Stäng" onClick={() => closeAll()} />
 						<input type={"button"} className={styles.addBtn} value="Starta" onClick={() => handleClick(currentState.currentItem)} />
 					</div>
 				</section>
-			</article>
+			</div>
 		)
 	)
 }
+
+
+				
 
 export default PopupLists;

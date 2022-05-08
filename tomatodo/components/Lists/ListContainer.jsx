@@ -7,25 +7,18 @@ import { useRouter } from "next/router";
 import SmallListObj from './SmallListObj';
 import PopupLists from './PopupLists';
 
-const ListContainer = ({ itemType, setSideListsVisible, open, list }) => {
+const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 	const [contentIsVisible, setContentIsVisible] = useState(router.pathname === '/'  && itemType === "todos" || router.pathname === '/mina-tomater' && itemType === "tomater" || router.pathname === '/mina-sparade-listor' && itemType === 'sparade-listor');
-	
-	const [popupIsOpen, setPopupIsOpen] = useState(false);
-	//const [overlay, setOverlay] = useState(false);
-
-	useEffect(() => {
-		popupIsOpen ? currentState.setOverlay(true) : null;
-	}, [popupIsOpen]);
 
 	return (
 		<>
-			{
-				popupIsOpen && (
-					<PopupLists setPopupIsOpen={setPopupIsOpen} />
+			{/* {
+				currentState.popupIsOpen && (
+					<PopupLists />
 				)
-			}
+			} */}
 			<div className={clsx(styles.listContainer, {
 				[styles.showContent]: contentIsVisible,
 				[styles.homePage]: router.pathname === '/',
@@ -67,7 +60,7 @@ const ListContainer = ({ itemType, setSideListsVisible, open, list }) => {
 										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 									)
 								) : (
-									<SmallListObj setPopupIsOpen={setPopupIsOpen} contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
+									<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} setOpen={setOpen} />
 								)
 							)
 						}) : (

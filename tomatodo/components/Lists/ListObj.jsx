@@ -2,18 +2,18 @@ import DeleteButton from './DeleteButton';
 import clsx from 'clsx';
 import CheckBox from './CheckBox';
 import styles from './styles/todoList.module.scss';
-import {useUpdateContext, useTodoContext} from "../../context/TodoContext";
+import {useUpdateContext} from "../../context/TodoContext";
 import NumberFormat from '../NumberFormat';
 import PlayTimerBtn from '../PlayTimerBtn';
 import React, {useState} from 'react';
 
-const ListObj = ({listItem, width}) => {
+const ListObj = ({ listItem, width }) => {
 	const [styleChecked, setStyleChecked] = useState(listItem.checked === true);
 	const currentState = useUpdateContext();
 
 	return (
 		<>
-			{
+			{/* {
 				listItem && listItem.saved && (
 					<div>
 						<h2>Vill du spara eller ta bort listan? </h2>
@@ -23,10 +23,10 @@ const ListObj = ({listItem, width}) => {
 						<button onClick={() => console.log(allChecked.listFinished.title)}>Ta bort</button>
 					</div>
 				)
-			}
+			} */}
 			{
 				listItem ? (
-					width < 500 ? 
+					width < 450 ? 
 						<article 
 							key={listItem._id} 
 							className={clsx(styles.todoArticle, {

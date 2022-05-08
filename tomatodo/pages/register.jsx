@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from '../components/Forms/styles/form.module.scss';
+import styles from '../styles/Home.module.scss';
 import clsx from "clsx";
 import { useUpdateContext, useTodoContext } from "../context/TodoContext";
 import { useUserStore } from '../context/UserStore';
@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import jsCookie from 'js-cookie';
 import axios from 'axios';
+import LoginForm from '../components/Forms/LoginForm';
 
 const Register = () => {
 	const todoState = useTodoContext();
@@ -23,15 +24,15 @@ const Register = () => {
 
 	const router = useRouter();
 
-	const { redirect } = router.query;
+	//const { redirect } = router.query;
 
   //OM REDAN INLOGGAD, REDIRECT ISTÄLLET FÖR ATT VISA DENNA SIDA
-  useEffect(() => {
+  /* useEffect(() => {
 		if(userInfo) {
-			console.log('userInfo: ', JSON.parse(userInfo))
-			router.push(redirect || '/');
+			console.log('register page userInfo: ', userInfo)
+			router.push('/');
 		}
-  	}, [router, userInfo, redirect]);
+  	}, [router, userInfo]);
 
   useEffect(() => {
     setErrMessage('')
@@ -72,11 +73,15 @@ const Register = () => {
 				console.log('error in page:', error);
 			}
 		};
-	};
+	}; */
 
   return (
     <div className={clsx(styles.loginPageWrapper)} >
-      	<section className={clsx(styles.formContainer, styles.formIsVisible)}>
+		<LoginForm />
+{/* 
+{console.log(router.pathname)}
+      	<section className={clsx(styles.formContainer, styles.formIsVisible, {
+				[styles.userForm]: router.pathname === '/register' || router.pathname === '/login'})}>
 			<h1 className={styles.formHeader}>
 			Ny användare
 			</h1>
@@ -121,11 +126,11 @@ const Register = () => {
 					Skapa konto
 				</button>
 			</div>
-            <Link href={`/login?redirect=${redirect || '/'}`} passHref>
+            <Link href={'/login'} passHref>
 				Har du redan ett konto?
             </Link>
 			{errMessage}
-      	</section>
+      	</section> */}
     </div>
   );
 }

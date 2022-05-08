@@ -7,6 +7,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import jsCookie from 'js-cookie';
+import LoginForm from '../components/Forms/LoginForm';
 
 const Login = () => {
 	const todoState = useTodoContext();
@@ -30,7 +31,7 @@ const Login = () => {
 		}
 	}, [router, userInfo, redirect]);
 
-  	const submitHandler = async ( email, password ) => {
+  /* 	const submitHandler = async ( email, password ) => {
 		try {
 			const { data } = await axios.post('/api/users/login', {
 				email,
@@ -42,11 +43,14 @@ const Login = () => {
 		}  catch (error) {
 			console.log('error in page:', error);
 		}
-	};
+	}; */
 
   return (
     <div className={clsx(styles.loginPageWrapper)} >
-      	<section onSubmit={() => handleSubmit(submitHandler)} className={clsx(styles.formContainer, styles.formIsVisible)}>
+		<LoginForm />
+{/* {console.log(router.pathname)}
+      	<section onSubmit={() => handleSubmit(submitHandler)} className={clsx(styles.formContainer, styles.formIsVisible, {
+				[styles.userForm]: router.pathname === '/register' || router.pathname === '/login'})}>
 			<h1 className={styles.formHeader}>
 			Logga in
 			</h1>
@@ -74,12 +78,12 @@ const Login = () => {
 				</button>
 			</div>
 			Har du inget konto?{' '}
-			<Link href={`/register?redirect=${redirect || '/'}`} passHref>
-			{/* <Link href={`/register`} passHref> */}
+			<Link href={`/register`} passHref>
+			{/* <Link href={`/register`} passHref> *
 				Skapa konto
 			</Link>
 			{errMessage}
-      	</section>
+      	</section> */}
     </div>
   );
 };

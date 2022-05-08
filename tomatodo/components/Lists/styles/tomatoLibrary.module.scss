@@ -14,12 +14,13 @@
 	background-color: $color-container-bg-transp;
 	border-radius: 20px;
 	margin: 2rem auto;
-	padding: 40px 0 30px;
+	padding: 40px 20px 30px 0;
 	flex-wrap: wrap;
 	width: 90vw;
 	margin-top: 4%;
 	display: grid;
 	gap: 5px;
+	box-shadow: 0px 0px 50px $color-box-shadow-dark;
 	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
 	.gridItem {
@@ -118,23 +119,6 @@
 		border-radius: 30px;
 	}
 }
-
-/* .showOverlay {
-	z-index: 9;
-	position: fixed;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
-	background-color: #212121;
-	opacity: 0;
-	transition: opacity 0.5s ease;
-
-	&.overlayVisible {
-		opacity: 0.8;
-		transition: opacity 0.5s ease;
-	}
-} */
 
  .showActiveLists {
 	height: 0;

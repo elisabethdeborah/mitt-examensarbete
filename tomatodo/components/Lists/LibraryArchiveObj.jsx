@@ -2,13 +2,15 @@ import React, { useState } from "react";
 import styles from "./styles/libraryArchiveObj.module.scss";
 import clsx from "clsx";
 import NumberFormat from "../NumberFormat";
-import PlayBtn from "../PlayTimerBtn";
+import PlayTimerBtn from "../PlayTimerBtn";
 import DeleteButton from "./DeleteButton";
 import { useUpdateContext } from "../../context/TodoContext";
+import { useRouter } from 'next/router';
 
 const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handleClick, setaddToListIsVisible, setShowDelete, setShowChangeForm, closeOverlay }) => {
 	const [showHover, setShowHover] = useState(false);
 	const currentState = useUpdateContext();
+	const router = useRouter();
 
 	const handleClickObj = (index, list) => {
 		currentState.setCurrentItem(list);
@@ -16,14 +18,18 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 	};
 
 	const handleShowSettings = () => {
+		currentState.setFormIsVisible(true);
 		setaddToListIsVisible(false);
-		console.log('list', list)
-		list._type === 'tomato' ? setShowChangeForm(true):null;
+		router.pathname === '/mina-tomater' ? setShowChangeForm(true) : null;
 	};
 
 	const handleShowAddtolist = () => {
-		console.log('list', list)
-		list._type === 'tomato' ?setShowChangeForm(false):setShowDelete(false);
+		if (router.pathname === '/mina-tomater') { 
+			setShowChangeForm(false);
+			currentState.setFormIsVisible(false); 
+		} else {
+			setShowDelete(false);
+		} 
 		setaddToListIsVisible(true);
 	};
 
@@ -33,10 +39,10 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				onClick={() => handleClickObj(index, list)} 
 				onMouseEnter={() => setShowHover(true)} onMouseLeave={() => setShowHover(false)}
 				className={clsx(styles.listObject, {
-					[styles.orangeTomato]: list._type === 'tomato' && index % 2 === 0,
-					[styles.pinkTomato]: list._type === 'tomato' && index % 2 === 1,
-					[styles.pinkTodoList]: list._type === 'todoList' && index % 2 === 0,
-					[styles.blueTodoList]: list._type === 'todoList' && index % 2 === 1,
+					[styles.orangeTomato]: router.pathname === '/mina-tomater' && index % 2 === 0,
+					[styles.pinkTomato]: router.pathname === '/mina-tomater' && index % 2 === 1,
+					[styles.pinkTodoList]: router.pathname === '/mina-sparade-listor' && index % 2 === 0,
+					[styles.blueTodoList]: router.pathname === '/mina-sparade-listor' && index % 2 === 1,
 					[styles.showListObject]: index === listObjectIndex,
 				})} 
 				key={index}
@@ -47,7 +53,7 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				)
 			}
 			{
-				list._type !== 'tomato' ? (
+				router.pathname !== '/mina-tomater' ? (
 					<>
 						<section className={styles.textGroup}>
 							<h3>{list.title}</h3>
@@ -71,44 +77,30 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				)
 			}
 			</article>	
-			{
-			showListObject && index === listObjectIndex && (
-			<>
+			{ showListObject && index === listObjectIndex && (
 				<div className={clsx(styles.optionsDiv, {
 						[styles.visibleFirst]: showListObject, 
 					})}
 				>
-					{
-					showListObject && (
-						<div className={styles.btnContainer}>
-						{
-							list._type === 'tomato'? (
-							<>
-								<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings()} />
-								<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
-								<DeleteButton listItem={currentState.currentItem} size={'large'} />
-							</>
-							) : (
-							<>
-								<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
-								<DeleteButton listItem={currentState.currentItem} size={'large'} closeOverlay={closeOverlay} />
-							</>
-							)
-						}
-						</div>
-					)
-					}
+				{showListObject && (
+					<div className={styles.btnContainer}>
+						{router.pathname === '/mina-tomater' ? (
+						<>
+							<article className={clsx(styles.iconBtn, styles.iconSettings)} onClick={() => handleShowSettings()} />
+							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
+							<DeleteButton listItem={currentState.currentItem} size={'large'} />
+							<PlayTimerBtn size={'large'} listItem={list} />
+						</>
+						) : (
+						<>
+							<article className={clsx(styles.iconBtn, styles.iconAdd)} onClick={() => handleShowAddtolist()} />
+							<DeleteButton listItem={currentState.currentItem} size={'large'} closeOverlay={closeOverlay} />
+						</>
+						)}
+					</div>
+				)}
 				</div>
-				{
-				showListObject && list._type === 'tomato' && (
-					<article className={styles.playBtnContainer}>
-						<PlayBtn size={'large'} listItem={list} />
-					</article>
-				)
-				}
-			</>
-			)
-			}
+			)}
 		</div>
 	);
 };

@@ -52,11 +52,13 @@ const FormTemplate = () => {
 				onChange={(e) => setBody((body) => ({...body, title: e.target.value}))}
 			/>
 			<TimeInput userInputTime={userInputTime} setUserInputTime={setUserInputTime} setBody={setBody} body={body} inputTime={inputTime} />
+			<div className={styles.errMessageContainer}>
+				<p className={styles.errMessage}>{errMessage}</p>
+			</div>
 			<div className={styles.btnContainer}>
 				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={ () => currentState.handleGoBack()} />
 				<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleTimerClick(body)} />
 			</div>
-			{errMessage}
 		</section>
 	);
 };

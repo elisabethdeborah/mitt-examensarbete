@@ -43,7 +43,7 @@ $font-family: 'Paytone One', sans-serif;
 	background-color: $color-white;
 	border: 1px solid $color-pink;
 	border-radius: 100px;
-	font-size: 1.125rem;
+	font-size: 1rem;
 	line-height: 2.4rem;
 	width: 130px;
 	font-weight: bold;
@@ -54,20 +54,20 @@ $font-family: 'Paytone One', sans-serif;
 	background-color: $color-pink;
 	border: 1px solid $color-pink;
 	border-radius: 100px;
-	font-size: 1.125rem;
+	font-size: 1rem;
 	line-height: 2.4rem;
 	width: 130px;
 	font-weight: bold;
 }
 
 @mixin active-btn {
-	transition: all 0.1s ease-in-out;
+	//transition: filter 0.1s ease-in-out;
 	&:active {
 		filter: grayscale(0.5);
-		transform: scale(0.9);
-		transition: all 0.1s ease-in-out;
-		@media screen and (min-width: 600px) {
-			transform: scale(1);
-		}
+		transform: scale(0.99) translateY(2px);
+		//transition: filter 0.1s ease-in-out;
+		/* @media screen and (min-width: 600px) {
+			transform: scale(0.9) translateY(1px);
+		} */
 	}
 }

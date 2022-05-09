@@ -24,17 +24,22 @@ const User = ({userInfo, logOut}) => {
 		<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 		<div className={clsx(styles.userContainer, { [styles.mobile]: width < 600})} ref={sectionRef}>
 			{ userInfo ? ( 
+				<>
 				<section className={styles.textContent}>
 					<p className={styles.inloggad}>Inloggad:</p>
 					<p className={styles.userName}>{userInfo.name}</p>
 				</section>
+				<article  className={styles.settingsBtn}>
+				<Link href='#' passHref> </Link>
+				</article>
+				</>
 			) : (
 				<button onClick={() => handleUserClick('register')}>
 					skapa användare
 				</button>
 			)}
-			<button onClick={() => handleUserClick('login')}>
-				{userInfo ? 'logga ut' : 'logga in'}
+			<button className={clsx(styles.userClickBtn, {[styles.logoutBtn]: userInfo, [styles.login]: !userInfo})} onClick={() => handleUserClick('login')}>
+				{userInfo ? '' : 'logga in'}
 			</button>
 		</div>
 		</>

@@ -1,17 +1,19 @@
 
 import React, { useState, useEffect } from "react";
 import styles from '../styles/message.module.scss';
+import { useTodoContext } from "../context/TodoContext";
 import clsx from "clsx";
 
 const Message = ({ text, response, setFetchRes }) => {
 	const [showText, setShowText] = useState(true);
-
+	const todoState = useTodoContext();
 	useEffect(() => {
 		setTimeout(() => {
 			setShowText(true);
 		}, 2000);
 		setTimeout(() => {
 			setShowText(false);
+			todoState.fetchTodos();
 		}, 3500);
 		setTimeout(() => {
 			setFetchRes({show: false});

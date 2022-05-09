@@ -1,14 +1,12 @@
  import { useRouter } from "next/router";
 import { groq } from "next-sanity";
-import { createContext, useReducer, useContext, useEffect, useState } from 'react';
+import { createContext, useReducer, useContext, useState } from 'react';
 import client, {
 	getClient,
 	usePreviewSubscription,
   } from "../lib/sanity";
-import Cookies from "js-cookie";
 import { useUserStore } from '../context/UserStore';
 
-//const UserContext = createContext();
 const TodoContext = createContext();
 const UpdateContext = createContext();
 
@@ -20,9 +18,9 @@ export function TodoWrapper({children}) {
 	const [fetchRes, setFetchRes] = useState({show: false});
 	const [overlay, setOverlay] = useState(false);
 	const [formIsVisible, setFormIsVisible] = useState(false);
-	const [showWarning, setShowWarning] = useState(null);
 	const [deleteNow, setDeleteNow] = useState(false);
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
+	const [listitem, setListitem] = useState(null);
 	const router = useRouter();
 
 	const { state, dispatch } = useUserStore();
@@ -91,10 +89,8 @@ export function TodoWrapper({children}) {
 	 fetchTodos,
 	 fetchRes,
 	 setFetchRes,
-	 showWarning,
-	 setShowWarning,
 	 setDeleteNow,
-	 deleteNow
+	 deleteNow,
   };
 
   const currentState = {
@@ -110,6 +106,8 @@ export function TodoWrapper({children}) {
 	  closeOverlay,
 	  popupIsOpen,
 	  setPopupIsOpen,
+	  listitem,
+	 setListitem
   };
 
 	return (

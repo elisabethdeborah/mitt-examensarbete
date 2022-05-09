@@ -12,6 +12,7 @@ import Resize from './Resize';
 import Cookies from 'js-cookie';
 import LimboLists from './Lists/LimboListsComponent';
 import PopupLists from '../components/Lists/PopupLists';
+import DeletePopup from './Lists/DeletePopup';
 
 const Layout = ({ children }) => {
 	const router = useRouter();
@@ -72,11 +73,28 @@ const Layout = ({ children }) => {
 			}
 		}
   	}, [userInfo, router.pathname]);
+
+	  useEffect(() => {
+		  if ( currentState.listitem && !currentState.overlay) { //router.pathname !== 'mina-tomater' || router.pathname !== 'mina-todos'
+			  currentState.listitem ?
+		setTimeout(() => {
+			currentState.setOverlay(true);
+		}, 10): null;
+		  }
+		currentState.listitem ?
+		setTimeout(() => {
+			currentState.setOverlay(true);
+		}, 10): null;
+		return () => currentState.closeOverlay();
+	}, [currentState.listitem]);
 	
 	return (
 		<div className={styles.container}>
-			<div onClick={() => {currentState.closeOverlay()
-			currentState.setPopupIsOpen(false)}} 	
+			<div onClick={() => {
+				currentState.closeOverlay();
+					currentState.setPopupIsOpen(false);
+					currentState.setListitem(null);
+				}} 	
 				className={clsx(styles.showOverlay, {[styles.overlayVisible]: currentState.overlay})} ref={sectionRef}/>
 				<Meta />
 				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
@@ -96,6 +114,9 @@ const Layout = ({ children }) => {
 						<PopupLists />
 					)
 				}
+				{currentState.listitem && (
+					<DeletePopup listItem={currentState.listitem} />
+				)}
 				{ 
 					todoState.fetchRes.show ? 
 						<Message text={todoState.fetchRes.res ? `${todoState.fetchRes.type} "${todoState.fetchRes.title}" ${todoState.fetchRes.action}!` : `Nåt gick fel`} response={todoState.fetchRes.res} setFetchRes={todoState.setFetchRes} /> : null

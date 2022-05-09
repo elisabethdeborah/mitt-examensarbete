@@ -1,4 +1,4 @@
-const calculateBgColor = (percentage, sectionRef ) => {
+export default function calculateBgColor(percentage, sectionRef ) {
 	console.log('percentage', percentage);
 	const endColor = [217, 35, 90];
 	const middleColor = [252, 255, 8];
@@ -42,4 +42,55 @@ const calculateBgColor = (percentage, sectionRef ) => {
 	};
 };
 
-export default calculateBgColor;
+
+
+const handleDelete = async (listItem, todoState, currentState) => {
+	//delete todo
+	if (listItem._type === 'todo') {
+		await fetch("/api/todos/todo", {
+			method: "DELETE",
+			body: listItem._id,
+		})
+		.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
+		.catch(error => {
+			console.log('error:', error);
+		})
+		todoState.fetchTodos();			 
+	} else if (listItem._type === 'todoList') {
+		listItem.todos.map(async(x) => {
+			await fetch("/api/todos/todo", {
+				method: "DELETE",
+				body: x._id,
+			})
+			.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
+			.catch(error => {
+				console.log('error:', error);
+			})
+		});
+		await fetch("/api/todos/todolist", {
+			method: "DELETE",
+			body: listItem._id,
+		})
+		.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
+		.then(todoState.fetchTodos())
+		.catch(error => {
+			console.log('error:', error);
+		})
+		todoState.fetchTodos();
+	} else if (listItem._type === 'tomato') {
+	//delete tomato
+	console.log('delete tomato (btn component)', 'id:', listItem._id, 'title:', listItem.title)
+		await fetch("/api/tomatoes/tomato", {
+			method: "DELETE",
+			body: listItem._id,
+		})
+		.then((response) => todoState.setFetchRes && todoState.setFetchRes({show: true, type: listItem._type, title: listItem.title, action: 'raderad', res: response.ok}))
+		todoState.fetchTodos();
+	}
+	currentState.setListitem(null);
+	todoState.fetchTodos();
+	currentState.setCurrentItem(null);
+	currentState.setOverlay(false);
+};
+
+export { handleDelete };

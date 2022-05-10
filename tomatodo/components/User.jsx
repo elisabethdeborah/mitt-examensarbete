@@ -29,17 +29,25 @@ const User = ({userInfo, logOut}) => {
 					<p className={styles.inloggad}>Inloggad:</p>
 					<p className={styles.userName}>{userInfo.name}</p>
 				</section>
-				<article  className={styles.settingsBtn}>
-				<Link href='#' passHref> </Link>
-				</article>
+				<Link href="/settings" passHref> 
+					<button className={clsx(styles.userClickBtn, styles.settingsBtn)} >
+				</button>
+				</Link>
 				</>
 			) : (
-				<button onClick={() => handleUserClick('register')}>
+				<button className={clsx(styles.userClickBtn, styles.createBtn)} onClick={() => handleUserClick('register')}>
 					skapa användare
 				</button>
 			)}
-			<button className={clsx(styles.userClickBtn, {[styles.logoutBtn]: userInfo, [styles.login]: !userInfo})} onClick={() => handleUserClick('login')}>
-				{userInfo ? '' : 'logga in'}
+			<button 
+				className={clsx(styles.userClickBtn, {
+					[styles.login]: !userInfo,
+					[styles.logoutBtn]: userInfo, 
+					}
+				)} 
+				onClick={() => handleUserClick('login')}>
+
+				{userInfo ? ' ' : 'logga in'}
 			</button>
 		</div>
 		</>

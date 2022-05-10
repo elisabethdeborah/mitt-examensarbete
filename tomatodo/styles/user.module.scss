@@ -18,50 +18,81 @@
 		display: flex;
 		flex-direction: column;
 		align-items: flex-start;
-		color: $color-darkgrey;
+		color: $color-white;
+		margin-right: 10px;
+
+		.inloggad, .userName {
+			font-size: 0.7rem;
+			margin: 0;
+			font-weight: bold;
+		}
+
+		.inloggad {
+			text-transform: uppercase;
+			opacity: 1;
+			line-height: 1rem;
+		}
+		.userName {
+			text-transform: uppercase;
+			opacity: 1;
+			line-height: 1rem;
+		}
+		@media screen and (min-width: 600px) {
+			color: $color-darkgrey;
+			margin-top: 5px;
+			.inloggad, .userName {
+				font-size: 0.65rem;
+			}
+
+			.inloggad {
+				text-transform: uppercase;
+				opacity: 0.8;
+				line-height: 0.7rem;
+			}
+			.userName {
+				text-transform: uppercase;
+				opacity: 0.5;
+				line-height: 0.7rem;
+			}
+		}
 	}
 
-	.inloggad {
-		font-size: 0.65rem;
-		line-height: 1rem;
-		margin: 0;
-		font-weight: bold;
-		opacity: 0.8;
-	}
-
-	.userName {
-		font-size: 0.65rem;
-		line-height: 1rem;
-		margin: 0;
-		text-transform: uppercase;
-		font-weight: bold;
-		opacity: 0.5;
-	}
-
-	button {
-		@include hover-btn;
+	.userClickBtn {
+		@include hover-btn-secondary;
 		@include active-btn;
 		font-weight: 600;
 		margin: 0 2px;
 		border-radius: 100px;
 		padding: 0 10px;
+		height: 30px;
+		border: none;
+		border-radius: 7px;
 
-		&:first-child {
-			height: 50px;
-			width: 50px;
-			border: 2px solid $color-pink;
-			background-color: $color-white;
-			color: $color-pink;
+		&.createBtn {
+			background-color: $color-blue;
 		}
 
-		&:last-child {
-			border: none;
-			color: $color-white;
+		&.login {
 			background-color: $color-pink;
+		}
+
+		&.settingsBtn {
+			@include active-btn;
+			height: 25px;
+			width: 25px;
+			background-image: url(../svgAssets/settingsIcon.svg);
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: center;
+			margin: 0 10px;
+		}
+
+		&.logoutBtn {
+			border: none;
 			border-radius: 0;
-			height: 30px;
-			width: 30px;
-			
+			height: 33px;
+			width: 33px;
+			margin: 2px 10px 0;
 			background-image: url(../svgAssets/logoutIcon.svg);
 			background-color: transparent;
 			background-repeat: no-repeat;
@@ -74,18 +105,4 @@
 		background-color: transparent;
 		justify-content: center;
 	}
-}
-
-.settingsBtn {
-	@include hover-btn;
-	@include active-btn;
-	
-	height: 25px;
-	width: 25px;
-	background-image: url(../svgAssets/settingsIcon.svg);
-	background-color: transparent;
-	background-repeat: no-repeat;
-	background-position: center;
-
-	margin: 0 10px;
 }

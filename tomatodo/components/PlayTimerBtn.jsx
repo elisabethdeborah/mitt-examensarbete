@@ -8,28 +8,25 @@ const PlayBtn = ({ listItem, size, content, styleChecked }) => {
 	const router = useRouter();
 	
 	const click = () => {
+		if (listItem.time || currentState.countdownItem) {
 		currentState.setCountdownItem(listItem);
-		router.push('/timer-countdown');
+		router.push('/timer-countdown');}
 	};
 
 	return (
 		<aside className={styles.todoTimeSection} onClick={() => click()} >
-			{
-				listItem.time || currentState.countdownItem ? (
-					<button 
-						className={clsx(styles.playBtn, {
-							[styles.orange]: listItem._type ==="tomato",
-							[styles.green]: listItem._type !=="tomato" && styleChecked,
-							[styles.grey]: listItem._type !=="tomato" && !styleChecked,
-							[styles.orangeLg]: size === 'large',
-							[styles.regularBtn]: content && content.length>0, 
-						})} 
-						value={`${content}`}
-					/>
-				) : (
-					<article className={styles.playBtnPlaceholder} /> 
-				)
-			}
+			<button 
+				className={clsx(styles.playBtn, {
+					[styles.orange]: listItem._type ==="tomato",
+					[styles.green]: listItem._type !=="tomato" && styleChecked,
+					[styles.grey]: listItem._type !=="tomato" && !styleChecked && !currentState.countdownItem && router.pathname !== '/',
+					[styles.orangeLg]: size === 'large',
+					[styles.regularBtn]: content && content.length>0, 
+					[styles.todoList]: router.pathname === '/mina-todos',
+					[styles.disabledTime]: !listItem.time,
+				})} 
+				value={`${content}`}
+			/>
 		</aside>
 	);
 };

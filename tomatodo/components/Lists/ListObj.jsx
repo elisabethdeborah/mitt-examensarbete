@@ -5,31 +5,24 @@ import styles from './styles/todoList.module.scss';
 import {useUpdateContext} from "../../context/TodoContext";
 import NumberFormat from '../NumberFormat';
 import PlayTimerBtn from '../PlayTimerBtn';
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
+import Resize from '../Resize';
 
-const ListObj = ({ listItem, width }) => {
+const ListObj = ({ listItem }) => {
 	const [styleChecked, setStyleChecked] = useState(listItem.checked === true);
 	const currentState = useUpdateContext();
+	const sectionRef = useRef();
+	const [width, setWidth] = useState(); 
 
 	return (
-		<>
-			{/* {
-				listItem && listItem.saved && (
-					<div>
-						<h2>Vill du spara eller ta bort listan? </h2>
-						<button onClick={() => console.log('save: PUT saved=true OCH nollställ alla todos... ', allChecked.listFinished.title)}>
-							Spara
-						</button>
-						<button onClick={() => console.log(allChecked.listFinished.title)}>Ta bort</button>
-					</div>
-				)
-			} */}
+		<div ref={sectionRef} className={styles.todoListObjContainer}>
+			<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 			{
 				listItem ? (
-					width < 450 ? 
+					width < 400 ? 
 						<article 
 							key={listItem._id} 
-							className={clsx(styles.todoArticle, {
+							className={clsx(styles.todoArticle, styles.todoSmall, {
 								[styles.checkedItem]: styleChecked === true
 							})}
 						>
@@ -38,15 +31,11 @@ const ListObj = ({ listItem, width }) => {
 								<p className={styles.todoDescription}>{listItem.description}</p>
 							</div>
 							<div className={styles.btnSection}>
-								<PlayTimerBtn listItem={listItem} color={styleChecked? 'green' : 'grey'} styleChecked={styleChecked} />
-								{
-									listItem && listItem.time > 0 && (
-										<NumberFormat 
-											milliSeconds={listItem.time*1000} 
-											styling={{fontSize: '0.75rem', position: 'absolute', top: '45px'}} 
-										/>
-									)
-								}
+								<PlayTimerBtn listItem={listItem} color={styleChecked ? 'green' : 'grey'} styleChecked={styleChecked} />
+								<NumberFormat 
+									milliSeconds={listItem.time*1000} 
+									styling={listItem && listItem.time > 0 ? {fontSize: '0.75rem', position: 'absolute', top: '45px'} : {fontSize: '0.75rem', position: 'absolute', top: '45px', opacity: '0'}} 
+								/>
 								<CheckBox listItem={listItem} setStyleChecked={setStyleChecked}/>
 							</div>
 							<DeleteButton color={'blue'} listItem={listItem}/>
@@ -54,7 +43,7 @@ const ListObj = ({ listItem, width }) => {
 					:
 						<article 
 							key={listItem._id} 
-							className={clsx(styles.todoArticle, {
+							className={clsx(styles.todoArticle, styles.todoLarge, {
 								[styles.checkedItem]: styleChecked === true
 								})}
 						>
@@ -65,21 +54,17 @@ const ListObj = ({ listItem, width }) => {
 								<p className={styles.todoDescription}>{listItem.description}</p>
 							</div>
 							<div className={styles.todoTimeSection}>
-								<PlayTimerBtn listItem={listItem} color={styleChecked? 'green' : 'grey'} styleChecked={styleChecked} />
-								{
-									listItem && listItem.time > 0 && (
-										<NumberFormat 
-											milliSeconds={listItem.time *1000} 
-											styling={{fontSize: '0.75rem', position: 'absolute', bottom: '20px', right: '50px'}} 
-										/>
-									)
-								}
+								<PlayTimerBtn listItem={listItem} color={styleChecked && listItem.time > 0 ? 'green' : 'grey'} styleChecked={styleChecked} />
+								<NumberFormat 
+									milliSeconds={listItem.time *1000} 
+									styling={listItem && listItem.time > 0 ? {fontSize: '0.75rem', position: 'absolute', top: '50px'} : {fontSize: '0.75rem', position: 'absolute', top: '50px', opacity: '0'}} 
+								/>
 							</div>
 							<DeleteButton color={'blue'} listItem={listItem} />
 						</article>
 				) : null
 			}
-		</>
+		</div>
 	);
 };
 

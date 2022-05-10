@@ -6,7 +6,6 @@
 	display: flex;
 	width: fit-content;
 	position: absolute;
-	//top: 15%;
 	top: calc(50% - 20px);
 	right: 1.5rem;
 	background-repeat: no-repeat;
@@ -19,13 +18,8 @@
 
 	border: none;
 	background-color: transparent;
+
 	
-	.todoTimeSection {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin-top: 2rem;
-	}
 
 	&.orange {
 		background-image: url('../svgAssets/play-btn-sm-orange.svg');
@@ -40,7 +34,8 @@
 		width: 65px;
 		z-index: 99999;
 		position: absolute;
-		left: calc(45vw - 32px);
+		left: calc(50vw - 32px);
+		top: 80vh;
 
 		@media screen and (min-width: 600px) {
 			position: fixed;
@@ -73,18 +68,27 @@
 		right: 45px;
 	}
 
-}
-
-.playBtnPlaceholder {
-	width: fit-content;
-	position: absolute;
-	top: 15%;
-	right: 15%;
-	width: 40px;
-	height: 40px;
-	@media screen and (min-width: 550px) {
-		min-width: 50px;
+	&.todoList {
+		position: relative;
+		top: calc(50% - 25px);
+		//right: 60px;
+		right: 0;
 		min-height: 50px;
+		min-width: 50px;
+		margin: 0 4px;
+
+		.todoTimeSection {
+			height: 50px;
+			width: 50px;
+		}
+
+		&.disabledTime {
+			opacity: 0.3;
+			&:hover {
+				cursor: initial;
+				filter: none;
+			}
+		}
 	}
 }
 

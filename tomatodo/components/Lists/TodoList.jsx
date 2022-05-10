@@ -4,14 +4,12 @@ import AddTodo from '../../svgAssets/addBtn.svg';
 import DeleteButton from './DeleteButton';
 import ListObj from './ListObj';
 import Form from '../Forms/Form';
-import Resize from '../Resize';
 import { useUpdateContext, useTodoContext } from "../../context/TodoContext";
 
 const TodoList = ({ list }) => {
 	const [addTodoFormIsVisible, setAddTodoFormIsVisible] = useState(false);
 	const [addListFormIsVisible, setAddListFormIsVisible] = useState(false);
 	const sectionRef = useRef();
-	const [width, setWidth] = useState(); 
 	const [isLoading, setIsLoading] = useState(false);
 	const todoState = useTodoContext();
 	const currentState = useUpdateContext();
@@ -64,7 +62,6 @@ const TodoList = ({ list }) => {
 						/>
 					)
 				}
-				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 				{ 
 					list._id && (
 						<div className={styles.todolistContainer}>
@@ -91,7 +88,7 @@ const TodoList = ({ list }) => {
 									list.todos.length >0 ? (
 										list.todos.map((listItem) => {
 											return (
-												<ListObj key={listItem._rev} listItem={listItem} width={width &&(width)} />
+												<ListObj key={listItem._rev} listItem={listItem} /* width={width &&(width)} */ />
 											)
 										})
 									) : (

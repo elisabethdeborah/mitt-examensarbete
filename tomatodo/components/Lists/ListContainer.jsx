@@ -6,6 +6,7 @@ import {useUpdateContext} from "../../context/TodoContext";
 import { useRouter } from "next/router";
 import SmallListObj from './SmallListObj';
 import PopupLists from './PopupLists';
+import ChevronDown from '../../svgAssets/chevron-down.svg';
 
 const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) => {
 	const currentState = useUpdateContext();
@@ -14,11 +15,6 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 
 	return (
 		<>
-			{/* {
-				currentState.popupIsOpen && (
-					<PopupLists />
-				)
-			} */}
 			<div className={clsx(styles.listContainer, {
 				[styles.showContent]: contentIsVisible,
 				[styles.homePage]: router.pathname === '/',
@@ -32,9 +28,13 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 						[styles.currentTodos]: itemType === "todos",
 						[styles.savedTodos]: itemType === "sparade-listor",
 					})} 
+					//onClick={() => setContentIsVisible(!contentIsVisible)} 
 					onClick={itemType !== "todos" ? () => setContentIsVisible(!contentIsVisible):null}
 				>
-					<h4>{`Mina ${itemType.split('-').join(' ')}`}</h4>
+					<h4>{itemType !== "todos" ? `Mina ${itemType.split('-').join(' ')}` : 'Mina pågående listor'}</h4>
+					{	router.pathname !== '/mina-todos' && (
+						<ChevronDown style={{height: '14px', width: '14px', position: 'absolute', right: '50px'}} />
+					)}
 					{
 						router.pathname === '/mina-todos' && (
 							<p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>

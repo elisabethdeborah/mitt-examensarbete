@@ -50,6 +50,8 @@ const createEndpoint = (objectType) => {
 }; 
 
 const submitClick = (objectType, body, method, state) => {
+	state.setPending(true);
+	console.log('submitclick function, params:', objectType, method, state, body)
 	const endPoint = createEndpoint(objectType);
 	let fetchObj = {
 		method: `${method}`,
@@ -70,6 +72,7 @@ const submitForm = async(fetchObj, objectType, endPoint, action, state, body) =>
 	.catch(error => {
 		console.log('error:', error);
 	})
+	state.setPending(false);
 };
 
 export { calculateTime, validateTime, validateName, submitClick, createEndpoint, submitForm };

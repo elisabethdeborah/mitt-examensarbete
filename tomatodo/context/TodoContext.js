@@ -1,6 +1,6 @@
  import { useRouter } from "next/router";
 import { groq } from "next-sanity";
-import { createContext, useReducer, useContext, useState } from 'react';
+import { createContext, useReducer, useContext, useState, useEffect } from 'react';
 import client, {
 	getClient,
 	usePreviewSubscription,
@@ -18,104 +18,131 @@ export function TodoWrapper({children}) {
 	const [fetchRes, setFetchRes] = useState({show: false});
 	const [overlay, setOverlay] = useState(false);
 	const [formIsVisible, setFormIsVisible] = useState(false);
+	const [pending, setPending] = useState(false);
 	const [deleteNow, setDeleteNow] = useState(false);
 	const [popupIsOpen, setPopupIsOpen] = useState(false);
 	const [listitem, setListitem] = useState(null);
+	const [limbo, setLimbo] = useState(null);
 	const router = useRouter();
 
 	const { state, dispatch } = useUserStore();
 	const { userInfo } = state;
+
+	useEffect(() => {
+		console.log('pending?', pending);
+	}, [pending]);
+
+  	const fetchTodos = async () => {
+    	let fetchedTodos;
+		let user;
+		userInfo ? user = userInfo._id : null;
+    
+		fetchedTodos = await client.fetch(groq`{
+			"activeLists": * [_type == "todoList" && user._ref == "${user}" && !saved  ] | order(_createdAt desc) {
+				title,
+				saved,
+				"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
+				'numberOfChecked': count(*[_type == "todo" && todoList._ref == ^._id][checked]),
+				'numberOfNotChecked': count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
+				"todos": * [_type == "todo" && todoList._ref == ^._id],
+				...,
+			},
+			"savedLists": * [_type == "todoList" && user._ref == "${user}" && saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0  ] | order(_createdAt desc) {
+				title,
+				saved,
+				"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
+				"todos": * [_type == "todo" && todoList._ref == ^._id],
+				...,
+			},
+			"tomatoLibrary": * [_type == "tomato"  && user._ref == "${user}"] | order(_createdAt desc) {
+				title, 
+				time, 
+				...,
+			},
+			"limboLists": * [_type == "todoList" && user._ref == "${user}" && !saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0 && count(* [_type == "todo" && todoList._ref == ^._id]) > 0] | order(_createdAt desc) {
+				title,
+				saved,
+				"todos": * [_type == "todo" && todoList._ref == ^._id],
+				...,
+			},
+		}`);
+		
+		todoState.setInitialFetch(fetchedTodos);
+		return; 
+  	};
+
+
+
+	//check if user has lists that are all checked off but not saved,
+	// make user choose between saving and deleting such lists
+	useEffect(() => {
+		if (initialFetch && initialFetch.limboLists) {
+		setLimbo(initialFetch.limboLists);
+		initialFetch.limboLists[0] ? setOverlay(true) : null;
+		} else {
+			setLimbo(false);
+		};
+	}, [initialFetch]);
 
 	const handleGoBack = () => {
 		setTimeout(() => {
 			setFormIsVisible(false);
 		}, 600);
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
-			setOverlay(false);
-			setCurrentItem(null);
+			if (limbo && !limbo[0] || !limbo ) {
+				setOverlay(false);
+				setCurrentItem(null);
+			};
 		};
 	};
 
 	const closeOverlay = () => {
-		setOverlay(false);
-		setCurrentItem(null);
-		setTimeout(() => {
-			setFormIsVisible(false);
-		}, 600);
+		if (limbo && !limbo[0] || !limbo ) {
+			setOverlay(false);
+			setCurrentItem(null);
+			setTimeout(() => {
+				setFormIsVisible(false);
+			}, 600);
+		};
 	};
 
-  const fetchTodos = async () => {
-    let fetchedTodos;
-	let user;
-	userInfo ? user = userInfo._id : null;
-    
-	fetchedTodos = await client.fetch(groq`{
-		"activeLists": * [_type == "todoList" && user._ref == "${user}" && !saved  ] | order(_createdAt desc) {
-			title,
-			saved,
-			"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
-			'numberOfChecked': count(*[_type == "todo" && todoList._ref == ^._id][checked]),
-			'numberOfNotChecked': count(*[_type == "todo" && todoList._ref == ^._id][!checked]),
-			"todos": * [_type == "todo" && todoList._ref == ^._id],
-			...,
-		},
-		"savedLists": * [_type == "todoList" && user._ref == "${user}" && saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0  ] | order(_createdAt desc) {
-			title,
-			saved,
-			"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
-			"todos": * [_type == "todo" && todoList._ref == ^._id],
-			...,
-		},
-		"tomatoLibrary": * [_type == "tomato"  && user._ref == "${user}"] | order(_createdAt desc) {
-			title, 
-			time, 
-			...,
-		  },
-		"limboLists": * [_type == "todoList" && user._ref == "${user}" && !saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0 && count(* [_type == "todo" && todoList._ref == ^._id]) > 0] | order(_createdAt desc) {
-			title,
-			saved,
-			"todos": * [_type == "todo" && todoList._ref == ^._id],
-			...,
-		},
-	}`);
-				
-	  todoState.setInitialFetch(fetchedTodos);
-	  return; 
-  };
+	const todoState = {
+		initialFetch,
+		setInitialFetch,
+		fetchTodos,
+		fetchRes,
+		setFetchRes,
+		setDeleteNow,
+		deleteNow,
+		pending,
+		setPending,
+	};
 
-  const todoState = {
-	 initialFetch,
-	 setInitialFetch,
-	 fetchTodos,
-	 fetchRes,
-	 setFetchRes,
-	 setDeleteNow,
-	 deleteNow,
-  };
-
-  const currentState = {
-	  currentItem,
-	  setCurrentItem,
-	  countdownItem,
-	  setCountdownItem, 
-	  overlay,
-	  setOverlay,
-	  handleGoBack, 
-	  setFormIsVisible,
-	  formIsVisible,
-	  closeOverlay,
-	  popupIsOpen,
-	  setPopupIsOpen,
-	  listitem,
-	 setListitem
-  };
+	const currentState = {
+		currentItem,
+		setCurrentItem,
+		countdownItem,
+		setCountdownItem, 
+		overlay,
+		setOverlay,
+		handleGoBack, 
+		setFormIsVisible,
+		formIsVisible,
+		closeOverlay,
+		popupIsOpen,
+		setPopupIsOpen,
+		listitem,
+		setListitem,
+		limbo,
+		setLimbo
+	};
 
 	return (
-			<TodoContext.Provider value={todoState}>
-				<UpdateContext.Provider value={currentState}>
-					{children}
-				</UpdateContext.Provider>
-			</TodoContext.Provider>
+		<TodoContext.Provider value={todoState}>
+			<UpdateContext.Provider value={currentState}>
+				{children}
+			</UpdateContext.Provider>
+		</TodoContext.Provider>
 	);
 };
 

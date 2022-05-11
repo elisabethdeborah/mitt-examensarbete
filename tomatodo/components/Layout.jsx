@@ -22,15 +22,16 @@ const Layout = ({ children }) => {
 	const { state, dispatch } = useUserStore();
 	const { userInfo } = state;
 	const [width, setWidth] = useState(); 
-	const [limbo, setLimbo] = useState(null);
 	const sectionRef = useRef();
 
+	//fetch all logged in user's lists on mount
 	useEffect(() => {
 		if (userInfo) {
 			todoState.fetchTodos();
 		} 
   	}, []);
 
+	 //smooth transitions between routes 
 	useEffect(() => {
 		const handleRouteChange = (url, { shallow }) => {
 			setFadeIn(false);
@@ -41,39 +42,30 @@ const Layout = ({ children }) => {
 		};
 		router.events.on('routeChangeStart', handleRouteChange);
 		router.events.on('routeChangeComplete', handleRouteChangeOff);
-	
-		// If the component is unmounted, unsubscribe
-		// from the event with the `off` method:
+
 		return () => {
 		  router.events.off('routeChangeStart', handleRouteChange)
 		  router.events.off('routeChangeComplete', handleRouteChangeOff)
 		};
 	}, [router.events]);
 
-	useEffect(() => {
-		if (todoState.initialFetch && todoState.initialFetch.limboLists) {
-		setLimbo(todoState.initialFetch.limboLists);
-		todoState.initialFetch.limboLists[0] ? currentState.setOverlay(true) : null;
-		} else {
-			setLimbo(false);
-		};
-		console.log('limbo', limbo)
-	}, [todoState.initialFetch]);
-
+	//log out user
 	const logOut = () => {
 		dispatch({ type: 'USER_LOGOUT' });
 		Cookies.remove('userInfo');
 		router.replace('/login');
 	};
 
+	//if no user is logged in, redirect to login page, unless current page is "register"
 	useEffect(() => {
 		if (!userInfo) {
 			if ( router.pathname !== '/register') {
 				router.replace('/login');
-			}
-		}
+			};
+		};
   	}, [userInfo, router.pathname]);
 
+	  //show/hide overlay
 	  useEffect(() => {
 		  if ( currentState.listitem && !currentState.overlay) { //router.pathname !== 'mina-tomater' || router.pathname !== 'mina-todos'
 			  currentState.listitem ?
@@ -87,42 +79,61 @@ const Layout = ({ children }) => {
 		}, 10): null;
 		return () => currentState.closeOverlay();
 	}, [currentState.listitem]);
+
+	//close overlay by clicking outside of popup/form/tomato/saved list
+	const hideOverlay = () => {
+		if (currentState.limbo && currentState.limbo[0]) {
+			console.log('limbo:',currentState.limbo);
+		} else if (currentState.limbo && !currentState.limbo[0] || !currentState.limbo ) {
+			console.log('currentState.listitem && !limbo:', currentState.listitem && !currentState.limbo, currentState.listitem, !currentState.limbo);
+			currentState.closeOverlay();
+			currentState.setPopupIsOpen(false);
+			currentState.setListitem(null);
+		};
+	};
 	
 	return (
 		<div className={styles.container}>
-			<div onClick={() => {
-				currentState.closeOverlay();
-					currentState.setPopupIsOpen(false);
-					currentState.setListitem(null);
-				}} 	
-				className={clsx(styles.showOverlay, {[styles.overlayVisible]: currentState.overlay})} ref={sectionRef}/>
-				<Meta />
-				<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
+			<div 
+				onClick={() => hideOverlay()} 	
+				className={clsx(styles.showOverlay, {
+					[styles.overlayVisible]: currentState.overlay, 
+					[styles.noHover]: currentState.limbo && currentState.limbo[0],
+				})} 
+				ref={sectionRef}
+			/>
+			<Meta />
+			<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
+			{ /* show user in topbar on larger screens */
+			width > 599 && (
+				<User userInfo={userInfo} logOut={logOut} />
+			)}
+			<Header width={width} />
+			<main className={clsx(styles.main, {[styles.pageLoading]: fadeIn})}>
 				{
-					width > 599 && <User userInfo={userInfo} logOut={logOut} />
-				}
-				
-				<Header width={width} />
-				<main className={clsx(styles.main, {[styles.pageLoading]: fadeIn})}>
+				currentState.limbo && (
+					currentState.limbo.map((list) => <LimboLists key={list._rev} list={list} />)
+				)}
 				{
-					limbo && (
-						limbo.map((list) => <LimboLists key={list._rev} list={list} />)
-					)
-				}
+				currentState.popupIsOpen && (
+					<PopupLists />
+				)}
 				{
-					currentState.popupIsOpen && (
-						<PopupLists />
-					)
-				}
-				{currentState.listitem && (
+				currentState.listitem && (
 					<DeletePopup listItem={currentState.listitem} />
 				)}
-				{ 
-					todoState.fetchRes.show ? 
-						<Message text={todoState.fetchRes.res ? `${todoState.fetchRes.type} "${todoState.fetchRes.title}" ${todoState.fetchRes.action}!` : `Nåt gick fel`} response={todoState.fetchRes.res} setFetchRes={todoState.setFetchRes} /> : null
-				}
-					{children}
-				</main>
+				{ /* alert after post/update/delete */
+				todoState.fetchRes.show && (
+					<Message 
+					text={todoState.fetchRes.res ? 
+						`${todoState.fetchRes.type} "${todoState.fetchRes.title}" ${todoState.fetchRes.action}!` 
+						: `Nåt gick fel`} 
+					response={todoState.fetchRes.res} 
+					setFetchRes={todoState.setFetchRes} 
+					/> 
+				)}
+				{children}
+			</main>
 		</div>
 	);
 };

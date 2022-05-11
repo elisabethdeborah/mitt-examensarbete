@@ -5,10 +5,7 @@ import { handleDelete } from '../../functions';
 const DeletePopup = ({ listItem }) => {
 	const currentState = useUpdateContext();
 	const todoState = useTodoContext();
-	const close = () => {
-		currentState.setListitem(null);
-		currentState.closeOverlay();
-	}
+
 	return (
 		<div className={styles.deleteWarning}>
 			<h2 className={styles.removeHeader}>Vill du ta bort <span>{`"${listItem.title}"`}</span>?</h2>

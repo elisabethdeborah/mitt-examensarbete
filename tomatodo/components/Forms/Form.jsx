@@ -24,10 +24,12 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 
 	let header;
 	
+	// sätt rubrik till tomatens titel
 	if (method === "PUT" && currentState.currentItem) {
 		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	};
 
+	//formattera tiden när en tomat ska ändras eller skapas, eller en todo ska skapas
 	useEffect(() => {
 		const calc = calculateTime(defaultTime, currentState);
 		setUserInputTime(calc); 
@@ -36,6 +38,9 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		return () => setUserInputTime(0);
 	}, []);
 
+
+	// öppna overlay när formuläret öppnas förutom i mina tomater/sparade listor
+	//stäng overlay när formuläret försvinner, förutom i mina tomater/sparade listor
 	useEffect(() => {
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
 			setTimeout(() => {
@@ -47,6 +52,7 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		};
 	}, []);
 
+	//ta bort eventuellt felmeddelande så fort formulärets tid ändras
 	useEffect(() => {
 		setErrMessage("");
 		const validTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
@@ -54,8 +60,10 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		validTime ? setBody((body) => ({...body, time: validTime})) : setBody((body) => ({...body, time: 0}));
 	}, [userInputTime]);
 
+	//fetcha listor efter submit
+	//nollställ allt efter submit, förutom från mina-tomater/sparade-listor
 	const postFetch = () => {
-		fetchAllLists();
+		todoState.fetchTodos();
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor')  {
 			setBody({title: userInputName, description: userInputText, time: inputTime, user: userInfo._id});
 			setUserInputName('');
@@ -70,27 +78,33 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		};
 	};
 
+	//VAD HÄNDER EXAKT?
 	const handleSubmit = () => {
 		const checkValid = validateName(body);
 		if (checkValid === "valid") {
 			if (objectType === 'tomato' || objectType === 'todoList') {
-				submitClick(objectType, body, method, state);
+				submitClick(objectType, body, method, todoState);
 			} else {
-				submitClick(objectType, body, method, state);
+				submitClick(objectType, body, method, todoState);
 			}
-			
+
 			postFetch(currentState);
+			//currentState.handleGoBack();
+			closeForm();
 		} else {
 			setErrMessage(checkValid);
 		};
 	};
 
 	const closeForm = () => {
+		console.log('currentState before closeform:', currentState, 'params:', objectType, method, currentListDocId, defaultTime)
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
-			currentState.handleGoBack()
+			currentState.handleGoBack();
 		} else {
-			currentState.handleGoBack()
+			console.log('close: ', router.pathname)
+			currentState.handleGoBack();
 		};
+		console.log('currentState after closeform:', currentState, 'params:', objectType, method, currentListDocId, defaultTime)
 	};
 
 	return (
@@ -110,7 +124,7 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 				{header? `Redigera\n ${header}`: `Ny ${objectType}`}
 			</h1>
 		{
-			objectType !== 'todoList' && currentState.currentItem && currentState.currentItem.title ? (
+			objectType !== 'todoList' && method !== 'POST' && currentState.currentItem && currentState.currentItem.title ? (
 			<input 
 				type="text" 
 				className={clsx(styles.input, styles.textInput)} 
@@ -151,7 +165,7 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 				<p className={styles.errMessage}>{errMessage}</p>
 			</div>
 			<div className={styles.btnContainer}>
-				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={() => currentState.handleGoBack()} />
+				<input type={"button"} className={styles.closeForm} value="Ångra" onClick={() => closeForm()} />
 				<input type={"button" }className={styles.addBtn} value="Lägg till" onClick={() => handleSubmit()} />
 			</div>
 		</section>

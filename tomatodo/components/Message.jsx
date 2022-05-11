@@ -8,12 +8,12 @@ const Message = ({ text, response, setFetchRes }) => {
 	const [showText, setShowText] = useState(true);
 	const todoState = useTodoContext();
 	useEffect(() => {
+		todoState.fetchTodos();
 		setTimeout(() => {
 			setShowText(true);
-		}, 2000);
+		}, 100);
 		setTimeout(() => {
 			setShowText(false);
-			todoState.fetchTodos();
 		}, 3500);
 		setTimeout(() => {
 			setFetchRes({show: false});

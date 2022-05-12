@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import PieChart from './PieChart';
 import clsx from "clsx";
-//import styles from './styles/timer.module.scss';
-
 import styles from './styles/charts.module.scss';
 
 const ChartSection = ({ isRunning, timesUp, isInitialized, initialTime, timeLeft, sectionRef }) => {

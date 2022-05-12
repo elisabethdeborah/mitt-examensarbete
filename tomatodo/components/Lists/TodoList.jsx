@@ -88,7 +88,7 @@ const TodoList = ({ list }) => {
 									list.todos.length >0 ? (
 										list.todos.map((listItem) => {
 											return (
-												<ListObj key={listItem._rev} listItem={listItem} /* width={width &&(width)} */ />
+												<ListObj key={listItem._rev} listItem={listItem} />
 											)
 										})
 									) : (

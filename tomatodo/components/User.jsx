@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import styles from '../styles/user.module.scss';
 import clsx from "clsx";
 import Link from 'next/link';
@@ -13,11 +13,6 @@ const User = ({userInfo, logOut}) => {
 	const handleUserClick = (action) => {
 		userInfo ? logOut() : router.push(`/${action}`);
 	};
-	
-
-	useEffect(() => {
-		console.log(userInfo)
-	}, [userInfo]);
 
 	return (
 		<>

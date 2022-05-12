@@ -28,10 +28,28 @@ export default {
 		title: 'Is Admin',
 		type: 'boolean',
 	  },
+	  {
+		name: 'userDefaultVolume',
+		title: 'Vald default-volym',
+		type: 'number',
+	  },
+	  {
+		name: 'userAlarm',
+		title: 'Valt alarm',
+		type: 'number',
+	  },
+	  {
+		  name: 'showOnboarding',
+		  title: 'Visa onboarding varje inloggning',
+		  type: 'boolean'
+	  }
 	],
 	initialValue: () => ({
 		isAdmin: false,
 		registerDate: new Date().toISOString(),
+		userDefaultVolume: 0,
+		userAlarm: 1,
+		showOnboarding: true,
 	  }),
 	  preview: {
 		select: {

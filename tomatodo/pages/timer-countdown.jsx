@@ -23,20 +23,22 @@ const Timer = () => {
 	const currentState = useUpdateContext();
 	let currentStateTime = currentState.countdownItem? Number(currentState.countdownItem.time)*1000:null;
 	const [initialTime, setInitialTime] = useState(currentStateTime);
-	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime);
+	const [timeLeft, { start, pause, resume, reset }] = useCountDown(initialTime, 100);
 	const [percentage, setPercentage ] = useState(0);
 	const src = alarmSound;
 
 	useEffect(() => {
-		initialTime? handlePlay() : null;
+		initialTime ?  handlePlay() : router.back();
 		return () => {
-			handleStop();
+			reset();
+			setIsRunning(false);
+			setIsInitialized(false);
+			setTimesUp(false);
+			currentState.setCountdownItem(null);
+			currentState.setCurrentItem(null);
+			sectionRef.current ? sectionRef.current.style.opacity = '0' :null;
 		};
 	}, []);
-
-	useEffect(() => {
-		!currentState.countdownItem ? router.back() : null;
-	}, [currentState]);
 
 	const sectionRef = useRef();
 	const [width, setWidth] = useState();
@@ -54,9 +56,9 @@ const Timer = () => {
 	}, []);
 	  
 	useEffect(() => {
-		if (isInitialized && isRunning && timeLeft <= 0) {
+		if (isInitialized && isRunning && timeLeft === 0) {
 			setTimesUp(true);
-			console.log('ended:', 'timeleft', percentage, isInitialized && isRunning && timeLeft <= 0);
+			/* console.log('initialTime: ', initialTime, 'timeleft: ', timeLeft, 'percentage:', percentage, isInitialized, isRunning, timeLeft === 0); */
 		} else {
 			setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
 			isInitialized && (calculateBgColor(percentage, sectionRef));
@@ -99,18 +101,11 @@ const Timer = () => {
 		setIsInitialized(false);
 		setTimesUp(false);
 		currentState.setCountdownItem(null);
-		sectionRef.current ? sectionRef.current.style.backgroundColor = '' :null;
-		router.replace('/timer');
-	};
-
-	const handleStopAlarm = () => {
-		setTimesUp(false);
-		setIsInitialized(false);
-		setIsRunning(false);
-		sectionRef.current ? sectionRef.current.style.backgroundColor = '' :null;
+		currentState.setCurrentItem(null);
+		sectionRef.current ? sectionRef.current.style.opacity = '0' :null;
 		setTimeout(() => {
 			router.back();
-		}, 1000);
+		}, 600);
 	};
 	
 	const functions = {
@@ -119,12 +114,14 @@ const Timer = () => {
 		handleStop,
 		setSoundOn,
 		restart,
+		setVolume,
 	};
 
 	const states = {
 		soundOn,
 		isRunning,
-		isInitialized
+		isInitialized,
+		volume
 	};
 
 	return (
@@ -135,9 +132,7 @@ const Timer = () => {
 			ref={sectionRef}
 		>
 			<Meta title='Timer' />
-			<div onClick={() => {router.back()}} 
-				className={styles.closeCountdown} 
-			/>
+			<div onClick={() => {handleStop()}} className={styles.closeCountdown} />
 			<section className={styles.contentContainer} >
 				<section className={styles.soundPlayerContainer}>
 					<ReactPlayer playing={isInitialized && timesUp} url={src} loop muted={!soundOn} volume={volume} />
@@ -148,19 +143,17 @@ const Timer = () => {
 						<article className={styles.tomatoCountDown} />
 					)
 				}
-				<h2 className={styles.todoTitle}>
+				<h2 className={styles.todoTitle} styling={percentage > 80 ? { color: 'white' } : null}>
 					{currentState.countdownItem && (currentState.countdownItem.title)}
 				</h2>
 				{
 					isInitialized && timesUp ? (
-					<> 
 						<section className={clsx(styles.timesUpHeaderContainer, {
 							[styles.showText]: timesUp, 
 							[styles.hideText]: !timesUp
 						})}>
 							<h1 className={styles.timesUpHeader}>Tiden är ute!</h1>
 						</section>
-					</>
 					) : ( 
 						<section className={clsx(styles.showCountdownNumbers, {[styles.hideNumber]: timesUp, [styles.showNumbers]: !timesUp})}>
 							{
@@ -178,10 +171,10 @@ const Timer = () => {
 				}
 				{ 
 					!timesUp ? (
-						<TomatoBtnContainers page={'countdown'} functions={functions} states={states}/>
+						<TomatoBtnContainers functions={functions} states={states}/>
 					) : (
 						<section className={styles.buttonContainerAfter}>
-							<article className={styles.stopAlarmBtn}  onClick={() => handleStopAlarm()}>Stoppa</article> 
+							<article className={styles.stopAlarmBtn}  onClick={() => handleStop()}>Stoppa</article> 
 						</section>
 					)
 				}

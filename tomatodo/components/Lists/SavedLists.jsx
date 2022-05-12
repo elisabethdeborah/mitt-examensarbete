@@ -13,12 +13,9 @@ const SavedLists = ({ lista, setSideListsVisible }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 
-	const handleClickOpen = (list, index) => {
+	const handleClickOpen = (list) => {
 		if (router.pathname === '/mina-todos') {
 			setPreviewTodosList(list.todos);
-			console.log("show todolist's todos: ", list.todos, 'index', index); 
-		} else if (router.pathname === '/') {
-			console.log("show todolist's todos: ", list.todos); 
 		};	 
 	};
 
@@ -96,8 +93,8 @@ const SavedLists = ({ lista, setSideListsVisible }) => {
 													<span className={styles.headerPartTwo}>{`${list.title}`}</span>
 													<h2 className={styles.headerPartOne}>{`?`}</h2>
 													<div className={styles.btnContainer}>
-														<DeleteButton setDisplayWarning={setPopupIsOpen} listItem={list} size={'regular'} text={'Delete'} />
-														<input type={"button"} className={styles.addBtn} value="Starta" onClick={() => handleClick(list)} />
+														<DeleteButton setDisplayWarning={setPopupIsOpen} listItem={list} size={'regular'} text={'ta bort'} />
+														<input type={"button"} className={styles.addBtn} value="starta" onClick={() => handleClick(list)} />
 													</div>
 												</section>
 											</article>

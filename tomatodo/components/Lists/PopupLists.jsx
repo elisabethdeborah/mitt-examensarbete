@@ -3,16 +3,18 @@ import styles from './styles/deleteBtn.module.scss';
 import { useUpdateContext, useTodoContext} from "../../context/TodoContext";
 import {useRouter} from 'next/router';
 import clsx from 'clsx';
+import PreviewListObj from './PreviewListObj';
+import ChevronDown from '../../svgAssets/chevron-down.svg';
 
-const PopupLists = ({ previewTodosList,closeAll }) => {
+const PopupLists = () => {
+	const [showPreview, setShowPreview] = useState(false);
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	const state = useTodoContext()
 	const fetchAllLists = state.fetchTodos;
-	//const [overlay, setOverlay] = useState(false);
 	
+	//restart list by unchecking all todos in list and setting list to not saved
 	const handleClick = async(list) => {
-		console.log('SAVE!!!', list._id)
 		list.todos.map(async(x) => {
 			await fetch("/api/todos/todo", {
 				method: "PUT",
@@ -45,58 +47,57 @@ const PopupLists = ({ previewTodosList,closeAll }) => {
 		.catch(error => {
 			console.log('error:', error);
 		})
-		
+		setShowPreview(false);
 		currentState.setCurrentItem(null);
 		currentState.setPopupIsOpen(false);
 		fetchAllLists();
-		closeAll ? closeAll() : null;
 		currentState.setOverlay(false);
 		router.push('/mina-todos');
-	};
-
-	const handleClose = () => {
-		currentState.setOverlay(false);
-		currentState.setPopupIsOpen(false);
 	};
 
 	useEffect(() => {
 		currentState.setOverlay(true);
 		return () => {
-			currentState.setPopupIsOpen(false);
-			currentState.setOverlay(false);
+			setShowPreview(false);
+			currentState.handleGoBack();
 		};
 	}, []);
 
-	/* useEffect(() => {
-		if (currentState.overlay && !popupIsOpen) {
-		//setPopupIsOpen(false);
-		}
-
-		if (!currentState.overlay && popupIsOpen) {
-		//	setPopupIsOpen(false);
-		}
-	}, [currentState.overlay]); */
-
 	return (
-		currentState.currentItem && currentState.currentItem._id && currentState.currentItem.saved && (
+			<div className={styles.popupLIstContainer}>
 			<div className={styles.deleteWarning}>
 				<section className={styles.textGroup}>
-					<h2 className={styles.removeHeader}>
-						Vill du starta om 
-							<span className={styles.todoTitle}>{`"${currentState.currentItem.title}"`}</span>
-						?
-					</h2>
+					<h1> Vill du starta om </h1>
+					<h2><span className={styles.todoTitle}>
+							{currentState.currentItem && currentState.currentItem.title ? `"${currentState.currentItem.title}"` : null}
+					</span>?</h2>
 					<div className={styles.btnContainer}>
-						<input type={"button"} className={styles.closeForm} value="Stäng" onClick={() => closeAll()} />
-						<input type={"button"} className={styles.addBtn} value="Starta" onClick={() => handleClick(currentState.currentItem)} />
+						<input type={"button"} className={styles.close} value="stäng" onClick={() => currentState.handleGoBack()} />
+						<input type={"button"} className={styles.addBtn} value="starta" onClick={() => handleClick(currentState.currentItem)} />
+					</div>
+				</section>
+				<section onClick={() => setShowPreview(!showPreview)} className={styles.previewContainer}>
+					<div  className={clsx(styles.previewTop , {[styles.previewArrow]: showPreview})}>
+						<h3>Todos i listan</h3>
+						<ChevronDown style={{height: '14px', width: '14px', position: 'absolute', right: '50px', color: 'inherit'}} />
 					</div>
 				</section>
 			</div>
-		)
-	)
-}
-
-
-				
+			
+			{ /* preview todos in list */
+			showPreview && currentState.currentItem && currentState.currentItem.todos && (
+				<div   className={clsx(styles.previewLists, {[styles.preview]: showPreview})}>	
+				<div className={styles.previewListContainer}>
+					{ currentState.currentItem.todos.map((item) => {
+						return (
+							<PreviewListObj key={item._id} item={item} />
+						);
+					})}
+					</div>
+				</div>
+			)}
+			</div>
+	);
+};				
 
 export default PopupLists;

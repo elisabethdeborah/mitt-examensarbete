@@ -87,6 +87,7 @@ export function TodoWrapper({children}) {
 	const handleGoBack = () => {
 		setTimeout(() => {
 			setFormIsVisible(false);
+			setPopupIsOpen(false);
 		}, 600);
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
 			if (limbo && !limbo[0] || !limbo ) {
@@ -99,6 +100,7 @@ export function TodoWrapper({children}) {
 	const closeOverlay = () => {
 		if (limbo && !limbo[0] || !limbo ) {
 			setOverlay(false);
+			setPopupIsOpen(false);
 			setCurrentItem(null);
 			setTimeout(() => {
 				setFormIsVisible(false);
@@ -134,7 +136,7 @@ export function TodoWrapper({children}) {
 		listitem,
 		setListitem,
 		limbo,
-		setLimbo
+		setLimbo,
 	};
 
 	return (

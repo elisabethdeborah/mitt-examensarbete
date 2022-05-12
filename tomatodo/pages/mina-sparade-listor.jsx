@@ -45,7 +45,7 @@ const SparadeListor = () => {
 	const handleClick = (x) => {
 		if (showListObject) {
 			currentState.setOverlay(false);
-			setaddToListIsVisible(false);
+			currentState.setPopupIsOpen(false);
 			setTimeout(() => {
 				setShowListObject(false);
 				listObjectIndex !== x ? setListObjectIndex(x) : setListObjectIndex(null);
@@ -59,17 +59,9 @@ const SparadeListor = () => {
 		};	
 	};  
 
-	const closeAll = () => {
-		setaddToListIsVisible(false);
-		setShowStartList(false);
-		setShowListObject(false);
-			currentState.setCurrentItem(null);
-			setListObjectIndex(null);
-	};
-
 	const closeOverlay = () => {
 		currentState.setOverlay(false);
-		setaddToListIsVisible(false);
+		currentState.setPopupIsOpen(false);
 		setTimeout(() => {
 			setShowListObject(false);
 			currentState.setCurrentItem(null);
@@ -83,8 +75,8 @@ const SparadeListor = () => {
 			{showDelete && (
 				<DeleteButton list={currentState.currentItem} type={'deleteLg'} />
 			)}
-			{addToListIsVisible && (
-				<PopupLists closeAll={closeAll} />
+			{currentState.popupIsOpen && (
+				<PopupLists />
 			)}
 			<div className={styles.libraryContainer}>
 				<div className={styles.tomatoListTop}>
@@ -104,13 +96,13 @@ const SparadeListor = () => {
 									listObjectIndex={listObjectIndex} 
 									showListObject={showListObject} 
 									handleClick={handleClick}
-									setaddToListIsVisible={setaddToListIsVisible}
+									setaddToListIsVisible={currentState.setPopupIsOpen}
 									setShowDelete={setShowDelete}
 									closeOverlay={closeOverlay}
 								/>
 							);
 						})) : (
-							<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade listor</h1>
+							<h1 className={styles.LoadingText}>Du har inga sparade listor</h1>
 							)
 				}
 			</div>

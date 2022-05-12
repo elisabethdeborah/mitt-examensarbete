@@ -3,7 +3,7 @@ import styles from '../../components/Lists/styles/deleteBtn.module.scss';
 import {useTodoContext, useUpdateContext} from "../../context/TodoContext";
 import DeleteButton from './DeleteButton';
 
-const LimboLists = ({ list, setDisplayWarning }) => {
+const LimboLists = ({ list }) => {
 	const state = useTodoContext();
 	const currentState = useUpdateContext();
 	const fetchAllLists = state.fetchTodos;
@@ -20,7 +20,7 @@ const LimboLists = ({ list, setDisplayWarning }) => {
 				saved: true,
 			}),
 		})
-		.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: 'startad', res: response.ok}))
+		.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: list.saved ? 'startad' : 'sparad', res: response.ok}))
 		.catch(error => {
 			console.log('error:', error);
 		})
@@ -55,15 +55,19 @@ const LimboLists = ({ list, setDisplayWarning }) => {
 					className={(styles.hiddenLists)}
 				>
 				<section className={styles.textGroup}>
-					<h1> Alla todos är färdiga, bra jobbat!</h1>
+					<h1> Alla todos är färdiga, <span>bra jobbat!</span></h1>
 					<div className={styles.question}>
 						<p>Vill du spara eller ta bort 
 						<span>{` "${list.title}"`}</span>
 						?</p>
 					</div>
 					<div className={styles.btnContainer}>
-						<DeleteButton setDisplayWarning={setDisplayWarning} listItem={list} size={'regular'} text={'delete'} />
-						<input type={"button"} className={styles.addBtn} value="Spara" onClick={() => handleClick()} />
+						<DeleteButton 
+							listItem={list} 
+							size={'regular'} 
+							text={'ta bort'} 
+						/>
+						<input type={"button"} className={styles.addBtn} value="spara" onClick={() => handleClick()} />
 					</div>
 				</section>
 			</article>

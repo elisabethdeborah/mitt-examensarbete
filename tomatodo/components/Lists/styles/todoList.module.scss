@@ -71,175 +71,171 @@
 	.todoListObjContainer {
 		width: 85%;
 
-	.todoArticle {
-		position: relative;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		margin: 1rem auto;
-		
-		border-radius: 30px;
-		width: 100%;
-		max-width: 630px;
-		height: 155px;
-		background-color: #D0EDFD;
-
-		.todoBorder {
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			left: 0;
-			width: 23px;
-			background-color: transparent;
-			border-radius: 30px 0 0 30px;
-		}
-		.checkBox {
-			@include hover-btn;
-			background-image: url('../../../svgAssets/checkbox-empty.svg');
-			background-repeat: no-repeat;
-			width: 50px;
-			height: 50px;
-			background-position: center;
-			background-size: cover;
-			overflow: visible;
-			transition: all 1s ease-in-out;
-			
-			@media screen and (min-width: 600px) {
-				width: 50px;
-				height: 50px;
-				//margin-top: 5px;
-				transition: all 1s ease-in-out;
-			}
-		}
-
-		.playBtn {
-			@include hover-btn;
-			background-image: url('../../../svgAssets/play-btn-sm-grey.svg');
-			background-repeat: no-repeat;
-			width: 50px;
-			height: 50px;
-			background-position: center;
-			background-size: cover;
-			overflow: visible;
-			transition: all 1s ease-in-out;
-			&.disabled {
-				filter: opacity(0.5);
-				&:hover {
-					cursor: auto;
-				}
-			}
-
-			@media screen and (min-width: 600px) {
-				width: 50px;
-				height: 50px;
-				transition: all 1s ease-in-out;
-			}
-		}
-
-		.todoTextSection {
+		.todoArticle {
+			position: relative;
 			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			width: 125px;
-			word-break: break-all;
-
-			> h3 {
-				margin: 0;
-				margin-bottom: 0.5rem;
-			} 
+			flex-direction: row;
+			align-items: center;
+			margin: 1rem auto;
 			
-			> p {
-				margin: 0;
-				font-size: 0.8rem;
-				text-align: left;
+			border-radius: 30px;
+			width: 100%;
+			max-width: 630px;
+			height: 155px;
+			background-color: #D0EDFD;
+
+			.todoBorder {
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				width: 23px;
+				background-color: transparent;
+				border-radius: 30px 0 0 30px;
 			}
-
-			@media screen and (min-width: 600px) {
-				align-items: center;
-				width: 50%;
-				max-width: 300px;
-			}
-		}
-
-		&.checkedItem {
-			background-color: $color-green-bg;
-			transition: all 1s ease-in-out;
-
 			.checkBox {
 				@include hover-btn;
-				background-image: url('../../../svgAssets/check-mark-sm.svg');
+				background-image: url('../../../svgAssets/checkbox-empty.svg');
+				background-repeat: no-repeat;
+				width: 50px;
+				height: 50px;
 				background-position: center;
 				background-size: cover;
 				overflow: visible;
-				height: 50px;
-				width: 50px;
-			}
-			.playBtn {
-				background-image: url('../../../svgAssets/play-btn-sm-green.svg');
-				background-position: center;
-				background-size: cover;
-				overflow: visible;
-				height: 50px;
-				width: 50px;
-				&:hover {
-					cursor: pointer;
+				transition: all 1s ease-in-out;
+				
+				@media screen and (min-width: 600px) {
+					width: 50px;
+					height: 50px;
+					transition: all 1s ease-in-out;
 				}
+			}
+
+			.playBtn {
+				@include hover-btn;
+				background-image: url('../../../svgAssets/play-btn-sm-grey.svg');
+				background-repeat: no-repeat;
+				width: 50px;
+				height: 50px;
+				background-position: center;
+				background-size: cover;
+				overflow: visible;
+				transition: all 1s ease-in-out;
 				&.disabled {
 					filter: opacity(0.5);
 					&:hover {
 						cursor: auto;
 					}
 				}
-			}
 
-			@media screen and (min-width: 600px) {
-				background-color: $color-article-bg;
-				.todoBorder {
-					background-color: $color-green;
+				@media screen and (min-width: 600px) {
+					width: 50px;
+					height: 50px;
+					transition: all 1s ease-in-out;
 				}
 			}
-		}
 
-		
+			.todoTextSection {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				width: 125px;
+				word-break: break-all;
 
-		
-		.todoTimeSection {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			width: 50px;
-			position: relative;
+				> h3 {
+					margin: 0;
+					margin-bottom: 0.5rem;
+				} 
+				
+				> p {
+					margin: 0;
+					font-size: 0.8rem;
+					text-align: left;
+				}
 
-			.todoTime {
+				@media screen and (min-width: 600px) {
+					align-items: center;
+					width: 50%;
+					max-width: 300px;
+				}
+			}
+
+			&.checkedItem {
+				background-color: $color-green-bg;
+				transition: all 1s ease-in-out;
+
+				.checkBox {
+					@include hover-btn;
+					background-image: url('../../../svgAssets/check-mark-sm.svg');
+					background-position: center;
+					background-size: cover;
+					overflow: visible;
+					height: 50px;
+					width: 50px;
+				}
+				.playBtn {
+					background-image: url('../../../svgAssets/play-btn-sm-green.svg');
+					background-position: center;
+					background-size: cover;
+					overflow: visible;
+					height: 50px;
+					width: 50px;
+					&:hover {
+						cursor: pointer;
+					}
+					&.disabled {
+						filter: opacity(0.5);
+						&:hover {
+							cursor: auto;
+						}
+					}
+				}
+
+				@media screen and (min-width: 600px) {
+					background-color: $color-article-bg;
+					.todoBorder {
+						background-color: $color-green;
+					}
+				}
+			}
+
+			.todoTimeSection {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				width: 50px;
+				position: relative;
+
+				.todoTime {
+					position: absolute;
+					bottom: 0.5rem;
+					font-size: 0.75rem;
+					font-weight: bold;
+				}
+			}
+
+			.deleteBtn {
+				@include hover-btn;
 				position: absolute;
-				bottom: 0.5rem;
-				font-size: 0.75rem;
-				font-weight: bold;
+				top: 1rem;
+				right: 1.5rem;
+
+				&:hover {
+					cursor: pointer;
+				}
 			}
-		}
 
-
-		.deleteBtn {
-			@include hover-btn;
-			position: absolute;
-			top: 1rem;
-			right: 1.5rem;
-
-			&:hover {
-				cursor: pointer;
+			&.checked {
+				border-left: 10px solid $color-green;
 			}
-		}
-
-		&.checked {
-			border-left: 10px solid $color-green;
 		}
 	}
-}
 }
 .addBtnGroup {
 	display: flex;
 	justify-content: space-evenly;
 	width: 100%;
+	padding: 0 1rem;
 }
 
 .addTodoList {
@@ -274,7 +270,8 @@
 	@media screen and (min-width: 600px) {
 		align-items: center;
 		align-self: flex-end;
-		margin: 0 3rem;
+		justify-content: space-evenly;
+		padding: 0 3rem;
 	}
 }
 

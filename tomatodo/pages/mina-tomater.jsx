@@ -48,6 +48,18 @@ const MinaTomater = () => {
 		return () => currentState.setOverlay(false);
 	}, [showListObject]);
 
+
+	useEffect(() => {
+		if (!addToListIsVisible && !showChangeForm && currentState.formIsVisible) {
+			setTimeout(() => {
+				currentState.setOverlay(true);
+			}, 10);
+			return () => {
+				closeOverlay();
+			};
+		};
+	}, [currentState.formIsVisible]);
+
 	const handleClick = (x) => {
 		if (showListObject) {
 			closeOverlay();
@@ -81,7 +93,7 @@ const MinaTomater = () => {
 		<div className={styles.tomatoPageWrapper}>
 			<Meta title='Mina tomater' />
 			{
-				showChangeForm && (
+				showChangeForm && currentState.formIsVisible && (
 					<>
 						<Form 
 							list={currentState.currentItem} 
@@ -112,8 +124,8 @@ const MinaTomater = () => {
 				)
 			}
 			{
-				!addToListIsVisible && currentState.formIsVisible && (
-					<Form objectType={'tomato'} method={'POST'} />
+				!addToListIsVisible && !showChangeForm && currentState.formIsVisible && (
+					<Form objectType={'tomato'} method={'POST'} showListObject={showListObject} setShowListObject={setShowListObject} />
 				)
 			}
 			{
@@ -143,7 +155,7 @@ const MinaTomater = () => {
 									/>
 								))
 							) : (
-								<h1 className={styles.LoadingText} style={{width: '100%', textAlign: 'center', padding: '2rem 1rem'}}>Du har inga sparade tomater</h1>
+								<h1 className={styles.LoadingText} >Du har inga sparade tomater</h1>
 							)
 					}
 				</div>

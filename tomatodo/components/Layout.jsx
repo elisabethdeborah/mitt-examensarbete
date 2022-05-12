@@ -67,25 +67,16 @@ const Layout = ({ children }) => {
 
 	  //show/hide overlay
 	  useEffect(() => {
-		  if ( currentState.listitem && !currentState.overlay) { //router.pathname !== 'mina-tomater' || router.pathname !== 'mina-todos'
-			  currentState.listitem ?
+		  if ( currentState.listitem && !currentState.overlay) {
 		setTimeout(() => {
 			currentState.setOverlay(true);
-		}, 10): null;
+		}, 10);
 		  }
-		currentState.listitem ?
-		setTimeout(() => {
-			currentState.setOverlay(true);
-		}, 10): null;
-		return () => currentState.closeOverlay();
 	}, [currentState.listitem]);
 
 	//close overlay by clicking outside of popup/form/tomato/saved list
 	const hideOverlay = () => {
-		if (currentState.limbo && currentState.limbo[0]) {
-			console.log('limbo:',currentState.limbo);
-		} else if (currentState.limbo && !currentState.limbo[0] || !currentState.limbo ) {
-			console.log('currentState.listitem && !limbo:', currentState.listitem && !currentState.limbo, currentState.listitem, !currentState.limbo);
+		if (currentState.limbo && !currentState.limbo[0] || !currentState.limbo ) {
 			currentState.closeOverlay();
 			currentState.setPopupIsOpen(false);
 			currentState.setListitem(null);

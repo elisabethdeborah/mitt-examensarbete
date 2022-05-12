@@ -5,6 +5,7 @@ $color-pink: #D92387;
 $color-orange: #FF9100;
 $color-yellow: #F2D230;
 $color-green: #88D94E;
+$color-blue: #63baf0;
 $color-green-bg: #88d94ec5;
 $color-background: linear-gradient(#bce2f9, #ddf3ff ); 
 $color-article-bg: #D0EDFD;
@@ -24,7 +25,7 @@ $font-family: 'Paytone One', sans-serif;
 	transition: all 0.15s ease-in-out;
 	&:hover {
 		transition: all 0.15s ease-in-out;
-		filter: brightness(1.1) drop-shadow(0px 0px 7px $color-box-shadow-dark);
+		filter: brightness(0.8) drop-shadow(0px 0px 7px $color-box-shadow-dark);
 		cursor: pointer;
 	}
 }
@@ -33,7 +34,7 @@ $font-family: 'Paytone One', sans-serif;
 	transition: all 0.15s ease-in-out;
 	&:hover {
 		transition: all 0.15s ease-in-out;
-		filter: brightness(0.7);
+		filter: brightness(0.8);
 		cursor: pointer;
 	}
 }
@@ -61,13 +62,8 @@ $font-family: 'Paytone One', sans-serif;
 }
 
 @mixin active-btn {
-	//transition: filter 0.1s ease-in-out;
 	&:active {
 		filter: grayscale(0.5);
 		transform: scale(0.99) translateY(2px);
-		//transition: filter 0.1s ease-in-out;
-		/* @media screen and (min-width: 600px) {
-			transform: scale(0.9) translateY(1px);
-		} */
 	}
 }

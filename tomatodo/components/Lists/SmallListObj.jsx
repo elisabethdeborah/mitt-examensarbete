@@ -5,18 +5,17 @@ import { useUpdateContext } from "../../context/TodoContext";
 import {useRouter} from 'next/router';
 import styles from './styles/listContainer.module.scss';
 
-const SmallListObj = ({ item, listObjIndex, contentIsVisible,setOpen }) => {
+const SmallListObj = ({ item, listObjIndex, contentIsVisible, setOpen }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 
 	const handleClick = (x) => {
 		if ( router.pathname !== '/mina-tomater') {
 			currentState.setCurrentItem({...x, listObjIndex: listObjIndex});
-			console.log({...x, listObjIndex: listObjIndex});
 			x.saved ? currentState.setPopupIsOpen(true):null;
 			if (item._type === 'todoList' && !item.saved && router.pathname !== '/mina-todos') {
 				router.push('/mina-todos');
-			} else if (item._type === 'tomato') {
+			} else if (item._type === 'tomato' && !currentState.countdownItem) {
 				router.push('/mina-tomater');
 			}
 		}
@@ -95,7 +94,7 @@ const SmallListObj = ({ item, listObjIndex, contentIsVisible,setOpen }) => {
 			)
 			}
 		</article>
-		{router.pathname === '/' && item._type === 'tomato' && item.time > 0 && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
+		{router.pathname === '/start' && item._type === 'tomato' && item.time > 0 && <PlayTimerBtn listItem={item} style={{position: 'absolute'}}/>}
 		</div>
 	);
 };

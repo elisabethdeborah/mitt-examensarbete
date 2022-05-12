@@ -13,7 +13,7 @@ const Header = ({ width }) => {
 			<CloseNav className={clsx(styles.closeNavBtn, {[styles.showClosebtn]: navIsOpen})} onClick={() => setNavIsOpen(false)} />
 			<Hamburger className={clsx(styles.hamburger, {[styles.showHamburger]: !navIsOpen})} onClick={() => setNavIsOpen(true)} />
 			<section className={clsx(styles.logoContainer, {[styles.navIsOpen]: navIsOpen})} />
-			<Link href={'/'} passHref>
+			<Link href={'/start'} passHref>
 				<section className={styles.headerTextContainer}>
 					<h1 className={clsx(styles.logoHeader, styles.partOne)}>toma</h1>
 					<h1 className={clsx(styles.logoHeader, styles.partTwo)}>todo</h1>

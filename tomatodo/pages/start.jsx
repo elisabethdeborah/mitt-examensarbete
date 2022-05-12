@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import Meta from "../components/Meta";
 import { useRouter } from "next/router";
 import styles from '../styles/Home.module.scss';
 import { useUserStore } from '../context/UserStore';
@@ -19,7 +20,6 @@ export default function Start() {
  	const todoState = useTodoContext();
  
 	useEffect(() => {
-		console.log(todoState.initialFetch)
 		if (userInfo) {
 			setIsLoading(true);
 			todoState.fetchTodos();
@@ -38,6 +38,7 @@ export default function Start() {
 
   	return (
 		  <>
+		  <Meta title='Start' />
 		  {
 			isLoading ? (
 				<h1>laddar...</h1> 

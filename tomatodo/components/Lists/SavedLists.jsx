@@ -20,7 +20,6 @@ const SavedLists = ({ lista, setSideListsVisible }) => {
 	};
 
 	const handleClick = async(list) => {
-		console.log('SAVE!!!', list._id)
 		await fetch("/api/todos/todolist", {
 			method: "PUT",
 			headers: {
@@ -60,13 +59,12 @@ const SavedLists = ({ lista, setSideListsVisible }) => {
 	const clickItem = (clickItem) => {
 		setPopupIsOpen(!popupIsOpen);
 		currentState.setCurrentItem(clickItem);
-		console.log(currentState.currentItem, clickItem);
 	};
 
 	return (
 		<div className={clsx(styles.savedLists, {
 			[styles.showContent]: contentIsVisible,
-			[styles.homePage]: router.pathname === '/',
+			[styles.homePage]: router.pathname === '/start',
 			[styles.todolistPage]: router.pathname === '/mina-todos',
 			[styles.savedListsPage]: router.pathname === '/mina-sparade-listor'})}
 		>

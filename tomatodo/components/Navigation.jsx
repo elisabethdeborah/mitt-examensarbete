@@ -20,8 +20,8 @@ const Navigation = ({ navIsOpen, setNavIsOpen, width }) => {
 	return (
 		<nav className={clsx(styles.navContainer, {[styles.navIsOpen]: navIsOpen})}>
 			<ul onClick={() => setNavIsOpen()} className={styles.list}>
-				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/'})}>
-					<Link href='/'>Start</Link>
+				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/start'})}>
+					<Link href='/start'>Start</Link>
 				</li>
 				<li className={clsx(styles.navLink, {[styles.active]: router.pathname=='/timer'})}>
 					<Link href='/timer'>Timer</Link>

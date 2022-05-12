@@ -9,14 +9,11 @@ import PlayTimerBtn from '../PlayTimerBtn';
 const ActiveLists = ({ tomatoes, setSideListsVisible, open }) => {
 	const [contentIsVisible, setContentIsVisible] = useState(false);
 	const router = useRouter();
-	const handleClickTomato = (tomato, index) => {
-		console.log('tomato-klick från sidlista: ', tomato, 'index', index)
-	};
 
 	return (
 		<div className={clsx(styles.activeLists, {
 			[styles.showContent]: contentIsVisible,
-			[styles.homePage]: router.pathname === '/',
+			[styles.homePage]: router.pathname === '/start',
 			[styles.tomatoPage]: router.pathname === '/mina-tomater'})}
 		>
 			<section className={styles.activeListsTop} onClick={() => setContentIsVisible(!contentIsVisible)}>
@@ -32,7 +29,7 @@ const ActiveLists = ({ tomatoes, setSideListsVisible, open }) => {
 							tomatoes.map((tomato, index) => {
 								return (
 									open !== index && (
-										<article key={index} onClick={() => handleClickTomato(tomato, index)} className={styles.hiddenLists}>
+										<article key={index} className={styles.hiddenLists}>
 											<article className={styles.smallTomato} />
 											<section className={styles.textGroup}>
 												<h3>{tomatoes[index].title}</h3>
@@ -46,10 +43,7 @@ const ActiveLists = ({ tomatoes, setSideListsVisible, open }) => {
 											</section>
 											<PlayTimerBtn listItem={tomato} color={"orange"} />
 											<Link href={"/timer-countdown"} passHref>
-												<article 
-													onClick={() => console.log('go to timer, time', tomato.time)} 
-													className={styles.playBtnTomato} 
-												/>		
+												<article className={styles.playBtnTomato} />		
 											</Link>
 										</article>
 									)

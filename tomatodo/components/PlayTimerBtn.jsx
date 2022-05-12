@@ -19,7 +19,7 @@ const PlayBtn = ({ listItem, size, content, styleChecked }) => {
 				className={clsx(styles.playBtn, {
 					[styles.orange]: listItem._type ==="tomato",
 					[styles.green]: listItem._type !=="tomato" && styleChecked,
-					[styles.grey]: listItem._type !=="tomato" && !styleChecked && !currentState.countdownItem && router.pathname !== '/',
+					[styles.grey]: listItem._type !=="tomato" && !styleChecked && !currentState.countdownItem && router.pathname !== '/start',
 					[styles.orangeLg]: size === 'large',
 					[styles.regularBtn]: content && content.length>0, 
 					[styles.todoList]: router.pathname === '/mina-todos',

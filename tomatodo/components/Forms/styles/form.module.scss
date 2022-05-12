@@ -1,13 +1,13 @@
 @import '../../../styles/variables.scss';
 
 .formContainer {
-	z-index: 9999;
+	z-index: 9999999;
 	position: fixed;
-	top: 5vw;
+	top: 5vh;
     right: 5vw;
     bottom: 5vw;
     left: 5vw;
-    height: calc(100% - 10vw);
+    height: 10vh;
 	padding: 50px;
 	display: flex;
 	flex-direction: column;
@@ -15,7 +15,7 @@
 	align-items: center;
 	background-color: $color-container-bg;
 	max-width: 364px;
-	min-height: 550px;
+	min-height: 450px;
 	border-radius: 20px;
 	opacity: 1;
 	transition: opacity 0.5s ease;
@@ -60,6 +60,7 @@
 		border: 1px solid $color-pink;
 		border-radius: 100px;
 		color: $color-darkgrey;
+		margin: 10px auto;
 
 		&.textInput {
 			font-size: 0.85rem;

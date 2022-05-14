@@ -51,7 +51,6 @@ const createEndpoint = (objectType) => {
 
 const submitClick = (objectType, body, method, state) => {
 	state.setPending(true);
-	console.log('submitclick function, params:', objectType, method, state, body)
 	const endPoint = createEndpoint(objectType);
 	let fetchObj = {
 		method: `${method}`,

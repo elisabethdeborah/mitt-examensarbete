@@ -21,7 +21,6 @@ export default function MinaTodos() {
 	const fetchAllLists = todoState.fetchTodos;
 	let titles = lists.activeLists && lists.activeLists.map(x => x.title);
 
-
 	const handleSideListArrow = () => {
 		setFlexDirection(true);
 		setTimeout(() => {
@@ -39,49 +38,21 @@ export default function MinaTodos() {
 	}, []);
 
 	useEffect(() => {
-		console.log('changed: todoState.initialFetch', open)
 		if (todoState.initialFetch) {
 			setLists({activeLists: todoState.initialFetch.activeLists, savedLists: todoState.initialFetch.savedLists, tomatoLibrary: todoState.initialFetch.tomatoLibrary})
 			
 			titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
-
-		//	open < 0 || !open ? setOpen(0) : null;
 			setIsLoading(false);
 		} else {
 			setIsLoading(true);
 		}; 
-		//return () => setIsLoading(false);
 	}, [todoState.initialFetch, currentState.currentItem, lists.activeList, open]);
 
-
-						//console.log('activeLists:', lists.activeLists, 'open:', open)
-
-	//set open to clicked list on page mount, make sure open can't be negative
 	useEffect(() => {
 		console.log('change?', open, titles, isLoading);
 		!isLoading ? open < 0 || !open && setOpen(0) : null;
 		titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
-		//return () => setOpen(0);
 	}, [lists.activeLists, open]);
-
-	//om change in page, change after mount, change to clicked smalllist before page change
-	useEffect(() => {
-		console.log('changed: open, lists.activeLists', open, titles, isLoading, open < 0 || !open);
-		open < 0 || !open ? setOpen(0) : null;
-	}, [open]);
-/* 
-	useEffect(() => {
-		let newIndex;
-		lists.activeLists && currentState.currentItem ? newIndex = lists.activeLists[currentState.currentItem] : null;
-		open < 0 || !open ? setOpen(0) : null;
-		currentState.currentItem && lists.activeLists && open === newIndex ? setOpen(0) : null; 
-	}, [lists]); */
-
-	//on mount //om change in page
-	/* useEffect(() => {
-		titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
-		//return () => setOpen(0);
-	}, [currentState.currentItem]); */
 
 	return (
 		<>

@@ -97,14 +97,11 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 	};
 
 	const closeForm = () => {
-		console.log('currentState before closeform:', currentState, 'params:', objectType, method, currentListDocId, defaultTime)
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
 			currentState.handleGoBack();
 		} else {
-			console.log('close: ', router.pathname)
 			currentState.handleGoBack();
 		};
-		console.log('currentState after closeform:', currentState, 'params:', objectType, method, currentListDocId, defaultTime)
 	};
 
 	return (

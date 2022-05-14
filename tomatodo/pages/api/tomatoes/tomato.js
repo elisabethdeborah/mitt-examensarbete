@@ -1,7 +1,7 @@
 import client from "../../../lib/sanity";
 
 const tomato = async function handler(req, res) {
-	let newTomato; 
+	let newTomato = req.body; 
 	switch (req.method) {
 		case "POST":
 			newTomato = await JSON.parse(req.body);
@@ -33,11 +33,9 @@ const tomato = async function handler(req, res) {
 			};
 			break;
 		case "PUT":
-
-			newTomato = await JSON.parse(req.body);
 			let update;
 			const updateClicks = {
-				"numberOfClicks": newTomato.numberOfClicks +1
+				"numberOfClicks": newTomato.numberOfClicks
 			};
 
 			const updateTomato = {

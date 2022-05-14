@@ -47,7 +47,7 @@ export function TodoWrapper({children}) {
 				"todos": * [_type == "todo" && todoList._ref == ^._id],
 				...,
 			},
-			"savedLists": * [_type == "todoList" && user._ref == "${user}" && saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0  ] | order(_createdAt desc) {
+			"savedLists": * [_type == "todoList" && user._ref == "${user}" && saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0  ] | order(numberOfClicks desc) {
 				title,
 				saved,
 				"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
@@ -55,13 +55,13 @@ export function TodoWrapper({children}) {
 				numberOfClicks,
 				...,
 			},
-			"tomatoLibrary": * [_type == "tomato"  && user._ref == "${user}"] | order(_createdAt desc) {
+			"tomatoLibrary": * [_type == "tomato"  && user._ref == "${user}"] | order(numberOfClicks desc) {
 				title, 
 				time, 
 				...,
 				numberOfClicks,
 			},
-			"limboLists": * [_type == "todoList" && user._ref == "${user}" && !saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0 && count(* [_type == "todo" && todoList._ref == ^._id]) > 0] | order(_createdAt desc) {
+			"limboLists": * [_type == "todoList" && user._ref == "${user}" && !saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0 && count(* [_type == "todo" && todoList._ref == ^._id]) > 0] | order(numberOfClicks desc) {
 				title,
 				saved,
 				"todos": * [_type == "todo" && todoList._ref == ^._id],

@@ -23,7 +23,6 @@ const PlayBtn = ({ listItem, size, content, styleChecked }) => {
 					numberOfClicks: newNumber,
 				}),
 			})
-			.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: list.saved ? 'startad' : 'sparad', res: response.ok}))
 		} catch (error) {
 			console.log('error:', error);
 		}

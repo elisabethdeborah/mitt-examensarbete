@@ -23,6 +23,10 @@
 	&.pinkTomato {
 		margin: 2rem auto;
 		color: $color-black;
+
+		.favouriteNumber {
+			right: 50px;
+		}
 		> h3 {
 			font-size: 1.5rem;
 			width: 200px;
@@ -43,6 +47,14 @@
 		background-image: url('../../../svgAssets/pink-tomato-m.svg');
 	}
 
+	.favouriteNumber {
+		position: absolute;
+		top: 5px;
+		
+		font-size: 1rem;
+		font-weight: 300;
+	}
+
 	h3 {
 		font-size: 1.3rem;
 		word-break: break-all;
@@ -59,16 +71,22 @@
 		margin: 1rem auto;
 		flex-direction: row;
 		align-items: center;
+		justify-content: space-evenly;
 		//width: 325px;
 		height: 210px;
 		width: 90%;
 		border-radius: 20px;
 		padding: 0 1rem;
 
+		.favouriteNumber {
+			right: 15px;
+		}
+
 		.textGroup {
 			display: flex;
 			flex-direction: column;
 			position: relative;
+			max-width: calc(90% - 68px);
 			> h3 {
 				font-size: 1.3rem;
 				//width: 200px;
@@ -142,7 +160,7 @@
 		&.blueTodoList {
 			flex-direction: row;
 			align-items: center;
-			width: 325px;
+			width: 300px;
 			height: 230px;
 			border-radius: 20px;
 			padding: 0 1rem;
@@ -154,7 +172,7 @@
 				> h3 {
 					font-size: 1.5rem;
 					width: 200px;
-					text-align: center;
+					text-align: left;
 					right: 13%;
 					word-break: break-all;
 				}
@@ -164,8 +182,8 @@
 				background-repeat: no-repeat;
 				background-position: center;
 				background-size: cover;
-				width: 84px;
-				height: 84px;
+				width: 60px;
+				height: 60px;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -173,7 +191,7 @@
 				overflow: visible;
 
 				.nrTodos {
-					font-size: 2rem;
+					font-size: 1.2rem;
 					font-weight: bold;
 					margin-right: 20px;
 				}
@@ -211,6 +229,11 @@
 	&.pinkTomato {
 		left: calc(50vw - 140px);
 		transform: scale3d(1.2, 1.2, 1.1);
+
+		.favouriteNumber {
+			right: 50px;
+			color: $color-white;
+		}
 	}
 
 	&.pinkTodoList,

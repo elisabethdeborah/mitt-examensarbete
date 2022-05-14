@@ -47,10 +47,11 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				})} 
 				key={index}
 			>
+				{ 
+					index < 5 && list.numberOfClicks > 0 &&  <p className={styles.favouriteNumber}>{`favorit nr: ${index+1}`}</p>
+				}
 			{
-				list.description && list.description.length > 0 && (
-					<div className={clsx(styles.hoverDescription, {[styles.showDescription]: showHover === true})}>{list.description}</div> 
-				)
+				<div className={clsx(styles.hoverDescription, {[styles.showDescription]: showHover === true})}>{list.description && list.description.length > 0 && list.description} {list.numberOfClicks}</div> 
 			}
 			{
 				router.pathname !== '/mina-tomater' ? (

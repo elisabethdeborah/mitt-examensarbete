@@ -1,0 +1,195 @@
+@import '../../../styles/variables.scss';
+
+.hiddenLists {
+	background-color: $color-article-bg;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-radius: 15px;
+	margin: 1rem auto 2rem;
+	padding: 0 1rem;
+	min-height: 73px;
+	width: 90%;
+	height: fit-content;
+	box-shadow: none;
+	transition: box-shadow 0.2s ease-in-out;
+
+	.textGroup {
+		position: relative;
+		width: 45%;
+		overflow-wrap: break-word;
+		hyphens: auto;
+
+		h3 {
+			font-size: 1rem;
+			margin-bottom: 3px;
+		}
+		p {
+			font-size: 0.75rem;
+			font-weight: bold;
+		}
+
+		@media screen and (min-width: 600px) {
+			width: 50%;
+			flex: 1;
+		}
+	}
+
+	&.isVisible {
+		opacity: 1;
+	}
+
+	&:hover {
+		box-shadow: 0px 0px 10px $color-box-shadow;
+		transition: box-shadow 0.1s ease-in-out;
+	}
+
+	&.previewList {
+		
+		margin: 10px auto;
+		@media screen and (min-width: 600px) {
+			width: 340px;
+		}
+	}
+
+	&.tomatoObj {
+		justify-content: flex-start;
+		.textGroup {
+			width: 50%;
+			margin-left: 0.5rem;
+
+			@media screen and (min-width: 600px) {
+				width: 55%;
+				margin-right: 60px;
+			}
+		}
+	}
+}
+
+.isVisible {
+	opacity: 1;
+}
+
+.iconGroup {
+	display: flex;
+	flex-direction: row;
+	.nrOfTodosIcon {
+		background-image: url('../../../svgAssets/total-nr-todos.svg');
+	} 
+	.nrOfCheckedIcon {
+		background-image: url('../../../svgAssets/nrCheckedIcon.svg');
+	} 
+	.nrOfNotCheckedIcon {
+		background-image: url('../../../svgAssets/nrNotChecked.svg');
+	}
+
+	.nrOfTodosIcon, .nrOfNotCheckedIcon, .nrOfCheckedIcon {
+		background-repeat: no-repeat;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		margin: 0 3px;
+
+		.nrTodos, .nrNotChecked, .nrChecked {
+			font-size: 0.9rem;
+			font-weight: bold;
+		}
+
+		.nrTodos, .nrNotChecked {
+			margin-left: 0.75rem;
+		}
+
+		.nrChecked {
+			margin-left: 1rem;
+		}
+	}
+}
+	
+@media screen and (min-width: 600px) {
+	.hiddenLists {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background-color: $color-article-bg;
+		margin: 1rem auto;
+		padding: 0 1rem;
+		width: 80%;
+		height: fit-content;
+
+		opacity: 1;
+		&.isVisible {
+			opacity: 1;
+		}
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		&.previewList {
+			width: 340px;
+			margin: 10px auto;
+		}
+
+		&.tomatoObj {
+			padding: 0 1rem;
+			justify-content: flex-start;
+
+			.textGroup {
+				margin-left: 1rem;
+			}
+		}
+	}	
+}
+
+.smallTomato {
+	height: 60px;
+	width: 60px;
+	background-image: url('../../../svgAssets/orange-tomato-small.svg');
+	background-repeat: no-repeat;
+	transform: scale(0.75);
+
+	@media screen and (min-width: 600px) {
+		transform: scale(1);
+	}
+}
+
+.optionContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 2rem auto;
+	position: absolute;
+    bottom: 0;
+    width: 100%;
+
+	.addTodoList {
+		@include hover-btn-secondary;
+		@include active-btn;
+		background-color: transparent;
+		border: none;
+
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		> h2 {
+			display: inline-block;
+			margin: 0;
+			margin-block-start: 0;
+    		margin-block-end: 0;
+		}
+
+		> svg {
+			margin: 5px;
+		}
+	}
+}
+
+.tomtHeader {
+	text-align: center;
+	margin: 4rem auto;
+	font-size: 1.5rem;
+}
+
+

@@ -29,9 +29,7 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 					onClick={() => setContentIsVisible(!contentIsVisible)} 
 				>
 					<h4>{itemType !== "todos" ? `Mina ${itemType.split('-').join(' ')}` : 'Mina pågående listor'}</h4>
-					{	router.pathname !== '/mina-todos' && (
-						<ChevronDown style={{height: '14px', width: '14px', position: 'absolute', right: '50px'}} />
-					)}
+					<ChevronDown />
 					{
 						router.pathname === '/mina-todos' && (
 							<p className={styles.arrowRight} onClick={() => setSideListsVisible(false)}>&rarr;</p>
@@ -52,7 +50,7 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 					list && list.length > 0 ? 
 						list.map((item, index) => {
 							return (
-								router.pathname === '/mina-todos' && !item.saved ? (
+								!item.saved ? (
 									open !== index && (
 										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
 									)

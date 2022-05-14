@@ -2,10 +2,10 @@ import clsx from 'clsx';
 import NumberFormat from '../NumberFormat';
 import PlayTimerBtn from '../PlayTimerBtn';
 import { useUpdateContext } from "../../context/TodoContext";
-import {useRouter} from 'next/router';
-import styles from './styles/listContainer.module.scss';
+import { useRouter } from 'next/router';
+import styles from './styles/listObj.module.scss';
 
-const SmallListObj = ({ item, listObjIndex, contentIsVisible, setOpen }) => {
+const SmallListObj = ({ item, listObjIndex, contentIsVisible }) => {
 	const currentState = useUpdateContext();
 	const router = useRouter();
 

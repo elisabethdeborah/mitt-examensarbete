@@ -49,6 +49,11 @@
 		h4 {
 			text-align: center;
 		}
+
+		.listTop > svg {
+			transform: rotate(180deg);
+		}
+
 		.contentBox {
 			overflow-y: scroll;
 			height: fit-content;
@@ -61,6 +66,9 @@
 
 		@media screen and (min-width: 600px) {
 			height: fit-content;
+			svg {
+				display: none;
+			}
 		}
 	}
 
@@ -73,33 +81,26 @@
 		}
 	}
 
-	&:last-child {
-		border-radius: 20px;
-		height: fit-content;
-		overflow-y: visible;
-		padding-bottom: 2rem;
-		box-shadow: 0px 0px 5px $color-box-shadow-dark;
-		@media screen and (min-width: 600px) {
-			border-radius: 30px;
+	&.homePage {
+		&:last-child {
+			border-radius: 20px;
+			height: fit-content;
+			overflow-y: visible;
+			padding-bottom: 2rem;
+			box-shadow: 0px 0px 5px $color-box-shadow-dark;
+			svg {
+				display: none;
+			}
+
+			@media screen and (min-width: 600px) {
+				border-radius: 30px;
+			}
 		}
 	}
 
 	.emptyListText {
 		text-align: center;
 		color: transparent;
-	}
-
-	&.homePage {
-		.contentBox {
-			width: 100%;
-			overflow-y: scroll;
-			max-height: calc(100vh - 300px);
-			border-radius: 20px;
-			@media screen and (min-width: 600px) {
-			max-height: calc(100vh - 250px);
-			border-radius: 30px;
-			}
-		}
 	}
 
 	&.todolistPage,
@@ -215,44 +216,6 @@
 	}
 }
 
-.iconGroup {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	.nrOfTodosIcon {
-		background-image: url('../../../svgAssets/total-nr-todos.svg');
-	} 
-	.nrOfCheckedIcon {
-		background-image: url('../../../svgAssets/nrCheckedIcon.svg');
-	} 
-	.nrOfNotCheckedIcon {
-		background-image: url('../../../svgAssets/nrNotChecked.svg');
-	}
-
-	.nrOfTodosIcon, .nrOfNotCheckedIcon, .nrOfCheckedIcon {
-		background-repeat: no-repeat;
-		width: 40px;
-		height: 40px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 0 3px;
-
-		.nrTodos, .nrNotChecked, .nrChecked {
-			font-size: 0.9rem;
-			font-weight: bold;
-		}
-
-		.nrTodos, .nrNotChecked {
-			margin-left: 0.75rem;
-		}
-
-		.nrChecked {
-			margin-left: 1rem;
-		}
-	}
-}
-
 .listTop {
 	z-index: 4;
 	position: absolute;
@@ -265,6 +228,14 @@
 	height: 50px;
 	color: $color-white;
 	border-radius: 0;
+	transition: all 0.2s ease-in-out;
+	> svg {
+		position: absolute;
+		right: 50px;
+		width: 14px;
+		height: 14px;
+		transition: all 0.2s ease-in-out;
+	}
 
 	.arrowRight {
 		display: none;
@@ -284,6 +255,10 @@
 
 	@media screen and (min-width: 600px) {
 		border-radius: 30px 30px 0 0;
+
+		> svg {
+			display: none;
+		}
 		
 	}
 }
@@ -299,158 +274,6 @@
 			right: 1rem;
 			font-size: 1.5rem;
 		}
-	}
-}
-
-.hiddenLists {
-	background-color: $color-article-bg;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	border-radius: 15px;
-	margin: 1rem auto 2rem;
-	padding: 0 1rem;
-	min-height: 73px;
-	width: 90%;
-	height: fit-content;
-	box-shadow: none;
-	transition: box-shadow 0.2s ease-in-out;
-
-	.textGroup {
-		position: relative;
-		width: 45%;
-		overflow-wrap: break-word;
-		hyphens: auto;
-
-		h3 {
-			font-size: 1rem;
-			margin-bottom: 3px;
-		}
-		p {
-			font-size: 0.75rem;
-			font-weight: bold;
-		}
-
-		@media screen and (min-width: 600px) {
-			width: 50%;
-			flex: 1;
-		}
-	}
-
-	&.isVisible {
-		opacity: 1;
-	}
-
-	&:hover {
-		box-shadow: 0px 0px 10px $color-box-shadow;
-		transition: box-shadow 0.1s ease-in-out;
-	}
-
-	&.previewList {
-		width: 340px;
-		margin: 10px auto;
-	}
-
-	&.tomatoObj {
-		justify-content: flex-start;
-		.textGroup {
-			width: 50%;
-			margin-left: 0.5rem;
-
-			@media screen and (min-width: 600px) {
-				width: 55%;
-				margin-right: 60px;
-			}
-		}
-	}
-}
-
-.isVisible {
-	opacity: 1;
-}
-
-.iconGroup {
-	display: flex;
-	flex-direction: row;
-	.nrOfTodosIcon {
-		background-image: url('../../../svgAssets/total-nr-todos.svg');
-	} 
-	.nrOfCheckedIcon {
-		background-image: url('../../../svgAssets/nrCheckedIcon.svg');
-	} 
-	.nrOfNotCheckedIcon {
-		background-image: url('../../../svgAssets/nrNotChecked.svg');
-	}
-
-	.nrOfTodosIcon, .nrOfNotCheckedIcon, .nrOfCheckedIcon {
-		background-repeat: no-repeat;
-		width: 40px;
-		height: 40px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		margin: 0 3px;
-
-		.nrTodos, .nrNotChecked, .nrChecked {
-			font-size: 0.9rem;
-			font-weight: bold;
-		}
-
-		.nrTodos, .nrNotChecked {
-			margin-left: 0.75rem;
-		}
-
-		.nrChecked {
-			margin-left: 1rem;
-		}
-	}
-}
-	
-@media screen and (min-width: 600px) {
-	.hiddenLists {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		background-color: $color-article-bg;
-		margin: 1rem auto;
-		padding: 0 1rem;
-		width: 80%;
-		height: fit-content;
-
-		opacity: 1;
-		&.isVisible {
-			opacity: 1;
-		}
-
-		&:hover {
-			cursor: pointer;
-		}
-
-		&.previewList {
-			width: 340px;
-			margin: 10px auto;
-		}
-
-		&.tomatoObj {
-			padding: 0 1rem;
-			justify-content: flex-start;
-
-			.textGroup {
-				margin-left: 1rem;
-			}
-		}
-	}	
-}
-
-.smallTomato {
-	height: 60px;
-	width: 60px;
-	background-image: url('../../../svgAssets/orange-tomato-small.svg');
-	background-repeat: no-repeat;
-	transform: scale(0.75);
-
-	@media screen and (min-width: 600px) {
-		transform: scale(1);
 	}
 }
 

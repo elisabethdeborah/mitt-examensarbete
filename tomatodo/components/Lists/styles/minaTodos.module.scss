@@ -1,6 +1,7 @@
 @import '../../../styles/variables.scss';
 
 .todoPageWrapper {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
@@ -20,7 +21,8 @@
 		flex-shrink: 1;
 		border-radius: 0 0 30px 30px;
 		background-color: #F1FAFF;
-		margin: -30px auto 50px;
+		margin: 0 auto 50px;
+		
 		box-shadow: 0px 0px 5px $color-box-shadow-dark;
 		.emptyList {
 			position: relative;
@@ -83,15 +85,12 @@
 		flex-direction: column-reverse;
 	
 	.todoListWrapper {
-		//top: 0;
 		border-radius: 30px;
-		margin-top: 50px;
 	}
 		.sideListContainer {
 			transform: translateX(100vw);
 		}
 
-////
 		&.sideListVisible {
 			flex-direction: column;
 			align-items: center;
@@ -114,9 +113,9 @@
 		.optionContainer {
 			display: flex;
 			flex-direction: row;
-			z-index: 1;
+			z-index: 3;
 			position: absolute;
-			top: 0;
+			top: -50px;
 			right: 2rem;
 			display: flex;
 			align-items: center;
@@ -137,9 +136,9 @@
 				cursor: pointer;
 				transition: all 0.1s ease-in-out;
 				p {
-					color: $color-orange;
+					color: $color-white;
 					transition: all 0.1s ease-in-out;
-					background-color: #f0f9fe67;
+					background-color: #63baf0cd;
 				}
 			}
 		}
@@ -152,11 +151,9 @@
 		align-items: flex-start;
 		width: 80vw;
 		position: relative;
-		//right: -8vw;
 
 		&.changeFlex {
 			right: 0;
-			//transition: all 0.5s ease;
 		}
 		.todoListWrapper {
 			top: 0;
@@ -187,7 +184,6 @@
 			flex-shrink: 1;
 			position: absolute;
 			transform: translateX(100vw);
-			//transition: all 2s ease-in;
 		}
 
 		&.sideListVisible {
@@ -197,11 +193,9 @@
 			align-items: flex-start;
 			width: 80vw;
 			max-width: 1400px;
-			//transition: all 2s ease;
 	
 			.sideListContainer {
 				position: relative;
-				//transition: all 2s ease;
 
 				&.sideLists {
 					display: flex;

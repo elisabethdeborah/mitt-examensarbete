@@ -9,23 +9,8 @@ const LimboLists = ({ list }) => {
 	const fetchAllLists = state.fetchTodos;
 
 	const handleClick = async() => {
-		await fetch("/api/todos/todolist", {
-			method: "PUT",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				id: list._id,
-				saved: true,
-			}),
-		})
-		.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: list.saved ? 'startad' : 'sparad', res: response.ok}))
-		.catch(error => {
-			console.log('error:', error);
-		})
-		list.todos.map(async(x) => {
-			await fetch("/api/todos/todo", {
+		try {
+			await fetch("/api/todos/todolist", {
 				method: "PUT",
 				headers: {
 					Accept: "application/json",
@@ -33,14 +18,13 @@ const LimboLists = ({ list }) => {
 				},
 				body: JSON.stringify({
 					id: list._id,
-					checked: false,
+					saved: true,
 				}),
 			})
-			.then(console.log('posted'))
-			.catch(error => {
-				console.log('error:', error);
-			})
-		})
+			.then((response) => state.setFetchRes && state.setFetchRes({show: true, type: 'lista', title: list.title, action: list.saved ? 'startad' : 'sparad', res: response.ok}))
+		} catch (error) {
+			console.log('error:', error);
+		}
 		fetchAllLists();
 		currentState.setOverlay(false);
 	};

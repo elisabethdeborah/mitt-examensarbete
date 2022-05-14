@@ -1,9 +1,11 @@
 import client from "../../../lib/sanity";
 
 const todolist = async function handler(req, res) {
+	let newTodoList = req.body;
+
 	switch (req.method) {
 		case "POST":
-			const newTodoList = await JSON.parse(req.body);
+			newTodoList = await JSON.parse(req.body);
 			try {
 				await client
 				.create({
@@ -30,13 +32,23 @@ const todolist = async function handler(req, res) {
 				res.status(500).json({ msg: "Error, check console" });
 			};
 			break;
+
 		case "PUT":
+			let update;
+			const updateClicks = {
+				saved: newTodoList.saved,
+				numberOfClicks: newTodoList.numberOfClicks
+			};
+			const saveList = {
+				saved: newTodoList.saved,
+			};
+
+			newTodoList.saved ? update = saveList : update = updateClicks;
+
 			try {
 				await client
-				.patch(req.body.id)
-				.set({
-				saved: req.body.saved,
-				})
+				.patch(newTodoList.id)
+				.set(update)
 				.commit();
 				res.status(200).json({
 					status: res.body

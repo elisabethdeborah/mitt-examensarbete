@@ -17,43 +17,46 @@ const PopupLists = () => {
 	//restart list by unchecking all todos in list and setting list to not saved
 	const handleClick = async(list) => {
 		list.todos.map(async(x) => {
-			await fetch("/api/todos/todo", {
+			try {
+				await fetch("/api/todos/todo", {
+					method: "PUT",
+					headers: {
+						Accept: "application/json",
+						"Content-Type": "application/json"
+					},
+					body: JSON.stringify({
+						id: x._id,
+						checked: false,
+					}),
+				})
+				.then(console.log('nollställd todo'))
+			} catch (error) {
+				console.log('error:', error);
+			}
+		});
+		try {
+			await fetch("/api/todos/todolist", {
 				method: "PUT",
 				headers: {
 					Accept: "application/json",
 					"Content-Type": "application/json"
 				},
 				body: JSON.stringify({
-					id: x._id,
-					checked: false,
+					id: list._id,
+					saved: false,
+					numberOfClicks: list.numberOfClicks + 1,
 				}),
-			})
-			.then(console.log('nollställd todo'))
-			.catch(error => {
-				console.log('error:', error);
-			})
-		})
-		await fetch("/api/todos/todolist", {
-			method: "PUT",
-			headers: {
-				Accept: "application/json",
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify({
-				id: list._id,
-				saved: false,
-				numberOfClicks: list.numberOfClicks,
-			}),
-		})
-		.then(console.log('omstartad lista'))
-		.catch(error => {
+			})	
+			.then(console.log('omstartad lista'))
+		} catch (error) {
 			console.log('error:', error);
-		})
+		}
 		setShowPreview(false);
 		currentState.setCurrentItem(null);
 		currentState.setPopupIsOpen(false);
 		fetchAllLists();
 		currentState.setOverlay(false);
+		currentState.setCurrentItem(list);
 		router.push('/mina-todos');
 	};
 

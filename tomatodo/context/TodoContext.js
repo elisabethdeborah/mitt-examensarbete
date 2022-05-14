@@ -52,12 +52,14 @@ export function TodoWrapper({children}) {
 				saved,
 				"nrOfTodos": count(* [_type == "todo" && todoList._ref == ^._id]),
 				"todos": * [_type == "todo" && todoList._ref == ^._id],
+				numberOfClicks,
 				...,
 			},
 			"tomatoLibrary": * [_type == "tomato"  && user._ref == "${user}"] | order(_createdAt desc) {
 				title, 
 				time, 
 				...,
+				numberOfClicks,
 			},
 			"limboLists": * [_type == "todoList" && user._ref == "${user}" && !saved && count(*[_type == "todo" && todoList._ref == ^._id][!checked]) == 0 && count(* [_type == "todo" && todoList._ref == ^._id]) > 0] | order(_createdAt desc) {
 				title,

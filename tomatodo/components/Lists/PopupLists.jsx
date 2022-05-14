@@ -8,6 +8,7 @@ import ChevronDown from '../../svgAssets/chevron-down.svg';
 
 const PopupLists = () => {
 	const [showPreview, setShowPreview] = useState(false);
+	const [transition, setTransition] = useState(false);
 	const router = useRouter();
 	const currentState = useUpdateContext();
 	const state = useTodoContext()
@@ -41,6 +42,7 @@ const PopupLists = () => {
 			body: JSON.stringify({
 				id: list._id,
 				saved: false,
+				numberOfClicks: list.numberOfClicks,
 			}),
 		})
 		.then(console.log('omstartad lista'))
@@ -63,6 +65,21 @@ const PopupLists = () => {
 		};
 	}, []);
 
+
+	const handlePreview = () => {
+		if (showPreview) {
+			setTransition(true)
+			setTimeout(() => {
+				setShowPreview(false);
+			}, 100);
+		} else {
+			setShowPreview(true)
+			setTimeout(() => {
+				setTransition(false);
+			}, 100);
+		};
+	};
+
 	return (
 			<div className={styles.popupLIstContainer}>
 			<div className={styles.deleteWarning}>
@@ -76,7 +93,7 @@ const PopupLists = () => {
 						<input type={"button"} className={styles.addBtn} value="starta" onClick={() => handleClick(currentState.currentItem)} />
 					</div>
 				</section>
-				<section onClick={() => setShowPreview(!showPreview)} className={styles.previewContainer}>
+				<section onClick={() => handlePreview()} className={styles.previewContainer}>
 					<div  className={clsx(styles.previewTop , {[styles.previewArrow]: showPreview})}>
 						<h3>Todos i listan</h3>
 						<ChevronDown style={{height: '14px', width: '14px', position: 'absolute', right: '50px', color: 'inherit'}} />
@@ -86,13 +103,17 @@ const PopupLists = () => {
 			
 			{ /* preview todos in list */
 			showPreview && currentState.currentItem && currentState.currentItem.todos && (
-				<div   className={clsx(styles.previewLists, {[styles.preview]: showPreview})}>	
-				<div className={styles.previewListContainer}>
-					{ currentState.currentItem.todos.map((item) => {
-						return (
-							<PreviewListObj key={item._id} item={item} />
-						);
+				<div   className={clsx(styles.previewLists, {
+					[styles.preview]: showPreview,
+					[styles.transition]: transition,
 					})}
+				>	
+					<div className={styles.previewListContainer}>
+						{ currentState.currentItem.todos.map((item) => {
+							return (
+								<PreviewListObj key={item._id} item={item} />
+							);
+						})}
 					</div>
 				</div>
 			)}

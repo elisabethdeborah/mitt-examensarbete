@@ -50,6 +50,7 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 					list && list.length > 0 ? 
 						list.map((item, index) => {
 							return (
+								router.pathname === '/mina-todos' ? (
 								!item.saved ? (
 									open !== index && (
 										<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} />
@@ -57,7 +58,7 @@ const ListContainer = ({ itemType, setSideListsVisible, open, setOpen, list }) =
 								) : (
 									<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} setOpen={setOpen} />
 								)
-							)
+							) : (<SmallListObj contentIsVisible={contentIsVisible} key={item._id} item={item} listObjIndex={index} setOpen={setOpen} />))
 						}) : (
 							<h3 className={styles.emptyListText}>Tomt!</h3>
 						)

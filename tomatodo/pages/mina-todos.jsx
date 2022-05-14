@@ -7,8 +7,10 @@ import clsx from "clsx";
 import {useUpdateContext, useTodoContext} from "../context/TodoContext";
 import Form from "../components/Forms/Form"; 
 import ListContainer from "../components/Lists/ListContainer";
+import { useRouter } from "next/router";
 
 export default function MinaTodos() {
+	const router = useRouter();
 	const [sideListVisible, setSideListsVisible] = useState(true);
 	const [flexDirection, setFlexDirection] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
@@ -30,33 +32,56 @@ export default function MinaTodos() {
 	useEffect(() => {
 		setIsLoading(true);
 		fetchAllLists();
-		console.log('open index', open);
-		open < 0 || !open ? setOpen(0) : console.log('open?', open);
+		console.log('on mount:', open);
+		open < 0 || !open ? setOpen(0) : null;
+
 		return () => setIsLoading(false);
 	}, []);
 
 	useEffect(() => {
+		console.log('changed: todoState.initialFetch', open)
 		if (todoState.initialFetch) {
 			setLists({activeLists: todoState.initialFetch.activeLists, savedLists: todoState.initialFetch.savedLists, tomatoLibrary: todoState.initialFetch.tomatoLibrary})
+			
+			titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
+
+		//	open < 0 || !open ? setOpen(0) : null;
 			setIsLoading(false);
 		} else {
 			setIsLoading(true);
 		}; 
-		return () => setIsLoading(false);
-	}, [todoState.initialFetch]);
+		//return () => setIsLoading(false);
+	}, [todoState.initialFetch, currentState.currentItem, lists.activeList, open]);
 
-	useEffect(() => {
-		
-		lists.activeLists && lists.savedLists ? setIsLoading(false) : setIsLoading(true);
-		open < 0 || !open ? setOpen(0) : console.log('open?', open);
-		return () => setIsLoading(false);
-	}, [lists.activeLists, lists.savedLists]);
 
+						//console.log('activeLists:', lists.activeLists, 'open:', open)
+
+	//set open to clicked list on page mount, make sure open can't be negative
 	useEffect(() => {
-		titles ?
-		currentState.currentItem && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title)) : null;
-		return () => setOpen(0);
-	}, [currentState.currentItem]);
+		console.log('change?', open, titles, isLoading);
+		!isLoading ? open < 0 || !open && setOpen(0) : null;
+		titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
+		//return () => setOpen(0);
+	}, [lists.activeLists, open]);
+
+	//om change in page, change after mount, change to clicked smalllist before page change
+	useEffect(() => {
+		console.log('changed: open, lists.activeLists', open, titles, isLoading, open < 0 || !open);
+		open < 0 || !open ? setOpen(0) : null;
+	}, [open]);
+/* 
+	useEffect(() => {
+		let newIndex;
+		lists.activeLists && currentState.currentItem ? newIndex = lists.activeLists[currentState.currentItem] : null;
+		open < 0 || !open ? setOpen(0) : null;
+		currentState.currentItem && lists.activeLists && open === newIndex ? setOpen(0) : null; 
+	}, [lists]); */
+
+	//on mount //om change in page
+	/* useEffect(() => {
+		titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
+		//return () => setOpen(0);
+	}, [currentState.currentItem]); */
 
 	return (
 		<>
@@ -99,7 +124,7 @@ export default function MinaTodos() {
 						}
 						{
 							lists.activeLists && lists.activeLists.length > 0? (
-								lists.activeLists.map((lista, index) => (
+								router.pathname === "/mina-todos" && lists.activeLists.map((lista, index) => (
 									open === index && (
 										<TodoList key={lista._id} list={lista} />
 									)

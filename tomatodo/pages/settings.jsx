@@ -1,56 +1,39 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Meta from "../components/Meta";
 import clsx from "clsx";
-import styles from '../components/Time/styles/timer.module.scss';
-import FormTemplate from "../components/Forms/FormTemplate";
-import ChartSection from "../components/Time/ChartSection";
 import TomatoBtnContainers from '../components/Time/TomatoBtnContainers';
 import { useUpdateContext } from "../context/TodoContext";
+import ReactPlayer from 'react-player/lazy';
+import mp3s from '../components/Time/alarms'; 
 
 const Settings = () => {
-	// const sectionRef = useRef();
-	// const currentState = useUpdateContext();
-	// const [width, setWidth] = useState();
-	// const [fadeIn, setFadeIn] = useState(false);
-
-	/* useEffect(() => {
-		setFadeIn(true);
-		return () => {
-			setFadeIn(false);
-		}
-	}, []);
- */
-
-
-
-
-	
-	// 	        KOPPLAT TILL USER
-	//			DEFAULT-INSTÄLLNINGAR
-	//			VÄLJA ALARM-LJUD
-	//			VÄLJA DEFAULT-VOLYM
-	//			VÄLJA COLOR-SCHEME/DARK-/(COLOR MUTED) MODE
-	//			SPARA PÅGÅENDE NEDRÄKNING / PÅGÅENDE TIDTAGNING I LOCAL-STORAGE, SÅ ATT 
-	//			DET INTE FÖRSVINNER OM NÅN RÅKAR RELOADA BROWSERN
-
-
-	//			DELETA ANVÄNDARE
-
-
-	//			OFFLINE VERSION? (PWA?)
-
-
-
-
-
+	const sounds = mp3s;
+	const [isPlaying, setIsPlaying] = useState(false);
+	const [volume, setVolume] = useState(1);
+	const [soundOn, setSoundOn] = useState(true);
+	const [audioSrc, setAudioSrc] = useState(null);
 
 	return (
 		<div 
-			className={clsx(styles.settingsPageWrapper, {[styles.pageLoading]: fadeIn})}
-			ref={sectionRef}
+			
 		>
 			<Meta title='Inställningar' />
 			<section className={styles.contentContainer} >
+				{console.log('mp3s', audioSrc)}
+			<div>
+			<ReactPlayer playing={isPlaying} url={audioSrc && audioSrc.src} muted={!soundOn} volume={volume} />
+				<ul>
+				{
+					sounds.map((sound, index) => {
+						return (<li onClick={() => {
+							setAudioSrc(sound);
+							setIsPlaying(!isPlaying);
+						}} 
+						key={index} style={{height: '100px', width: '300px', border: '2px solid red'}}><p>Alarm {sound.name}</p><span>{audioSrc && audioSrc.name === sounds[index].name && soundOn && isPlaying? 'sound On' : 'sound off'}</span>  volym: {volume * 100}% </li>)
+					})
+				}
+				</ul>
+			</div>
 				
 			</section>
 		</div>

@@ -81,8 +81,9 @@ export default function MinaTodos() {
 					} 
 					{
 						<section className={clsx(styles.sideListContainer, {[styles.sideLists]: sideListVisible})}>
-							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={lists.savedLists} activeLists={lists.activeLists} />
 							<ListContainer setSideListsVisible={setSideListsVisible} key='currentList' itemType={'todos'} setOpen={setOpen} open={open} page={'todo'} list={lists.activeLists && lists.activeLists.length > 1 ? lists.activeLists : null}  activeLists={lists.activeLists} />
+							<ListContainer setSideListsVisible={setSideListsVisible} key='savedList' itemType={'sparade-listor'} setOpen={setOpen} open={open} page={'todo'} list={lists.savedLists} activeLists={lists.activeLists} />
+							
 						</section>
 					}
 					<div className={styles.todoListWrapper}>

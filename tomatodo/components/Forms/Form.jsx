@@ -11,7 +11,6 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 	const router = useRouter();
 	const todoState = useTodoContext();
 	const currentState = useUpdateContext();
-	const fetchAllLists = todoState.fetchTodos;
 	const { state, dispatch } = useUserStore();
 	const { userInfo } = state;
 
@@ -20,16 +19,17 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 	const [userInputTime, setUserInputTime] = useState(0);
 	const [errMessage, setErrMessage] = useState('');
 	const [inputTime, setInputTime] = useState(0);
-	const [body, setBody] = useState({title: userInputName, description: userInputText, time: inputTime, userId: userInfo._id});
+	const [nrClicks, setNrClicks] = useState(currentState.currentItem ? currentState.currentItem.numberOfClicks : 0);
+	const [body, setBody] = useState({title: userInputName, description: userInputText, time: inputTime, userId: userInfo._id, numberOfClicks: nrClicks});
 
 	let header;
 	
-	// sätt rubrik till tomatens titel
+	//set header to tomato's title
 	if (method === "PUT" && currentState.currentItem) {
 		header = currentState.currentItem? currentState.currentItem.title : `Namn på ${objectType}`
 	};
 
-	//formattera tiden när en tomat ska ändras eller skapas, eller en todo ska skapas
+	//format time when creating/updating tomato or when creating todo
 	useEffect(() => {
 		const calc = calculateTime(defaultTime, currentState);
 		setUserInputTime(calc); 
@@ -38,9 +38,8 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		return () => setUserInputTime(0);
 	}, []);
 
-
-	// öppna overlay när formuläret öppnas förutom i mina tomater/sparade listor
-	//stäng overlay när formuläret försvinner, förutom i mina tomater/sparade listor
+	//open overlay when form is opened, except in /mina-tomater or /mina-sparade-listor
+	//close overlay when form is closed, except in /mina-tomater or /mina-sparade-listor
 	useEffect(() => {
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor') {
 			setTimeout(() => {
@@ -52,20 +51,23 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		};
 	}, []);
 
-	//ta bort eventuellt felmeddelande så fort formulärets tid ändras
+	
 	useEffect(() => {
-		setErrMessage("");
 		const validTime = typeof userInputTime.hh || typeof userInputTime.min === 'number' ? Number(userInputTime.hh *60 * 60 + userInputTime.min*60) : null;
 		validTime ? setInputTime(validTime) : setInputTime(0);
 		validTime ? setBody((body) => ({...body, time: validTime})) : setBody((body) => ({...body, time: 0}));
 	}, [userInputTime]);
 
-	//fetcha listor efter submit
-	//nollställ allt efter submit, förutom från mina-tomater/sparade-listor
+//remove error message when input is changed
+	useEffect(() => {
+		setErrMessage("");
+	}, [body]);
+
+	//fetch lists avter submit, reset everything after submit, except for in /mina-tomater or /mina-sparade-listor
 	const postFetch = () => {
 		todoState.fetchTodos();
 		if (router.pathname !== '/mina-tomater' && router.pathname !== '/mina-sparade-listor')  {
-			setBody({title: userInputName, description: userInputText, time: inputTime, user: userInfo._id});
+			setBody({title: userInputName, description: userInputText, time: inputTime, user: userInfo._id, numberOfClicks: nrClicks});
 			setUserInputName('');
 			setUserInputTime(0);
 			setUserInputText('');
@@ -78,7 +80,6 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 		};
 	};
 
-	//VAD HÄNDER EXAKT?
 	const handleSubmit = () => {
 		const checkValid = validateName(body);
 		if (checkValid === "valid") {
@@ -89,7 +90,6 @@ const Form = ({ objectType, method, currentListDocId, defaultTime }) => {
 			}
 
 			postFetch(currentState);
-			//currentState.handleGoBack();
 			closeForm();
 		} else {
 			setErrMessage(checkValid);

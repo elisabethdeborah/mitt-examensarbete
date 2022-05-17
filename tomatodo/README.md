@@ -17,3 +17,5 @@ Jag har inte hunnit med att skapa användarinloggning ännu, och appen är inte 
 
 Jag stötte på problem med att ladda upp mp3-filer i next.js, och har därför inte hunnit med det heller. I slutändan är mitt mål att man ska kunna välja mellan olika alarmljud som även passar personer med ljud-känslighet. 
 
+figma-skiss:
+https://www.figma.com/file/23nK4gjMo9OyygJpo5BpCq/Examensarbete?node-id=202%3A14905 

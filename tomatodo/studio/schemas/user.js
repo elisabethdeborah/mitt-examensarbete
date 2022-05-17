@@ -47,8 +47,8 @@ export default {
 	initialValue: () => ({
 		isAdmin: false,
 		registerDate: new Date().toISOString(),
-		userDefaultVolume: 0,
-		userAlarm: 1,
+		userDefaultVolume: 1,
+		userAlarm: 0,
 		showOnboarding: true,
 	  }),
 	  preview: {

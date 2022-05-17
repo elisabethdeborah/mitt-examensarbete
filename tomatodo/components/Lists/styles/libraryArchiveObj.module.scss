@@ -266,6 +266,7 @@
 	transition: opacity 250ms ease-in-out;
 
 	&.showDescription {
+		z-index: 999999;
 		opacity: 1;
 		transition: opacity 250ms ease-in-out;
 	}

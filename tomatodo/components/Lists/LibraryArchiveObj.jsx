@@ -50,9 +50,14 @@ const LibraryArchiveObj = ({ list, index, listObjectIndex, showListObject, handl
 				{ 
 					index < 5 && list.numberOfClicks > 0 &&  <p className={styles.favouriteNumber}>{`favorit nr: ${index+1}`}</p>
 				}
-			{
-				<div className={clsx(styles.hoverDescription, {[styles.showDescription]: showHover === true})}>{list.description && list.description.length > 0 && list.description} {list.numberOfClicks}</div> 
-			}
+			{ list.description && list.description.length > 0 || list.numberOfClicks > 0 ? (
+				<div className={clsx(styles.hoverDescription, {[styles.showDescription]: showHover === true})}> 
+					<p>{list.description && list.description.length > 0 && list.description}</p>
+					{list.numberOfClicks > 0 && (
+						<p>{list._type === 'todoList' ? 'Omstartad ' : 'Startad '}{list.numberOfClicks} {'gånger'}</p>
+					)}
+				</div> 
+			) : null }
 			{
 				router.pathname !== '/mina-tomater' ? (
 					<>

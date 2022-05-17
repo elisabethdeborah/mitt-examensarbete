@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { useUserStore } from '../context/UserStore';
 import { useRouter } from 'next/router';
 import LoginForm from '../components/Forms/LoginForm';
+import Blast from '../svgAssets/newtomato-whiteborder-blast3.svg';
 
 const Login = () => {
 	const { state, dispatch } = useUserStore();
@@ -19,7 +20,16 @@ const Login = () => {
 
   return (
     <div className={clsx(styles.loginPageWrapper)} >
-		<LoginForm />
+		<div className={styles.loginContainer}>
+			<Blast className={styles.blast} />
+			<section className={styles.headerTextContainer}>
+				<h1 className={clsx(styles.logoHeader, styles.partOne)}>toma</h1>
+				<h1 className={clsx(styles.logoHeader, styles.partTwo)}>todo</h1>
+			</section>
+			<LoginForm />
+		</div>
+
+		
     </div>
   );
 };

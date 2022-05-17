@@ -10,4 +10,6 @@ export default function Index() {
 	useEffect(() => {
 		userInfo ? router.replace('/start') : router.replace('/login');
   	}, []);
+
+	  return null;
 };

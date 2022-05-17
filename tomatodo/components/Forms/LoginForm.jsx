@@ -90,9 +90,6 @@ const Form = () => {
 	return (	
 		<section className={clsx(styles.formContainer, styles.formIsVisible, {
 			[styles.userForm]: path === '/register' || path === '/login'})}>
-			<h1 className={styles.formHeader}>
-			{path === '/register' ? 'Ny användare' : 'Logga in'}
-			</h1>
 			{path === '/register' && (
 			<input
 				name="name"

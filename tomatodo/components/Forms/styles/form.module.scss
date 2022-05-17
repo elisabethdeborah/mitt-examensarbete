@@ -15,41 +15,17 @@
 	align-items: center;
 	background-color: $color-container-bg;
 	max-width: 364px;
-	min-height: 450px;
 	border-radius: 20px;
 	opacity: 1;
 	transition: opacity 0.5s ease;
-	box-shadow: 0px 1px 10px $color-darkgrey;
 
+	&:not(.userForm) {
+		min-height: 450px;
+		box-shadow: 0px 1px 10px $color-darkgrey;
+	}
 	&.todoListFormContainer {
 		height: 400px;
 		min-height: 200px;
-	}
-
-	&.userForm {
-		@media screen and (min-width:600px) {
-			position: relative;
-			top: 0;
-			width: 315px;
-			height: 10vh;
-			min-height: 450px;
-			height: fit-content;
-			left: 0;
-			margin: 0 auto;
-			box-shadow: 0px 0px 4px $color-darkgrey;
-
-			h1 {
-				margin-bottom: 1rem;
-			}
-
-			a {
-				margin: 15px auto;
-			}
-
-			input {
-				margin: 5px auto;
-			}
-		}
 	}
 	
 	.formHeader {
@@ -192,4 +168,134 @@
 		text-align: center;
 	}
 }
+
+
+
+.loginPageWrapper {
+	width: 100%;
+	height: 100%;
+	z-index: 9;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	.userForm {
+
+		top: 30%;
+		height: 55%;
+		
+		@media screen and (min-width:600px) {
+			position: relative;
+			top: 10px;
+			width: 315px;
+			height: 10vh;
+			min-height: 415px;
+			height: fit-content;
+			left: 0;
+			margin: 0 auto;
+			padding: 0;
+	
+			h1 {
+				margin-bottom: 1rem;
+			}
+	
+			a {
+				margin: 15px auto;
+			}
+	
+			input {
+				margin: 5px auto;
+			}
+		}
+	}
+
+	.loginContainer {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 90%;
+		
+		min-height: 85vh;
+		height: fit-content;
+		margin-top: 7vh;
+		background-color: $color-container-bg;
+		border-radius: 20px;
+		transition: opacity 0.5s ease;
+		box-shadow: 0px 1px 10px $color-darkgrey;
+
+		.headerTextContainer {
+			display: flex;
+			flex-direction: row;
+			width: fit-content;
+			position: relative;
+			margin-top: 80px;
+		
+			.logoHeader {
+				font-size: 2.5rem;
+						z-index: 99999999;
+				margin-bottom: 32px;
+				font-family: $font-family;
+				width: fit-content;
+				
+				letter-spacing: 1px;
+				&.partOne {
+					@supports (-webkit-text-stroke: 1px $color-pink) {
+						-webkit-text-stroke: 1px $color-pink;
+						-webkit-text-fill-color: transparent;
+					}
+				}
+				&.partTwo {
+					color: $color-pink;
+				}
+
+				@media screen and (min-width:600px) {
+					font-size: 4.5rem;
+				}
+			}
+		}
+		
+
+		.errMessageContainer {
+			height: 40px;
+		}
+		.errMessage {
+			line-height: unset;
+			width: 100%;
+			top: 0;
+			position: absolute;
+		}
+
+		.blast {
+			z-index: 99999999;
+			position: absolute;
+			transform: rotate(6deg);
+			width: 170px;
+			left: 0;
+			top: -55px;
+		}
+
+		@media screen and (min-width: 600px) {
+			width: 500px;
+			min-height: 80vh;
+			margin-bottom: 100px;
+			overflow-y: hidden;
+
+			.blast {
+				top: -30px;
+				width: 210px;
+			}
+			.errMessageContainer {
+				height: 40px;
+			}
+			.errMessage {
+				line-height: 40px;
+				width: 100%;
+			}
+			
+		}
+
+	}
+}
+
 

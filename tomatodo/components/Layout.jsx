@@ -94,6 +94,11 @@ const Layout = ({ children }) => {
 				ref={sectionRef}
 			/>
 			<Meta />
+			{
+			router.pathname !== '/login' && router.pathname !== '/register' ? (
+				<>
+			<Header width={width} /> 
+			
 			<Resize setWidth={setWidth} width={width} sectionRef={sectionRef} />
 			{ /* show user in topbar on larger screens */
 			width > 599 && (
@@ -125,6 +130,14 @@ const Layout = ({ children }) => {
 				)}
 				{children}
 			</main>
+			</>
+			) : (
+				<div className={styles.notLoggedIn}>
+				{children}
+				</div>
+			)
+
+			}
 		</div>
 	);
 };

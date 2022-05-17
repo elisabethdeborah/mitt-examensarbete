@@ -12,10 +12,5 @@ Appen kombinerar en todo-list-app med ett bibliotek för att spara tidtagna uppg
 
 Slutmålet är att göra det möjligt att skapa en säker användarprofil för att spara sin data.
 
-
-Jag har inte hunnit med att skapa användarinloggning ännu, och appen är inte deployed. 
-
-Jag stötte på problem med att ladda upp mp3-filer i next.js, och har därför inte hunnit med det heller. I slutändan är mitt mål att man ska kunna välja mellan olika alarmljud som även passar personer med ljud-känslighet. 
-
 figma-skiss:
 https://www.figma.com/file/23nK4gjMo9OyygJpo5BpCq/Examensarbete?node-id=202%3A14905 

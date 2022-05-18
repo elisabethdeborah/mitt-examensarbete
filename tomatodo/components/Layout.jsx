@@ -104,7 +104,6 @@ const Layout = ({ children }) => {
 			width > 599 && (
 				<User userInfo={userInfo} logOut={logOut} />
 			)}
-			<Header width={width} />
 			<main className={clsx(styles.main, {[styles.pageLoading]: fadeIn})}>
 				{
 				currentState.limbo && (

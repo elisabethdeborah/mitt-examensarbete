@@ -180,7 +180,7 @@
 	align-items: center;
 
 	.userForm {
-
+		margin: 0 auto;
 		top: 30%;
 		height: 55%;
 		
@@ -298,4 +298,28 @@
 	}
 }
 
+.linkContainer {
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+	width: 90%;
+	height: 42px;
+	margin: 50px auto;
 
+	.demoBtn {
+		@include hover-btn;
+		@include active-btn;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 45%;
+
+		&:first-child {
+			@include pink-btn;
+		}
+		&:last-child {
+			@include white-btn;
+		}
+	}
+}

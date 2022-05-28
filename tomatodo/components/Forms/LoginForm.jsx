@@ -144,9 +144,20 @@ const Form = () => {
 					{path === '/register' ? 'Skapa konto' : 'Logga in'}
 				</button>
 			</div>
+			
+			<div className={styles.linkContainer}>
 			<Link href={path === '/register' ? '/login' : '/register'} passHref>
-			{path === '/register' ? 'Har du redan ett konto?' : 'Har du inget konto? '}
+			{path === '/register' ? (<article className={styles.demoBtn}>{'Logga in'}</article>) : (<article className={styles.demoBtn}>{'Skapa konto'}</article>)}
 			</Link>
+				<button 
+					type="button" 
+					onClick={() => submitLoginHandler('demo@demo.se', 'demouser1')} 
+					className={styles.demoBtn}
+				>
+					{'Demo'}
+				</button>
+			</div>
+			
 		</section>
 	);
 };

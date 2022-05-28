@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Meta from "../components/Meta";
+import styles from '../styles/settings.module.scss';
 import clsx from "clsx";
 import TomatoBtnContainers from '../components/Time/TomatoBtnContainers';
 import { useUpdateContext } from "../context/TodoContext";
@@ -14,22 +15,25 @@ const Settings = () => {
 	const [audioSrc, setAudioSrc] = useState(null);
 
 	return (
-		<div 
+		<div className={styles.settingsWrapper}
 			
 		>
 			<Meta title='Inställningar' />
 			<section className={styles.contentContainer} >
-				{console.log('mp3s', audioSrc)}
-			<div>
-			<ReactPlayer playing={isPlaying} url={audioSrc && audioSrc.src} muted={!soundOn} volume={volume} />
+			<div className={styles.alarmContainer}>
+				<h2>Alarminställningar</h2>
+				<div className={styles.audioContainer}>
+					<ReactPlayer playing={isPlaying} url={audioSrc && audioSrc.src} muted={!soundOn} volume={volume} />
+				</div>
 				<ul>
 				{
 					sounds.map((sound, index) => {
-						return (<li onClick={() => {
+						return (<li
+							className={styles.soundItem} onClick={() => {
 							setAudioSrc(sound);
 							setIsPlaying(!isPlaying);
 						}} 
-						key={index} style={{height: '100px', width: '300px', border: '2px solid red'}}><p>Alarm {sound.name}</p><span>{audioSrc && audioSrc.name === sounds[index].name && soundOn && isPlaying? 'sound On' : 'sound off'}</span>  volym: {volume * 100}% </li>)
+						key={index} ><p>Alarm {sound.name}</p><span>{audioSrc && audioSrc.name === sounds[index].name && soundOn && isPlaying? 'sound On' : 'sound off'}</span>  volym: {volume * 100}% </li>)
 					})
 				}
 				</ul>

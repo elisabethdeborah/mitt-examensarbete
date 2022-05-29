@@ -5,7 +5,6 @@ const tomato = async function handler(req, res) {
 	switch (req.method) {
 		case "POST":
 			newTomato = await JSON.parse(req.body);
-			console.log('newTomato: ', newTomato)
 			try {
 				await client
 				.create({
@@ -22,7 +21,7 @@ const tomato = async function handler(req, res) {
 					}
 				})
 				.then((res) => {
-					console.log(`Tomato was created, document ID is ${res._id}. Res body is ${res.body}`);
+					//console.log(`Tomato was created, document ID is ${res._id}. Res body is ${res.body}`);
 				});
 					res
 					.status(200)
@@ -76,7 +75,6 @@ const tomato = async function handler(req, res) {
 				break;
 		default:
 	};
-	console.log('client in tomatoes/tomato api page', req.body);    
 };
 
 export default tomato;

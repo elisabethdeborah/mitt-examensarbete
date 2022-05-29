@@ -49,7 +49,6 @@ export default function MinaTodos() {
 	}, [todoState.initialFetch, currentState.currentItem, lists.activeList, open]);
 
 	useEffect(() => {
-		console.log('change?', open, titles, isLoading);
 		!isLoading ? open < 0 || !open && setOpen(0) : null;
 		titles && currentState.currentItem && !currentState.currentItem.saved && currentState.currentItem.title && setOpen(titles.findIndex(x => x === currentState.currentItem.title));
 	}, [lists.activeLists, open]);

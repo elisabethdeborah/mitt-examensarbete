@@ -27,7 +27,6 @@ const Form = () => {
 	//OM REDAN INLOGGAD, REDIRECT ISTÄLLET FÖR ATT VISA DENNA SIDA
 	useEffect(() => {
 		if(userInfo) {
-			console.log('register page userInfo: ', userInfo)
 			router.push('/');
 		}
   	}, [router, userInfo]);

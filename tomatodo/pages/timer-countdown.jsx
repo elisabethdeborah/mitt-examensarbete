@@ -58,7 +58,6 @@ const Timer = () => {
 	useEffect(() => {
 		if (isInitialized && isRunning && timeLeft === 0) {
 			setTimesUp(true);
-			/* console.log('initialTime: ', initialTime, 'timeleft: ', timeLeft, 'percentage:', percentage, isInitialized, isRunning, timeLeft === 0); */
 		} else {
 			setPercentage(Math.round((initialTime-timeLeft)/initialTime*100));
 			isInitialized && (calculateBgColor(percentage, sectionRef));

@@ -20,7 +20,7 @@ const todo = async function handler(req, res) {
 					}
 				})
 				.then((res) => {
-					console.log(`Todo was created, document ID is ${res._id}. Body is ${newTodo}`);
+					console.log(`Todo was created`);
 				});
 					res
 					.status(200)
@@ -61,8 +61,7 @@ const todo = async function handler(req, res) {
 			};
 			break;
 		default: console.log('not POST/PUT/DELETE');
-	};
-	console.log('client in todos/todo api page', req.body);    
+	};   
 };
 
 export default todo;

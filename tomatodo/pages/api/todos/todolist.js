@@ -22,7 +22,7 @@ const todolist = async function handler(req, res) {
 					}
 				})
 				.then((res) => {
-					console.log(`TodoList was created, document ID is ${res._id}. Res body is ${res.body}`);
+					//console.log(`TodoList was created, document ID is ${res._id}. Res body is ${res.body}`);
 				});
 				res
 				.status(200)
@@ -74,7 +74,6 @@ const todolist = async function handler(req, res) {
 			break;
 		default:
 	};
-	console.log('client in todos/todoList api page', 'client', req.body);    
 };
 
 export default todolist;

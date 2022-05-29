@@ -8,7 +8,6 @@ const signToken = (user) => {
 };
 
 const isAuth = async (req, res, next) => {
-	console.log('inside auth (token): ', req.headers)
   const { authorization } = req.headers;
   if (authorization) {
     const token = authorization.slice(7, authorization.length); // BEARER XXX

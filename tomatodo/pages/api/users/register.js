@@ -47,8 +47,6 @@ handler.post(async (req, res) => {
 			},
 		}
 	);
-	
-	console.log('DATA I API:', data)
 
 	const userId = data.results[0].id;
 	const user = {

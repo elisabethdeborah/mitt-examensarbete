@@ -1,5 +1,5 @@
 export default function calculateBgColor(percentage, sectionRef ) {
-	console.log('percentage', percentage);
+	//console.log('percentage', percentage);
 	const endColor = [217, 35, 90];
 	const middleColor = [252, 255, 8];
 	const startColor = [136, 218, 78];
@@ -79,7 +79,6 @@ const handleDelete = async (listItem, todoState, currentState) => {
 		todoState.fetchTodos();
 	} else if (listItem._type === 'tomato') {
 	//delete tomato
-	console.log('delete tomato (btn component)', 'id:', listItem._id, 'title:', listItem.title)
 		await fetch("/api/tomatoes/tomato", {
 			method: "DELETE",
 			body: listItem._id,
